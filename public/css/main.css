@@ -1,0 +1,106 @@
+@font-face {
+    font-family: "Poppins Regular";
+    src: url("../fonts/Poppins/Poppins-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Poppins Extra Bold";
+    src: url("../fonts/Poppins/Poppins-ExtraBold.ttf");
+}
+
+@font-face {
+    font-family: "Poppins Medium";
+    src: url("../fonts/Poppins/Poppins-Medium.ttf");
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    font-family: "Poppins Regular";
+    color: #1A1A1A;
+}
+
+#navContainer{
+    font-family: "Poppins Medium";
+    padding: 2%;
+}
+
+#navContainer li{
+    list-style: none;
+}
+
+#bannerSection{
+    padding: 2%;
+}
+
+#slogan{
+    font-family: "Poppins Extra Bold";
+    color: #05976A;
+    font-size: 1.5rem;
+}
+
+.banner-header{
+    font-family: "Poppins Medium";
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 60px;
+    letter-spacing: 0.02em;
+    text-align: left;
+}
+
+.banner-message{
+    font-family: "Poppins Regular";
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 23px;
+    letter-spacing: 0.02em;
+    text-align: left;
+}
+
+#banner-sticker{
+    position: absolute;
+    top: 40%;
+    left: 60%;
+}
+
+#pageContents{
+    margin-top: 5%;
+    background-color: #eee;
+    padding: 5% 2%;
+}
+
+#experience{
+    position: relative;
+    background-image: url('../images/experience.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 25px;
+    padding: 7% 4%;
+}
+
+.letter-spacing{
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.36em;
+    text-align: left;
+}
+
+#services{
+    padding-top: 7%;
+    padding-bottom: 7%;
+}
+
+.gray-bg{
+    background-color: #eee;
+}
+
+.green-bg{
+    background-color: #05976A;
+}
+
+.white-text{
+    color: #fff;
+}
