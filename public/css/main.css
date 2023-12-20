@@ -27,7 +27,7 @@ body{
     padding: 2%;
 }
 
-#navContainer li{
+#navContainer li, nav li{
     list-style: none;
 }
 
@@ -35,7 +35,7 @@ body{
     padding: 2%;
 }
 
-#slogan{
+.slogan{
     font-family: "Poppins Extra Bold";
     color: #05976A;
     font-size: 1.5rem;
@@ -88,7 +88,7 @@ body{
     text-align: left;
 }
 
-#services, #whyus, #how_it_works, #testimonials{
+#services, #whyus, #how_it_works, #testimonials, #footer{
     padding-top: 7%;
     padding-bottom: 7%;
 }
