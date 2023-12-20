@@ -88,9 +88,18 @@ body{
     text-align: left;
 }
 
-#services, #whyus{
+#services, #whyus, #how_it_works, #testimonials{
     padding-top: 7%;
     padding-bottom: 7%;
+}
+
+#how_it_works{
+    position: relative;
+    background-image: url('../images/how_it_works.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 25px;
+    padding: 7% 4%;
 }
 
 .gray-bg{

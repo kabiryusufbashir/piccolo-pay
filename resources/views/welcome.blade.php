@@ -231,6 +231,150 @@
                         <img class="ml-auto" src="{{ asset('images/photo_3.png') }}" alt="Why Us">
                     </div>
                 </div>
+                <!-- How it works  -->
+                <div id="how_it_works" class="px-16 my-8 white-text">
+                    <div class="banner-header text-center">
+                        How does it work
+                    </div>
+                    <div class="text-center text-sm">
+                        Start using our bill payment system in three easy steps
+                    </div>
+                    <div class="flex justify-center py-16">
+                        <!-- Step 1  -->
+                        <div class="bg-gray-200 bg-opacity-20 rounded-lg p-4">
+                            <div>
+                                <svg width="55" height="55" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="37.5" cy="37.5" r="37.5" fill="#05976A"/>
+                                    <path d="M33.7802 33.58V30.4H39.3202V45H35.7602V33.58H33.7802Z" fill="white"/>
+                                </svg>
+                            </div>  
+                            <div>
+                                <p class="banner-header text-sm py-3">Sign Up</p>
+                                <p class="text-sm">
+                                    Create account with an active <br> email to get started
+                                </p>
+                            </div> 
+                        </div>
+                        <!-- Arrow 1  -->
+                        <div class="relative top-32">
+                            <svg width="138" height="38" viewBox="0 0 138 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M135.893 0.25774C136.302 0.198383 136.683 0.482582 136.742 0.892521L137.71 7.57285C137.769 7.98279 137.485 8.36323 137.075 8.42259C136.665 8.48195 136.284 8.19775 136.225 7.78781L135.365 1.84974L129.427 2.70958C129.017 2.76894 128.637 2.48473 128.577 2.07479C128.518 1.66486 128.802 1.28442 129.212 1.22506L135.893 0.25774ZM1.55486 0.495392C13.8408 14.005 35.2796 30.1875 59.6425 34.9009C71.8091 37.2547 84.6978 36.7477 97.5553 31.6295C110.414 26.5108 123.29 16.7607 135.399 0.551144L136.601 1.44886C124.357 17.8391 111.27 27.7846 98.1101 33.0231C84.9492 38.2621 71.7644 38.7739 59.3575 36.3736C34.5733 31.5787 12.8651 15.1615 0.445138 1.50461L1.55486 0.495392Z" fill="white"/>
+                            </svg>
+                        </div>
+                        <!-- Step 2  -->
+                        <div class="bg-gray-200 bg-opacity-20 rounded-lg p-4">
+                            <div>
+                                <svg width="55" height="55" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="37.5" cy="37.5" r="37.5" fill="#05976A"/>
+                                    <path d="M32.0671 42.26C32.5204 41.9 32.7271 41.7333 32.6871 41.76C33.9938 40.68 35.0204 39.7933 35.7671 39.1C36.5271 38.4067 37.1671 37.68 37.6871 36.92C38.2071 36.16 38.4671 35.42 38.4671 34.7C38.4671 34.1533 38.3404 33.7267 38.0871 33.42C37.8338 33.1133 37.4538 32.96 36.9471 32.96C36.4404 32.96 36.0404 33.1533 35.7471 33.54C35.4671 33.9133 35.3271 34.4467 35.3271 35.14H32.0271C32.0538 34.0067 32.2938 33.06 32.7471 32.3C33.2138 31.54 33.8204 30.98 34.5671 30.62C35.3271 30.26 36.1671 30.08 37.0871 30.08C38.6738 30.08 39.8671 30.4867 40.6671 31.3C41.4804 32.1133 41.8871 33.1733 41.8871 34.48C41.8871 35.9067 41.4004 37.2333 40.4271 38.46C39.4538 39.6733 38.2138 40.86 36.7071 42.02H42.1071V44.8H32.0671V42.26Z" fill="white"/>
+                                </svg>
+                            </div>  
+                            <div>
+                                <p class="banner-header text-sm py-3">Fund Account</p>
+                                <p class="text-sm">
+                                    Use our secured and reliable <br> payment gateway to fund your account
+                                </p>
+                            </div> 
+                        </div>
+                        <!-- Arrow 2  -->
+                        <div class="relative top-10">
+                            <svg width="138" height="38" viewBox="0 0 138 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M135.893 37.7423C136.302 37.8016 136.683 37.5174 136.742 37.1075L137.71 30.4272C137.769 30.0172 137.485 29.6368 137.075 29.5774C136.665 29.5181 136.284 29.8023 136.225 30.2122L135.365 36.1503L129.427 35.2904C129.017 35.2311 128.637 35.5153 128.577 35.9252C128.518 36.3351 128.802 36.7156 129.212 36.7749L135.893 37.7423ZM1.55486 37.5046C13.8408 23.995 35.2796 7.81249 59.6425 3.09913C71.8091 0.745296 84.6978 1.25228 97.5553 6.37051C110.414 11.4892 123.29 21.2393 135.399 37.4489L136.601 36.5511C124.357 20.1609 111.27 10.2154 98.1101 4.97687C84.9492 -0.262104 71.7644 -0.773862 59.3575 1.62643C34.5733 6.42133 12.8651 22.8385 0.445138 36.4954L1.55486 37.5046Z" fill="white"/>
+                            </svg>
+                        </div>
+                        <!-- Step 3  -->
+                        <div class="bg-gray-200 bg-opacity-20 rounded-lg p-4">
+                            <div>
+                                <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="37.5" cy="37.5" r="37.5" fill="#05976A"/>
+                                    <path d="M32.4653 34.52C32.5186 33.0933 32.9853 31.9933 33.8653 31.22C34.7453 30.4467 35.9386 30.06 37.4453 30.06C38.4453 30.06 39.2986 30.2333 40.0053 30.58C40.7253 30.9267 41.2653 31.4 41.6253 32C41.9986 32.6 42.1853 33.2733 42.1853 34.02C42.1853 34.9 41.9653 35.62 41.5253 36.18C41.0853 36.7267 40.572 37.1 39.9853 37.3V37.38C40.7453 37.6333 41.3453 38.0533 41.7853 38.64C42.2253 39.2267 42.4453 39.98 42.4453 40.9C42.4453 41.7267 42.252 42.46 41.8653 43.1C41.492 43.7267 40.9386 44.22 40.2053 44.58C39.4853 44.94 38.6253 45.12 37.6253 45.12C36.0253 45.12 34.7453 44.7267 33.7853 43.94C32.8386 43.1533 32.3386 41.9667 32.2853 40.38H35.6053C35.6186 40.9667 35.7853 41.4333 36.1053 41.78C36.4253 42.1133 36.892 42.28 37.5053 42.28C38.0253 42.28 38.4253 42.1333 38.7053 41.84C38.9986 41.5333 39.1453 41.1333 39.1453 40.64C39.1453 40 38.9386 39.54 38.5253 39.26C38.1253 38.9667 37.4786 38.82 36.5853 38.82H35.9453V36.04H36.5853C37.2653 36.04 37.812 35.9267 38.2253 35.7C38.652 35.46 38.8653 35.04 38.8653 34.44C38.8653 33.96 38.732 33.5867 38.4653 33.32C38.1986 33.0533 37.832 32.92 37.3653 32.92C36.8586 32.92 36.4786 33.0733 36.2253 33.38C35.9853 33.6867 35.8453 34.0667 35.8053 34.52H32.4653Z" fill="white"/>
+                                </svg>
+                            </div>  
+                            <div>
+                                <p class="banner-header text-sm py-3">Start Transacting</p>
+                                <p class="text-sm">
+                                    You are all set to start using our <br> seamless bill payment system
+                                </p>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonials  -->
+                <div id="testimonials" class="px-4">
+                    <div class="px-8">
+                        <div class="banner-header text-2xl text-center">
+                            What people say about us
+                        </div>
+                        <div class="grid grid-cols-3 gap-8 my-10 py-12">
+                            <!-- First  -->
+                            <div class="bg-white rounded-2xl p-6">
+                                <div class="flex justify-between my-4">
+                                    <div class="flex items-center">
+                                        <div>
+                                            <img class="w-16 rounded-full" src="{{ asset('images/yusuf.jpg') }}" alt="Customer 1">
+                                        </div>
+                                        <div class="text-xs ml-3">
+                                            <b>Kabir Yusuf Bashir</b><br>
+                                            <i>C.E.O Team Piccolo</i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M16.408 13.832V9.464C16.408 7.832 16.12 6.328 15.544 4.952C14.968 3.576 13.992 2.184 12.616 0.775997L10.12 2.744C11.144 3.8 11.864 4.776 12.28 5.672C12.696 6.568 12.904 7.528 12.904 8.552L14.392 7.16H9.688V13.832H16.408ZM6.856 13.832V9.464C6.856 7.832 6.568 6.328 5.992 4.952C5.416 3.576 4.44 2.184 3.064 0.775997L0.568 2.744C1.592 3.8 2.312 4.776 2.728 5.672C3.144 6.568 3.352 7.528 3.352 8.552L4.84 7.16H0.136V13.832H6.856Z" fill="#05976A"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="text-sm my-4">
+                                    PiccoloPay has always been the best when it comes to bill payments
+                                </div>
+                            </div>
+                            <!-- Second  -->
+                            <div class="bg-white rounded-2xl p-6">
+                                <div class="flex justify-between my-4">
+                                    <div class="flex items-center">
+                                        <div>
+                                            <img class="w-16 rounded-full" src="{{ asset('images/yusuf.jpg') }}" alt="Customer 1">
+                                        </div>
+                                        <div class="text-xs ml-3">
+                                            <b>Kabir Yusuf Bashir</b><br>
+                                            <i>C.E.O Team Piccolo</i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M16.408 13.832V9.464C16.408 7.832 16.12 6.328 15.544 4.952C14.968 3.576 13.992 2.184 12.616 0.775997L10.12 2.744C11.144 3.8 11.864 4.776 12.28 5.672C12.696 6.568 12.904 7.528 12.904 8.552L14.392 7.16H9.688V13.832H16.408ZM6.856 13.832V9.464C6.856 7.832 6.568 6.328 5.992 4.952C5.416 3.576 4.44 2.184 3.064 0.775997L0.568 2.744C1.592 3.8 2.312 4.776 2.728 5.672C3.144 6.568 3.352 7.528 3.352 8.552L4.84 7.16H0.136V13.832H6.856Z" fill="#05976A"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="text-sm my-4">
+                                    PiccoloPay communication has the best service and experience I have seen so far
+                                </div>
+                            </div>
+                            <!-- Third  -->
+                            <div class="bg-white rounded-2xl p-6">
+                                <div class="flex justify-between my-4">
+                                    <div class="flex items-center">
+                                        <div>
+                                            <img class="w-16 rounded-full" src="{{ asset('images/yusuf.jpg') }}" alt="Customer 1">
+                                        </div>
+                                        <div class="text-xs ml-3">
+                                            <b>Kabir Yusuf Bashir</b><br>
+                                            <i>C.E.O Team Piccolo</i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M16.408 13.832V9.464C16.408 7.832 16.12 6.328 15.544 4.952C14.968 3.576 13.992 2.184 12.616 0.775997L10.12 2.744C11.144 3.8 11.864 4.776 12.28 5.672C12.696 6.568 12.904 7.528 12.904 8.552L14.392 7.16H9.688V13.832H16.408ZM6.856 13.832V9.464C6.856 7.832 6.568 6.328 5.992 4.952C5.416 3.576 4.44 2.184 3.064 0.775997L0.568 2.744C1.592 3.8 2.312 4.776 2.728 5.672C3.144 6.568 3.352 7.528 3.352 8.552L4.84 7.16H0.136V13.832H6.856Z" fill="#05976A"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="text-sm my-4">
+                                    This company is good on what they do for sure
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         <!-- End of Page Contents  -->
     </body>
