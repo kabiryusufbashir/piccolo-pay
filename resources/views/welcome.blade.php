@@ -18,14 +18,20 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables.net-bs5/1.13.4/dataTables.bootstrap5.min.js" integrity="sha512-KFdmxVdAssPxrj4mZh1c01AbGXMAmXmBsO4Tc/GG5+kNLqitTfUBpDHicyDwF7CaFV+pN1r808IOK+vHzWB8gw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js" integrity="sha512-wOLiP6uL5tNrV1FiutKtAyQGGJ1CWAsqQ6Kp2XZ12/CvZxw8MvNJfdhh0yTwjPIir4SWag2/MHrseR7PRmNtvA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         
+        <!-- Page Description  -->
+        <meta name ="description", content="Unlock a world of seamless transactions and top-notch services with Piccolo Pay. We pride ourselves on being your go-to destination for airtime, data, TV subscriptions and electricity bill purchases.">
+        <meta name ="keywords", content="Data, Airtime">
+        <meta name="author" content="Team Piccolo">
+
         <title>Piccolo Pay</title>
+        <link rel="stylesheet" href="{{ asset('build/assets/app-da9da5d1.css') }}">
         <link href="{{ asset('css/main.css') }}" rel="stylesheet">
         @vite('resources/css/app.css')
     
     </head>
     <body>
         <!-- Navigation Container  -->
-            <div id="navContainer" class="py-6 grid grid-cols-5 gap-3 items-center">
+            <div id="navContainer" class="hidden py-6 lg:grid grid-cols-5 gap-3 items-center">
                 <!-- Slogan  -->
                 <div class="slogan" class="col-span-1">
                     PiccoloPay
@@ -59,33 +65,25 @@
                     </nav>
                 </div>
             </div>
+            <!-- Mobile View  -->
+            <div class="lg:hidden block flex justify-between px-4 py-6 items-center w-full">
+                <!-- Slogan  -->
+                <div class="slogan">
+                    PiccoloPay
+                </div>
+                <!-- Toggle  -->
+                <div>
+                    <svg class="" width="26" height="20" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1.8335 12.8333H11.1668M1.8335 6.99999H18.1668M8.8335 1.16666H18.1668" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
         <!-- End of Navigation Container -->
         
         <!-- Banner Section  -->
-            <div id="bannerSection" class="grid grid-cols-2 gap-4 py-12 items-center">
-                <div>
-                    <div class="banner-header">
-                        Welcome to Piccolo Pay - Your One-Stop Shop for Connectivity and Convenience!
-                    </div>
-                    <div class="banner-message my-4">
-                        Unlock a world of seamless transactions and top-notch services with Piccolo Pay. We pride ourselves on being your go-to destination for airtime, data, TV subscriptions and electricity bill purchases.
-                    </div>
-                    <div class="flex my-8">
-                        <div class="px-8 py-3 gray-bg rounded-full">
-                            <a href="" class="hover:text-black">Login</a>
-                        </div>
-                        <div class="px-8 py-3 mx-4 green-bg rounded-full">
-                            <a href="" class="white-text hover:text-white">Sign Up</a>
-                        </div>
-                        <div class="mx-4">
-                            <svg width="84" height="41" viewBox="0 0 94 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M91.2668 30.2172C91.7101 30.7465 92.4985 30.8161 93.0278 30.3728C93.557 29.9295 93.6266 29.1411 93.1833 28.6119L91.2668 30.2172ZM45.0247 14.5569L45.2227 15.7911L45.0247 14.5569ZM0.0033443 10.0052L13.7261 14.4796L10.7397 0.358146L0.0033443 10.0052ZM93.1833 28.6119C87.4317 21.7455 69.8456 9.30898 44.8267 13.3227L45.2227 15.7911C69.2242 11.9406 85.9767 23.9018 91.2668 30.2172L93.1833 28.6119ZM44.8267 13.3227C40.8148 13.9663 37.7589 15.3662 35.5427 17.3372C33.3217 19.3126 32.0186 21.7957 31.41 24.4738C30.2053 29.7756 31.7077 35.8638 34.1298 40.7005C35.3492 43.1356 36.8311 45.3148 38.3933 46.9757C39.9267 48.606 41.6597 49.8666 43.4035 50.2232C44.3046 50.4075 45.2309 50.3531 46.1003 49.9539C46.9655 49.5566 47.6697 48.8662 48.2161 47.9562C49.2823 46.1805 49.8426 43.4163 49.872 39.6052L47.3721 39.5859C47.3437 43.2558 46.7908 45.4735 46.0728 46.6692C45.7271 47.245 45.3714 47.5376 45.0571 47.682C44.747 47.8243 44.3741 47.87 43.9044 47.7739C42.9065 47.5699 41.6112 46.748 40.2144 45.2629C38.8462 43.8083 37.4958 41.839 36.3651 39.5811C34.0871 35.0321 32.8187 29.5571 33.8479 25.0278C34.3563 22.7902 35.4214 20.7908 37.2041 19.2053C38.9918 17.6154 41.5752 16.3763 45.2227 15.7911L44.8267 13.3227ZM49.872 39.6052C49.9719 26.688 45.2813 17.7749 37.9039 12.4047C30.5781 7.07206 20.7859 5.36543 10.878 6.43425L11.1461 8.91983C20.6468 7.89493 29.7569 9.56649 36.4326 14.4259C43.0568 19.2479 47.4668 27.3409 47.3721 39.5859L49.872 39.6052Z" fill="#05976A"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div id="banner-sticker">
+            <div id="bannerSection" class="lg:grid grid-cols-2 gap-4 py-12 items-center mx-4">
+                <div class="">
+                    <div class="absolute lg:top-64 top-92 lg:left-12 hidden lg:block">
                         <!-- Airtime  -->
                         <div class="my-4 flex bg-white shadow-lg rounded-lg py-3 px-3 w-48 items-center">
                             <div class="pr-2">
@@ -106,17 +104,38 @@
                         </div>
                     </div>
                     <div>
-                        <img class="ml-auto" src="{{ asset('images/photo_1.png') }}" alt="Advert 1">
+                        <img class="mx-auto" src="{{ asset('images/photo_1.png') }}" alt="Advert 1">
+                    </div>
+                </div>
+                <div>
+                    <div class="banner-header">
+                        Welcome to Piccolo Pay - Your One-Stop Shop for Connectivity and Convenience!
+                    </div>
+                    <div class="banner-message my-4 text-xs lg:text-sm">
+                        Unlock a world of seamless transactions and top-notch services with Piccolo Pay. We pride ourselves on being your go-to destination for airtime, data, TV subscriptions and electricity bill purchases.
+                    </div>
+                    <div class="lg:flex my-8">
+                        <div class="yus-mt px-8 text-sm py-3 gray-bg rounded-full text-center">
+                            <a href="" class="hover:text-black">Login</a>
+                        </div>
+                        <div class="px-8 py-3 text-sm lg:mx-4 green-bg rounded-full text-center">
+                            <a href="" class="white-text hover:text-white">Sign Up</a>
+                        </div>
+                        <div class="mx-4 hidden lg:block">
+                            <svg width="84" height="41" viewBox="0 0 94 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M91.2668 30.2172C91.7101 30.7465 92.4985 30.8161 93.0278 30.3728C93.557 29.9295 93.6266 29.1411 93.1833 28.6119L91.2668 30.2172ZM45.0247 14.5569L45.2227 15.7911L45.0247 14.5569ZM0.0033443 10.0052L13.7261 14.4796L10.7397 0.358146L0.0033443 10.0052ZM93.1833 28.6119C87.4317 21.7455 69.8456 9.30898 44.8267 13.3227L45.2227 15.7911C69.2242 11.9406 85.9767 23.9018 91.2668 30.2172L93.1833 28.6119ZM44.8267 13.3227C40.8148 13.9663 37.7589 15.3662 35.5427 17.3372C33.3217 19.3126 32.0186 21.7957 31.41 24.4738C30.2053 29.7756 31.7077 35.8638 34.1298 40.7005C35.3492 43.1356 36.8311 45.3148 38.3933 46.9757C39.9267 48.606 41.6597 49.8666 43.4035 50.2232C44.3046 50.4075 45.2309 50.3531 46.1003 49.9539C46.9655 49.5566 47.6697 48.8662 48.2161 47.9562C49.2823 46.1805 49.8426 43.4163 49.872 39.6052L47.3721 39.5859C47.3437 43.2558 46.7908 45.4735 46.0728 46.6692C45.7271 47.245 45.3714 47.5376 45.0571 47.682C44.747 47.8243 44.3741 47.87 43.9044 47.7739C42.9065 47.5699 41.6112 46.748 40.2144 45.2629C38.8462 43.8083 37.4958 41.839 36.3651 39.5811C34.0871 35.0321 32.8187 29.5571 33.8479 25.0278C34.3563 22.7902 35.4214 20.7908 37.2041 19.2053C38.9918 17.6154 41.5752 16.3763 45.2227 15.7911L44.8267 13.3227ZM49.872 39.6052C49.9719 26.688 45.2813 17.7749 37.9039 12.4047C30.5781 7.07206 20.7859 5.36543 10.878 6.43425L11.1461 8.91983C20.6468 7.89493 29.7569 9.56649 36.4326 14.4259C43.0568 19.2479 47.4668 27.3409 47.3721 39.5859L49.872 39.6052Z" fill="#05976A"/>
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
         <!-- End of Banner Section  -->
 
         <!-- Page Contents  -->
-            <div id="pageContents">
+            <div id="pageContents" class="w-full">
                 <!-- Experience  -->
-                <div id="experience" class="py-16 px-16 white-text">
-                    <div class="grid grid-cols-2">
+                <div id="experience" class="py-16 lg:px-16 white-text">
+                    <div class="lg:grid grid-cols-2">
                         <div>
                             <div class="banner-header">
                                 Experience Seamless Bill Payment for All
@@ -135,54 +154,55 @@
                     </div>
                 </div>
                 <!-- Services  -->
-                <div id="services" class="grid grid-cols-2 gap-4 items-center px-4">
+                <div id="services" class="lg:grid grid-cols-2 gap-4 items-center px-4">
                     <div>
                         <img class="mx-auto" src="{{ asset('images/photo_2.png') }}" alt="Services">
                     </div>
                     <div>
-                        <div class="banner-header text-2xl">
+                        <div class="banner-header text-2xl my-4">
                             Our Services
                         </div>
                         <div class="grid grid-cols-2 gap-4 my-6">
                             <div>
                                 <p class="banner-header text-sm py-3">Airtime and Data</p>
-                                <p class="text-sm">
+                                <p class="lg:text-sm text-xs">
                                     Stay connected effortlessly with our quick and reliable airtime and data services. Whether it's a call with a friend or a video conference with clients, we've got you covered.
                                 </p>
                             </div>
                             <div>
                                 <p class="banner-header text-sm py-3">TV Subscriptions</p>
-                                <p class="text-sm">
+                                <p class="lg:text-sm text-xs">
                                     Elevate your entertainment experience with hassle-free TV subscriptions. Choose from a variety of packages to enjoy your favorite shows, movies and sports without missing a beat.
                                 </p>
                             </div>
                             <div>
                                 <p class="banner-header text-sm py-3">Electricity Bill Purchase</p>
-                                <p class="text-sm">
+                                <p class="lg:text-sm text-xs">
                                     Simplify your life by paying your electricity bills with ease. No more long queues or complicated processes - just a straightforward way to keep the lights on.
                                 </p>
                             </div>
                             <div>
                                 <p class="banner-header text-sm py-3">Exam Pin</p>
-                                <p class="text-sm">
+                                <p class="lg:text-sm text-xs">
                                     Facing difficulties checking your results? Gain seamless access to check your exams with our Exam PINs! No more uncertainties - just a straightforward way to review your exams and pave the way to success.
                                 </p>
                             </div>
-                            <div class="flex py-6">
-                                <div class="px-8 py-3 green-bg rounded-full">
-                                    <a href="" class="white-text hover:text-white">Get Started</a>
-                                </div>
-                                <div class="mx-4">
-                                    <svg width="84" height="41" viewBox="0 0 94 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M91.2668 30.2172C91.7101 30.7465 92.4985 30.8161 93.0278 30.3728C93.557 29.9295 93.6266 29.1411 93.1833 28.6119L91.2668 30.2172ZM45.0247 14.5569L45.2227 15.7911L45.0247 14.5569ZM0.0033443 10.0052L13.7261 14.4796L10.7397 0.358146L0.0033443 10.0052ZM93.1833 28.6119C87.4317 21.7455 69.8456 9.30898 44.8267 13.3227L45.2227 15.7911C69.2242 11.9406 85.9767 23.9018 91.2668 30.2172L93.1833 28.6119ZM44.8267 13.3227C40.8148 13.9663 37.7589 15.3662 35.5427 17.3372C33.3217 19.3126 32.0186 21.7957 31.41 24.4738C30.2053 29.7756 31.7077 35.8638 34.1298 40.7005C35.3492 43.1356 36.8311 45.3148 38.3933 46.9757C39.9267 48.606 41.6597 49.8666 43.4035 50.2232C44.3046 50.4075 45.2309 50.3531 46.1003 49.9539C46.9655 49.5566 47.6697 48.8662 48.2161 47.9562C49.2823 46.1805 49.8426 43.4163 49.872 39.6052L47.3721 39.5859C47.3437 43.2558 46.7908 45.4735 46.0728 46.6692C45.7271 47.245 45.3714 47.5376 45.0571 47.682C44.747 47.8243 44.3741 47.87 43.9044 47.7739C42.9065 47.5699 41.6112 46.748 40.2144 45.2629C38.8462 43.8083 37.4958 41.839 36.3651 39.5811C34.0871 35.0321 32.8187 29.5571 33.8479 25.0278C34.3563 22.7902 35.4214 20.7908 37.2041 19.2053C38.9918 17.6154 41.5752 16.3763 45.2227 15.7911L44.8267 13.3227ZM49.872 39.6052C49.9719 26.688 45.2813 17.7749 37.9039 12.4047C30.5781 7.07206 20.7859 5.36543 10.878 6.43425L11.1461 8.91983C20.6468 7.89493 29.7569 9.56649 36.4326 14.4259C43.0568 19.2479 47.4668 27.3409 47.3721 39.5859L49.872 39.6052Z" fill="#05976A"/>
-                                    </svg>
-                                </div>
+                        </div>
+                        <div class="flex py-6 items-center">
+                            <div class="px-8 py-3 green-bg rounded-full">
+                                <a href="" class="white-text hover:text-white lg:text-sm text-xs">Get Started</a>
+                            </div>
+                            <div class="mx-4">
+                                <svg width="84" height="41" viewBox="0 0 94 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M91.2668 30.2172C91.7101 30.7465 92.4985 30.8161 93.0278 30.3728C93.557 29.9295 93.6266 29.1411 93.1833 28.6119L91.2668 30.2172ZM45.0247 14.5569L45.2227 15.7911L45.0247 14.5569ZM0.0033443 10.0052L13.7261 14.4796L10.7397 0.358146L0.0033443 10.0052ZM93.1833 28.6119C87.4317 21.7455 69.8456 9.30898 44.8267 13.3227L45.2227 15.7911C69.2242 11.9406 85.9767 23.9018 91.2668 30.2172L93.1833 28.6119ZM44.8267 13.3227C40.8148 13.9663 37.7589 15.3662 35.5427 17.3372C33.3217 19.3126 32.0186 21.7957 31.41 24.4738C30.2053 29.7756 31.7077 35.8638 34.1298 40.7005C35.3492 43.1356 36.8311 45.3148 38.3933 46.9757C39.9267 48.606 41.6597 49.8666 43.4035 50.2232C44.3046 50.4075 45.2309 50.3531 46.1003 49.9539C46.9655 49.5566 47.6697 48.8662 48.2161 47.9562C49.2823 46.1805 49.8426 43.4163 49.872 39.6052L47.3721 39.5859C47.3437 43.2558 46.7908 45.4735 46.0728 46.6692C45.7271 47.245 45.3714 47.5376 45.0571 47.682C44.747 47.8243 44.3741 47.87 43.9044 47.7739C42.9065 47.5699 41.6112 46.748 40.2144 45.2629C38.8462 43.8083 37.4958 41.839 36.3651 39.5811C34.0871 35.0321 32.8187 29.5571 33.8479 25.0278C34.3563 22.7902 35.4214 20.7908 37.2041 19.2053C38.9918 17.6154 41.5752 16.3763 45.2227 15.7911L44.8267 13.3227ZM49.872 39.6052C49.9719 26.688 45.2813 17.7749 37.9039 12.4047C30.5781 7.07206 20.7859 5.36543 10.878 6.43425L11.1461 8.91983C20.6468 7.89493 29.7569 9.56649 36.4326 14.4259C43.0568 19.2479 47.4668 27.3409 47.3721 39.5859L49.872 39.6052Z" fill="#05976A"/>
+                                </svg>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <!-- Why Us  -->
-                <div id="whyus" class="grid grid-cols-2 gap-4 items-center px-4">
+                <div id="whyus" class="lg:grid grid-cols-2 gap-4 items-center lg:px-4">
                     <div class="px-8">
                         <div class="banner-header text-2xl">
                             Why Choose Us
@@ -215,22 +235,23 @@
                                     Your satisfaction is our priority. Our dedicated support team is ready to assist you, ensuring a smooth and pleasant experience every time.
                                 </p>
                             </div>
-                            <div class="flex py-6">
-                                <div class="px-8 py-3 green-bg rounded-full">
-                                    <a href="" class="white-text hover:text-white">Learn More</a>
-                                </div>
-                                <div class="mx-4">
-                                    <svg width="84" height="41" viewBox="0 0 94 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M91.2668 30.2172C91.7101 30.7465 92.4985 30.8161 93.0278 30.3728C93.557 29.9295 93.6266 29.1411 93.1833 28.6119L91.2668 30.2172ZM45.0247 14.5569L45.2227 15.7911L45.0247 14.5569ZM0.0033443 10.0052L13.7261 14.4796L10.7397 0.358146L0.0033443 10.0052ZM93.1833 28.6119C87.4317 21.7455 69.8456 9.30898 44.8267 13.3227L45.2227 15.7911C69.2242 11.9406 85.9767 23.9018 91.2668 30.2172L93.1833 28.6119ZM44.8267 13.3227C40.8148 13.9663 37.7589 15.3662 35.5427 17.3372C33.3217 19.3126 32.0186 21.7957 31.41 24.4738C30.2053 29.7756 31.7077 35.8638 34.1298 40.7005C35.3492 43.1356 36.8311 45.3148 38.3933 46.9757C39.9267 48.606 41.6597 49.8666 43.4035 50.2232C44.3046 50.4075 45.2309 50.3531 46.1003 49.9539C46.9655 49.5566 47.6697 48.8662 48.2161 47.9562C49.2823 46.1805 49.8426 43.4163 49.872 39.6052L47.3721 39.5859C47.3437 43.2558 46.7908 45.4735 46.0728 46.6692C45.7271 47.245 45.3714 47.5376 45.0571 47.682C44.747 47.8243 44.3741 47.87 43.9044 47.7739C42.9065 47.5699 41.6112 46.748 40.2144 45.2629C38.8462 43.8083 37.4958 41.839 36.3651 39.5811C34.0871 35.0321 32.8187 29.5571 33.8479 25.0278C34.3563 22.7902 35.4214 20.7908 37.2041 19.2053C38.9918 17.6154 41.5752 16.3763 45.2227 15.7911L44.8267 13.3227ZM49.872 39.6052C49.9719 26.688 45.2813 17.7749 37.9039 12.4047C30.5781 7.07206 20.7859 5.36543 10.878 6.43425L11.1461 8.91983C20.6468 7.89493 29.7569 9.56649 36.4326 14.4259C43.0568 19.2479 47.4668 27.3409 47.3721 39.5859L49.872 39.6052Z" fill="#05976A"/>
-                                    </svg>
-                                </div>
+                        </div>
+                        <div class="flex py-6">
+                            <div class="px-8 py-3 green-bg rounded-full">
+                                <a href="" class="white-text hover:text-white lg:text-sm text-xs">Learn More</a>
+                            </div>
+                            <div class="mx-4">
+                                <svg width="84" height="41" viewBox="0 0 94 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M91.2668 30.2172C91.7101 30.7465 92.4985 30.8161 93.0278 30.3728C93.557 29.9295 93.6266 29.1411 93.1833 28.6119L91.2668 30.2172ZM45.0247 14.5569L45.2227 15.7911L45.0247 14.5569ZM0.0033443 10.0052L13.7261 14.4796L10.7397 0.358146L0.0033443 10.0052ZM93.1833 28.6119C87.4317 21.7455 69.8456 9.30898 44.8267 13.3227L45.2227 15.7911C69.2242 11.9406 85.9767 23.9018 91.2668 30.2172L93.1833 28.6119ZM44.8267 13.3227C40.8148 13.9663 37.7589 15.3662 35.5427 17.3372C33.3217 19.3126 32.0186 21.7957 31.41 24.4738C30.2053 29.7756 31.7077 35.8638 34.1298 40.7005C35.3492 43.1356 36.8311 45.3148 38.3933 46.9757C39.9267 48.606 41.6597 49.8666 43.4035 50.2232C44.3046 50.4075 45.2309 50.3531 46.1003 49.9539C46.9655 49.5566 47.6697 48.8662 48.2161 47.9562C49.2823 46.1805 49.8426 43.4163 49.872 39.6052L47.3721 39.5859C47.3437 43.2558 46.7908 45.4735 46.0728 46.6692C45.7271 47.245 45.3714 47.5376 45.0571 47.682C44.747 47.8243 44.3741 47.87 43.9044 47.7739C42.9065 47.5699 41.6112 46.748 40.2144 45.2629C38.8462 43.8083 37.4958 41.839 36.3651 39.5811C34.0871 35.0321 32.8187 29.5571 33.8479 25.0278C34.3563 22.7902 35.4214 20.7908 37.2041 19.2053C38.9918 17.6154 41.5752 16.3763 45.2227 15.7911L44.8267 13.3227ZM49.872 39.6052C49.9719 26.688 45.2813 17.7749 37.9039 12.4047C30.5781 7.07206 20.7859 5.36543 10.878 6.43425L11.1461 8.91983C20.6468 7.89493 29.7569 9.56649 36.4326 14.4259C43.0568 19.2479 47.4668 27.3409 47.3721 39.5859L49.872 39.6052Z" fill="#05976A"/>
+                                </svg>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <img class="ml-auto" src="{{ asset('images/photo_3.png') }}" alt="Why Us">
+                        <img class="ml-auto px-4" src="{{ asset('images/photo_3.png') }}" alt="Why Us">
                     </div>
                 </div>
+
                 <!-- How it works  -->
                 <div id="how_it_works" class="px-16 my-8 white-text">
                     <div class="banner-header text-center">
@@ -239,7 +260,7 @@
                     <div class="text-center text-sm">
                         Start using our bill payment system in three easy steps
                     </div>
-                    <div class="flex justify-center py-16">
+                    <div class="lg:flex lg:justify-center py-16">
                         <!-- Step 1  -->
                         <div class="bg-gray-200 bg-opacity-20 rounded-lg p-4">
                             <div>
@@ -256,7 +277,7 @@
                             </div> 
                         </div>
                         <!-- Arrow 1  -->
-                        <div class="relative top-32">
+                        <div class="lg:relative lg:top-32">
                             <svg width="138" height="38" viewBox="0 0 138 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M135.893 0.25774C136.302 0.198383 136.683 0.482582 136.742 0.892521L137.71 7.57285C137.769 7.98279 137.485 8.36323 137.075 8.42259C136.665 8.48195 136.284 8.19775 136.225 7.78781L135.365 1.84974L129.427 2.70958C129.017 2.76894 128.637 2.48473 128.577 2.07479C128.518 1.66486 128.802 1.28442 129.212 1.22506L135.893 0.25774ZM1.55486 0.495392C13.8408 14.005 35.2796 30.1875 59.6425 34.9009C71.8091 37.2547 84.6978 36.7477 97.5553 31.6295C110.414 26.5108 123.29 16.7607 135.399 0.551144L136.601 1.44886C124.357 17.8391 111.27 27.7846 98.1101 33.0231C84.9492 38.2621 71.7644 38.7739 59.3575 36.3736C34.5733 31.5787 12.8651 15.1615 0.445138 1.50461L1.55486 0.495392Z" fill="white"/>
                             </svg>
@@ -277,7 +298,7 @@
                             </div> 
                         </div>
                         <!-- Arrow 2  -->
-                        <div class="relative top-10">
+                        <div class="lg:relative lg:top-10">
                             <svg width="138" height="38" viewBox="0 0 138 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M135.893 37.7423C136.302 37.8016 136.683 37.5174 136.742 37.1075L137.71 30.4272C137.769 30.0172 137.485 29.6368 137.075 29.5774C136.665 29.5181 136.284 29.8023 136.225 30.2122L135.365 36.1503L129.427 35.2904C129.017 35.2311 128.637 35.5153 128.577 35.9252C128.518 36.3351 128.802 36.7156 129.212 36.7749L135.893 37.7423ZM1.55486 37.5046C13.8408 23.995 35.2796 7.81249 59.6425 3.09913C71.8091 0.745296 84.6978 1.25228 97.5553 6.37051C110.414 11.4892 123.29 21.2393 135.399 37.4489L136.601 36.5511C124.357 20.1609 111.27 10.2154 98.1101 4.97687C84.9492 -0.262104 71.7644 -0.773862 59.3575 1.62643C34.5733 6.42133 12.8651 22.8385 0.445138 36.4954L1.55486 37.5046Z" fill="white"/>
                             </svg>
@@ -299,15 +320,16 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- Testimonials  -->
                 <div id="testimonials" class="px-4">
-                    <div class="px-8">
+                    <div class="lg:px-8">
                         <div class="banner-header text-2xl text-center">
                             What people say about us
                         </div>
-                        <div class="grid grid-cols-3 gap-8 my-10 py-12">
+                        <div class="lg:grid lg:grid-cols-3 gap-8 py-12">
                             <!-- First  -->
-                            <div class="bg-white rounded-2xl p-6">
+                            <div class="bg-white rounded-2xl p-6 my-4">
                                 <div class="flex justify-between my-4">
                                     <div class="flex items-center">
                                         <div>
@@ -329,7 +351,7 @@
                                 </div>
                             </div>
                             <!-- Second  -->
-                            <div class="bg-white rounded-2xl p-6">
+                            <div class="bg-white rounded-2xl p-6 my-4">
                                 <div class="flex justify-between my-4">
                                     <div class="flex items-center">
                                         <div>
@@ -351,7 +373,7 @@
                                 </div>
                             </div>
                             <!-- Third  -->
-                            <div class="bg-white rounded-2xl p-6">
+                            <div class="bg-white rounded-2xl p-6 my-4">
                                 <div class="flex justify-between my-4">
                                     <div class="flex items-center">
                                         <div>
@@ -379,13 +401,13 @@
         <!-- End of Page Contents  -->
 
         <!-- Footer  -->
-            <div id="footer" class="px-16">
-                <div class="grid grid-cols-3 gap-6">
+            <div id="footer" class="px-16 py-12">
+                <div class="lg:grid grid-cols-3 gap-6 py-6">
                     <div>
                         <div class="slogan">
                             PiccoloPay
                         </div>
-                        <div class="banner-message my-4">
+                        <div class="banner-message my-4 lg:text-sm text-xs">
                             Unlock a world of seamless transactions and top-notch services with Piccolo Pay. We pride ourselves on being your go-to destination for airtime, data, TV subscriptions and electricity bill purchases.
                         </div>
                     </div>
@@ -394,7 +416,7 @@
                             Navigations
                         </div>
                         <div class="my-4">
-                            <nav class="grid grid-cols-3 gap-4">
+                            <nav class="lg:grid grid-cols-2 gap-4">
                                 <li class="py-3">
                                     <a href="">Home</a>
                                 </li>
@@ -454,7 +476,7 @@
                 </div>
             </div>
             <div class="green-bg py-8 text-center text-white text-xs">
-                A Product of <a target="_blank" href="https://teampiccolo.com" class="hover:text-white">Team Piccolo</a> &copy; 2023. All Rights Reserved
+                A Product of <a target="_blank" href="https://teampiccolo.com" class="hover:text-white">Team Piccolo</a> &copy; 2023 <br> All Rights Reserved
             </div>
         <!-- End of Footer  -->
     </body>
