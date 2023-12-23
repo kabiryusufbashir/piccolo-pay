@@ -47,7 +47,7 @@
                 </div>
                 <div class="lg:flex my-8">
                     <div class="yus-mt px-8 text-sm py-3 gray-bg rounded-full text-center">
-                        <a href="" class="hover:text-black">Login</a>
+                        <a href="{{ route('login') }}" class="hover:text-black">Login</a>
                     </div>
                     <div class="px-8 py-3 text-sm lg:mx-4 green-bg rounded-full text-center">
                         <a href="{{ route('signup') }}" class="white-text hover:text-white">Sign Up</a>

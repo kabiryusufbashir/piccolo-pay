@@ -17,3 +17,4 @@ use App\Http\Controllers\CustomerController;
 
 Route::get('/', [CustomerController::class, 'index'])->name('home');
 Route::get('/signup', [CustomerController::class, 'signUpPage'])->name('signup');
+Route::get('/login', [CustomerController::class, 'loginPage'])->name('login');

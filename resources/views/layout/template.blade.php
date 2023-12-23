@@ -61,7 +61,7 @@
                 <div class="col-span-1">
                     <nav class="flex justify-center">
                         <li class="px-6 py-2 mx-4 gray-bg rounded-full">
-                            <a href="" class="hover:text-black">Login</a>
+                            <a href="{{ route('login') }}" class="hover:text-black">Login</a>
                         </li>
                         <li class="px-6 py-2 green-bg rounded-full">
                             <a href="{{ route('signup') }}" class="white-text hover:text-white">Sign Up</a>
@@ -118,7 +118,7 @@
                                     <a href="{{ route('signup') }}">Sign Up</a>
                                 </li>
                                 <li class="py-3">
-                                    <a href="">Login</a>
+                                    <a href="{{ route('login') }}">Login</a>
                                 </li>
                                 <li class="py-3">
                                     <a href="">Contact Us</a>
