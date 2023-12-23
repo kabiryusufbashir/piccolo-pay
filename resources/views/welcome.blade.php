@@ -14,11 +14,11 @@
     <!-- Banner Section  -->
         <div id="bannerSection" class="lg:grid grid-cols-2 gap-4 py-12 items-center mx-4">
             <div class="">
-                <div class="absolute lg:top-64 top-92 lg:left-12 hidden lg:block">
+                <div class="absolute lg:top-64 top-32 lg:left-12 lg:block">
                     <!-- Airtime  -->
                     <div class="my-4 flex bg-white shadow-lg rounded-lg py-3 px-3 w-48 items-center">
                         <div class="pr-2">
-                            <img class="rounded-full w-12" src="{{ asset('images/mtn.png') }}" alt="mtn">
+                            <img class="rounded-full lg:w-12 w-8" src="{{ asset('images/mtn.png') }}" alt="mtn">
                         </div>
                         <div class="text-xs">
                             Data Purchase successful
@@ -27,7 +27,7 @@
                     <!-- Data  -->
                     <div class="flex bg-white shadow-lg rounded-lg py-3 px-3 w-48 items-center">
                         <div class="pr-2">
-                            <img class="rounded-full w-16" src="{{ asset('images/glo.png') }}" alt="glo">
+                            <img class="rounded-full lg:w-16 w-10" src="{{ asset('images/glo.png') }}" alt="glo">
                         </div>
                         <div class="text-xs">
                             Airtime Purchase successful

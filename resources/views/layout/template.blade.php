@@ -52,9 +52,6 @@
                         <li class="px-4">
                             <a href="{{ route('home') }}#services">Services</a>
                         </li>
-                        <li class="px-4">
-                            <a href="">Contact Us</a>
-                        </li>
                     </nav>
                 </div>
                 <!-- Button  -->
@@ -72,9 +69,11 @@
             <!-- Mobile View  -->
             <div class="lg:hidden block flex justify-between px-4 py-6 items-center w-full">
                 <!-- Slogan  -->
-                <div class="slogan">
-                    PiccoloPay
-                </div>
+                <a href="{{ route('home') }}">
+                    <div class="slogan">
+                        PiccoloPay
+                    </div>
+                </a>
                 <!-- Toggle  -->
                 <div>
                     <svg class="" width="26" height="20" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -119,9 +118,6 @@
                                 </li>
                                 <li class="py-3">
                                     <a href="{{ route('login') }}">Login</a>
-                                </li>
-                                <li class="py-3">
-                                    <a href="">Contact Us</a>
                                 </li>
                             </nav>   
                         </div>

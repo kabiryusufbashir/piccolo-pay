@@ -148,6 +148,11 @@ body{
     height: 174px;
 }
 
+#loginIcon{
+    width:285; 
+    height:192px;
+}
+
 @media only screen and (max-width:768px)
 {
     
@@ -172,6 +177,13 @@ body{
     #signUpIcon{
         width: 219px; 
         height: 104px;
+        margin-left: auto;
+        margin-top: 4%;
+    }
+
+    #loginIcon{
+        width:215; 
+        height:112px;
         margin-left: auto;
         margin-top: 4%;
     }

@@ -13,4 +13,9 @@ class CustomerController extends Controller
     public function signUpPage(){
         return view('signup');
     }
+
+    public function loginPage(){
+        return view('login');
+    }
+
 }
