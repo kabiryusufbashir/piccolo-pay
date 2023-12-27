@@ -69,7 +69,16 @@
                         Get back into your account and continue transactions
                     </div>
                     <div>
-                        <form action="">
+                        <form action="{{ route('loginform') }}" id="loginForm" method="POST">
+                            @csrf
+                            <!-- Loading -->
+                            <div class="loader hidden">
+                                @include('includes.loader')
+                            </div>
+                            
+                            <!-- Feedback Container  -->
+                            <div id="feedbackContainer" class="my-2">@include('includes.messages')</div>
+
                             <div class="my-4">
                                 <input class="input_box" type="email" placeholder="Email" name="email" required>
                             </div>
@@ -98,5 +107,66 @@
                 </div>
             </div>
         </div>
+        <script>
+            // Login 
+                $(document).on('submit', '#loginForm', function() {
+                    var e = this
+
+                    // display Loader 
+                    $('.loader').show()
+
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        data: $(this).serialize(),
+                        type: "POST",
+                        dataType: 'json',
+                        success: function(data) {
+                            
+                            if(data.status) {
+                                // Loader Hide 
+                                $('.loader').hide()
+                                
+                                $('#feedbackContainer').fadeIn().delay(5000).fadeOut()
+                                
+                                $("#feedbackContainer").append('<div class="alert alert-success text-xs">Welcome to PiccoloPay!</div>')
+                                // Redirect 
+                                setTimeout(function(){
+                                    window.location = data.redirect
+                                }, 2000)
+                            }else{
+                                $(".alert").remove();
+                                
+                                // Loader Hide 
+                                $('.loader').hide()
+
+                                if(data.status === false) {
+                                    // Check if the errors property is a string
+                                    if(typeof data.errors === 'string') {
+                                        $("#feedbackContainer").append('<div class="alert alert-danger text-xs">' + data.errors + '</div>');
+                                    }else if(typeof data.errors === 'object') {
+                                        // If errors is an object (possibly from server validation)
+                                        $.each(data.errors, function (key, val) {
+                                            $("#feedbackContainer").append('<div class="alert alert-danger text-xs">' + val + '</div>');
+                                        });
+                                    }else{
+                                        // Handle other cases or provide a default message
+                                        $("#feedbackContainer").append('<div class="alert alert-danger text-xs">An error occurred.</div>');
+                                    }
+                                }
+
+                                // Redirect 
+                                setTimeout(function(){
+                                    location.reload()
+                                }, 7000)
+
+                            }
+                        
+                        }
+                    });
+
+                    return false;
+                });
+            // End of SignUp
+        </script>
     <!-- End of Page Contents  -->
 @endsection

@@ -14,7 +14,28 @@ use App\Http\Controllers\CustomerController;
 |
 */
 
+Route::get('/clear_cache', function () {
+
+    \Artisan::call('cache:clear');
+    // \Artisan::call('permission:cache-reset');
+    \Artisan::call('config:clear');
+
+    dd("Cache is cleared");
+
+});
 
 Route::get('/', [CustomerController::class, 'index'])->name('home');
+
+// SignUp 
 Route::get('/signup', [CustomerController::class, 'signUpPage'])->name('signup');
+Route::post('/signup', [CustomerController::class, 'signUpForm'])->name('signupform');
+
+// Login 
 Route::get('/login', [CustomerController::class, 'loginPage'])->name('login');
+Route::post('/login', [CustomerController::class, 'loginForm'])->name('loginform');
+Route::get('/logout', [CustomerController::class, 'logout'])->name('logout');
+
+// Customer 
+Route::prefix('dashboard')->group(function(){
+    Route::get('/index', [CustomerController::class, 'dashboard'])->name('cust-dashboard')->middleware('auth:web');
+});
