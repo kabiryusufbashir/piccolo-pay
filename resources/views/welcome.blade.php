@@ -14,7 +14,7 @@
     <!-- Banner Section  -->
         <div id="bannerSection" class="lg:grid grid-cols-2 gap-4 py-12 items-center mx-4">
             <div class="">
-                <div class="absolute lg:top-64 top-32 lg:left-12 lg:block">
+                <div id="bannerAdvertNoti" class="absolute lg:top-64 top-32 lg:left-12 lg:block">
                     <!-- Airtime  -->
                     <div class="my-4 flex bg-white shadow-lg rounded-lg py-3 px-3 w-48 items-center">
                         <div class="pr-2">
