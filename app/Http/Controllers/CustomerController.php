@@ -84,7 +84,7 @@ class CustomerController extends Controller
                     try{
                         $response = Http::withHeaders([
                             'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3phaW5wYXkubmciLCJpYXQiOjE2NzQxNjI1ODEsImlkIjo5MDAxOWM5Ny1lZjhiLTQyYWEtOGNmMC02ZGQ2NWQ0MWE2NzMsIm5hbWUiOmthYmlyeXVzdWZiYXNoaXJAZ21haWwuY29tLCJyb2xlIjprYWJpcnl1c3VmYmFzaGlyQGdtYWlsLmNvbSwic2VjcmV0S2V5Ijo0akhoQllXTzRrVzRXUHpmbkJZWXRxVFo2Vmw2OFBNSHlobWdQUHNqYXpyemF9.NGRKAgLdlR_J-2TaqP52xKrkZnrF3mw3V5GEdacJdlI',
+                            'Authorization' => env('BEARER_TOKEN'),
     
                         ])->post($apiEndpoint, $payload);
     
