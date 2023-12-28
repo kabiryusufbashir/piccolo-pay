@@ -38,4 +38,8 @@ Route::get('/logout', [CustomerController::class, 'logout'])->name('logout');
 // Customer 
 Route::prefix('dashboard')->group(function(){
     Route::get('/index', [CustomerController::class, 'dashboard'])->name('cust-dashboard')->middleware('auth:web');
+    Route::get('/wallet', [CustomerController::class, 'wallet'])->name('cust-wallet')->middleware('auth:web');
+    Route::get('/transactions', [CustomerController::class, 'transactions'])->name('cust-transactions')->middleware('auth:web');
+    Route::get('/account', [CustomerController::class, 'account'])->name('cust-account')->middleware('auth:web');
+    Route::get('/support', [CustomerController::class, 'support'])->name('cust-support')->middleware('auth:web');
 });

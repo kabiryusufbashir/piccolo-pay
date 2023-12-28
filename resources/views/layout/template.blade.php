@@ -82,7 +82,7 @@
                 </div>
             </div>
             <!-- Mobile Menu  -->
-            <div id="mobileMenu" class="bg-white fixed z-50 w-full h-screen -top-0 hidden pt-16">
+            <div id="mobileMenu" class="bg-white fixed z-50 w-75 h-screen -top-0 hidden pt-16">
                 <div id="closeMobileMenu" class="flex justify-end mr-12">
                     <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g filter="url(#filter0_d_73_1706)">
@@ -105,7 +105,7 @@
                     </svg>
                 </div>
                 <div>
-                    <nav class="flex flex-col items-center text-sm">
+                    <nav class="flex flex-col items-center text-xs">
                         <li class="py-4">
                             <a href="{{ route('home') }}">Home</a>
                         </li>
@@ -219,5 +219,6 @@
                 })
             });
         </script>
+
     </body>
 </html>
