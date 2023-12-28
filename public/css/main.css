@@ -161,12 +161,25 @@ body{
     height:192px;
 }
 
+.wallet-icon{
+    width: 142px; 
+    height: 44px;
+}
+
 .balance{
     font-size: 32px;
     font-weight: 600;
     line-height: 48px;
     letter-spacing: 0.02em;
     text-align: left;
+}
+
+.yus-border-bottom{
+    border-bottom: 1px solid #888888;
+}
+
+.yus-text-red{
+    color: red;
 }
 
 /* Loader  */
@@ -246,6 +259,12 @@ body{
         height:112px;
         margin-left: auto;
         margin-top: 4%;
+    }
+
+    
+    .wallet-icon{
+        width: 102px; 
+        height: 44px;
     }
 
     .input_box{

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\App;
 
 use App\Models\Customer;
 use App\Models\CustomerBankDetails;
+use App\Models\CustomerTransactionHistory;
 
 class CustomerController extends Controller
 {
@@ -233,6 +234,7 @@ class CustomerController extends Controller
     }
     //End of Logout
 
+    // Dashboard 
     public function dashboard(){
         $customer = Auth::guard('web')->user();
 
@@ -244,39 +246,18 @@ class CustomerController extends Controller
         }
     }
 
-    public function monnify(Request $request){
+    // Wallet 
+    public function wallet(){
+        $customer = Auth::guard('web')->user();
 
-        // Replace 'YOUR_API_ENDPOINT' with the actual API endpoint URL
-        $apiEndpoint = 'https://api.zainpay.ng/virtual-account/create/request';
+        $cust_banks = CustomerBankDetails::where('cust_id', $customer->id)->orderby('id', 'desc')->get();
 
-        // JSON payload for the request
-        $payload = [
-            "bankType" => "wemaBank",
-            "firstName" => "Bello",
-            "surname"  => "Samuel Sunday",
-            "email" => "bellosamuelsunday@gmail.com",
-            "mobileNumber" => "0810000000",
-            "dob" => "12-08-1980",
-            "gender" => "M",
-            "address" => "Gidado street Kano",
-            "title" => "Mr",
-            "state" => "Kano",
-            "zainboxCode" => "picco_soh1NzjlrnwaOdJi9OOy"
-        ];
-
-        // Make a POST request to the API endpoint with the headers and payload
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3phaW5wYXkubmciLCJpYXQiOjE2NzQxNjI1ODEsImlkIjo5MDAxOWM5Ny1lZjhiLTQyYWEtOGNmMC02ZGQ2NWQ0MWE2NzMsIm5hbWUiOmthYmlyeXVzdWZiYXNoaXJAZ21haWwuY29tLCJyb2xlIjprYWJpcnl1c3VmYmFzaGlyQGdtYWlsLmNvbSwic2VjcmV0S2V5Ijo0akhoQllXTzRrVzRXUHpmbkJZWXRxVFo2Vmw2OFBNSHlobWdQUHNqYXpyemF9.NGRKAgLdlR_J-2TaqP52xKrkZnrF3mw3V5GEdacJdlI',
-
-        ])->post($apiEndpoint, $payload);
-
-        // Get the response body as an array
-        $data = $response->json();
-
-        // Handle the API response as needed
-        // For example, you can return it as a JSON response in your Laravel application
-        return response()->json($data);
+        // If Admin Auth  
+        if($customer){
+            return view('dashboard.wallet', compact('customer', 'cust_banks'));
+        }else{
+            return redirect()->route('login');
+        }
     }
 
 }
