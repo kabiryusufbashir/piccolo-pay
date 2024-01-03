@@ -258,7 +258,7 @@ class CustomerController extends Controller
                 if($response->successful()) {
                     // Request was successful
                     $data = $response->json();
-                    $cust_acct_balance = $data['data']['balanceAmount'];
+                    $cust_acct_balance = ($data['data']['balanceAmount'] / 100);
                     
                     // If Admin Auth  
                     if($customer){
