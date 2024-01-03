@@ -78,14 +78,14 @@ class CustomerController extends Controller
                         "address" => "Farawa Layout Kano",
                         "title" => "Mr",
                         "state" => "Kano",
-                        "zainboxCode" => 'picco_soh1NzjlrnwaOdJi9OOy'
+                        "zainboxCode" => env('ZAINPAY_BOX')
                     ];
 
                     // Make a POST request to the API endpoint with the headers and payload
                     try{
                         $response = Http::withHeaders([
                             'Content-Type' => 'application/json',
-                            'Authorization' => env('BEARER_TOKEN'),
+                            'Authorization' => env('ZAINPAY_BEARER_TOKEN'),
     
                         ])->post($apiEndpoint, $payload);
     
@@ -260,4 +260,152 @@ class CustomerController extends Controller
         }
     }
 
+    // Account 
+    public function account(){
+        $customer = Auth::guard('web')->user();
+
+        $cust = Customer::where('id', $customer->id)->first();
+
+        // If Admin Auth  
+        if($customer){
+            return view('dashboard.account', compact('cust', 'customer'));
+        }else{
+            return redirect()->route('login');
+        }
+    }
+
+    // Change Password 
+    public function accountPassword(Request $request){
+        $customer = Auth::guard('web')->user();
+        
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required',
+            'new_password' => 'required',
+            'confirm_password' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                "status" => false,
+                "errors" => $validator->errors()
+            ]);
+        }else{
+            $old_password = $request->old_password;
+            $new_password = $request->new_password;
+            $confirm_password = $request->confirm_password;
+
+            if(!empty($old_password)){
+                if(Hash::check($old_password, $customer->password)){
+                    if($new_password == $confirm_password){
+                        
+                        $input['password'] = Hash::make($confirm_password);
+                        $customer->update($input);
+
+                        return response()->json([
+                            "status" => true, 
+                            'message' => "Password changed successfully"
+                        ]);
+
+                    }else{
+                        return response()->json([
+                            "status" => false, 
+                            'message' => "Password not matched!"
+                        ]);     
+                    }
+                }else{
+                    return response()->json([
+                        "status" => false, 
+                        'message' => "Incorrect password!"
+                    ]);   
+                }
+            }else{
+                return response()->json([
+                    "status" => false, 
+                    'message' => "Password field empty!"
+                ]);
+            }
+        }
+    }
+
+    // Change Pin 
+    public function accountPin(Request $request){
+        $customer = Auth::guard('web')->user();
+
+        if(!empty($customer->pin)){
+            $validator = Validator::make($request->all(), [
+                'old_pin' => 'required',
+                'new_pin' => 'required',
+                'confirm_pin' => 'required',
+            ]);
+        }else{
+            $validator = Validator::make($request->all(), [
+                'new_pin' => 'required',
+                'confirm_pin' => 'required',
+            ]);
+
+        }
+
+        if($validator->fails()){
+            return response()->json([
+                "status" => false,
+                "errors" => $validator->errors()
+            ]);
+        }else{
+            $old_pin = $request->old_pin;
+            $new_pin = $request->new_pin;
+            $confirm_pin = $request->confirm_pin;
+            
+            // If Pin is Set 
+            if(!empty($customer->pin)){
+    
+                if(!empty($old_pin)){
+                    if(Hash::check($old_pin, $customer->pin)){
+                        if($new_pin == $confirm_pin){
+                            
+                            $input['pin'] = Hash::make($confirm_pin);
+                            $customer->update($input);
+    
+                            return response()->json([
+                                "status" => true, 
+                                'message' => "Pin changed successfully"
+                            ]);
+    
+                        }else{
+                            return response()->json([
+                                "status" => false, 
+                                'message' => "Pin not matched!"
+                            ]);     
+                        }
+                    }else{
+                        return response()->json([
+                            "status" => false, 
+                            'message' => "Incorrect pin!"
+                        ]);   
+                    }
+                }else{
+                    return response()->json([
+                        "status" => false, 
+                        'message' => "Pin field empty!"
+                    ]);
+                }
+            }else{
+                if($new_pin == $confirm_pin){
+                    
+                    $input['pin'] = Hash::make($confirm_pin);
+                    $customer->update($input);
+
+                    return response()->json([
+                        "status" => true, 
+                        'message' => "Pin configured successfully"
+                    ]);
+
+                }else{
+                    return response()->json([
+                        "status" => false, 
+                        'message' => "Pin not matched!"
+                    ]);     
+                }
+            }
+        }
+    }
 }

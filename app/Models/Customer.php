@@ -23,6 +23,7 @@ class Customer extends Authenticatable
         'email',
         'phone',
         'password',
+        'pin',
         'acct_balance',
         'cust_type',
         'cust_status',

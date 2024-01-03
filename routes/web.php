@@ -37,9 +37,14 @@ Route::get('/logout', [CustomerController::class, 'logout'])->name('logout');
 
 // Customer 
 Route::prefix('dashboard')->group(function(){
+    // Pages 
     Route::get('/index', [CustomerController::class, 'dashboard'])->name('cust-dashboard')->middleware('auth:web');
     Route::get('/wallet', [CustomerController::class, 'wallet'])->name('cust-wallet')->middleware('auth:web');
     Route::get('/transactions', [CustomerController::class, 'transactions'])->name('cust-transactions')->middleware('auth:web');
     Route::get('/account', [CustomerController::class, 'account'])->name('cust-account')->middleware('auth:web');
     Route::get('/support', [CustomerController::class, 'support'])->name('cust-support')->middleware('auth:web');
+    
+    // Forms 
+    Route::post('/account/password', [CustomerController::class, 'accountPassword'])->name('cust-account-password')->middleware('auth:web');
+    Route::post('/account/pin', [CustomerController::class, 'accountPin'])->name('cust-account-pin')->middleware('auth:web');
 });
