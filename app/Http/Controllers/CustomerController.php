@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Client\RequestException;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -237,13 +241,52 @@ class CustomerController extends Controller
     // Dashboard 
     public function dashboard(){
         $customer = Auth::guard('web')->user();
+        $cust_account = CustomerBankDetails::select('acct_no')->where('cust_id', $customer->id)->pluck('acct_no')->first();
+        $transaction_count = CustomerTransactionHistory::where('cust_id', $customer->id)->count();
+        $amount_spent = CustomerTransactionHistory::where('cust_id', $customer->id)->sum('transaction_paid');
+        
+        // Get Customer Account Balance 
+                    
+            $apiEndpoint = 'https://api.zainpay.ng/virtual-account/wallet/balance/'.$cust_account;
 
-        // If Admin Auth  
-        if($customer){
-            return view('dashboard.index', compact('customer'));
-        }else{
-            return redirect()->route('login');
-        }
+            try{
+                $response = Http::withHeaders([
+                    'Content-Type' => 'application/json',
+                    'Authorization' => env('ZAINPAY_BEARER_TOKEN'),
+                ])->get($apiEndpoint);
+
+                if($response->successful()) {
+                    // Request was successful
+                    $data = $response->json();
+                    $cust_acct_balance = $data['data']['balanceAmount'];
+                    
+                    // If Admin Auth  
+                    if($customer){
+                        return view('dashboard.index', compact('customer', 'cust_acct_balance', 'transaction_count', 'amount_spent'));
+                    }else{
+                        return redirect()->route('login');
+                    }
+                }else{
+                    // Request failed
+                    Log::error('API Request Failed: ' . $response->status());
+
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'API Request Failed: ' . $response->status(),
+                    ]);
+                }
+            }catch(RequestException $e) {
+                // Log the error
+                Log::error('HTTP Request Error: ' . $e->getMessage());
+
+                // Handle HTTP request-specific errors
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Please try again later! (' . $e->getMessage() . ')',
+                ]);
+            }
+        
+        // End of Get Customer Account Balance
     }
 
     // Wallet 
@@ -406,6 +449,18 @@ class CustomerController extends Controller
                     ]);     
                 }
             }
+        }
+    }
+
+    // Support 
+    public function support(){
+        $customer = Auth::guard('web')->user();
+
+        // If Admin Auth  
+        if($customer){
+            return view('dashboard.support', compact('customer'));
+        }else{
+            return redirect()->route('login');
         }
     }
 }

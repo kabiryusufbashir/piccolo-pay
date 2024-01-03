@@ -111,7 +111,7 @@
                                 </div>
                             </a>
                             <!-- Support  -->
-                            <a class="hover:text-black" href="{{ route('cust-support') }}">
+                            <a class="hover:text-black" href="https://wa.me/+2347037645413" target="_blank">
                                 <div class="my-12 grid grid-cols-5 w-full items-center">
                                     <div class="col-span-1 ml-auto">
                                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -254,7 +254,7 @@
                                     <a href="{{ route('cust-account') }}">Settings</a>
                                 </li>
                                 <li class="py-4">
-                                    <a href="{{ route('cust-support') }}">Support</a>
+                                    <a href="https://wa.me/+2347037645413" target="_blank">Support</a>
                                 </li>
                                 <li class="py-4">
                                     <a href="{{ route('logout') }}">Logout</a>

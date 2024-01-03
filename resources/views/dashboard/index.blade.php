@@ -39,7 +39,7 @@
                     </span>
                 </div>
                 <div class="text-white balance">
-                    N300,000
+                    ₦{{ number_format($cust_acct_balance, 2, '.', ',') }}
                 </div>
             </div>
         </a>
@@ -64,7 +64,7 @@
                 </span>
             </div>
             <div class="text-black balance">
-                100,000
+                {{ number_format($transaction_count, 2, '.', ',') }}
             </div>
         </div>
         <!-- Amount Spent  -->
@@ -86,7 +86,7 @@
                 </span>
             </div>
             <div class="text-black balance">
-                N500,000
+                ₦{{ number_format($amount_spent, 2, '.', ',') }}
             </div>
         </div>
     </div>
