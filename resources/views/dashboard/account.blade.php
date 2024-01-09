@@ -10,6 +10,12 @@
         Account Settings 
     </div>
 
+    @if(empty($customer->pin))
+        <div class=" lg:mx-1 mx-3 yus-text-red my-3 text-sm px-2 lg:text-sm text-xs ">
+            Note: Please set your transaction PIN below.
+        </div>
+    @endif
+
     <div class="bg-white rounded-xl mb-4 my-4 p-6 lg:mx-1 mx-3 lg:text-sm text-xs">
         <!-- Personal data  -->
         <div class="my-4">

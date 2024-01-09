@@ -245,48 +245,52 @@ class CustomerController extends Controller
         $transaction_count = CustomerTransactionHistory::where('cust_id', $customer->id)->count();
         $amount_spent = CustomerTransactionHistory::where('cust_id', $customer->id)->sum('transaction_paid');
         
-        // Get Customer Account Balance 
-                    
-            $apiEndpoint = 'https://api.zainpay.ng/virtual-account/wallet/balance/'.$cust_account;
-
-            try{
-                $response = Http::withHeaders([
-                    'Content-Type' => 'application/json',
-                    'Authorization' => env('ZAINPAY_BEARER_TOKEN'),
-                ])->get($apiEndpoint);
-
-                if($response->successful()) {
-                    // Request was successful
-                    $data = $response->json();
-                    $cust_acct_balance = ($data['data']['balanceAmount'] / 100);
-                    
-                    // If Admin Auth  
-                    if($customer){
-                        return view('dashboard.index', compact('customer', 'cust_acct_balance', 'transaction_count', 'amount_spent'));
+        if(!empty($customer->pin)){
+            // Get Customer Account Balance 
+                        
+                $apiEndpoint = 'https://api.zainpay.ng/virtual-account/wallet/balance/'.$cust_account;
+    
+                try{
+                    $response = Http::withHeaders([
+                        'Content-Type' => 'application/json',
+                        'Authorization' => env('ZAINPAY_BEARER_TOKEN'),
+                    ])->get($apiEndpoint);
+    
+                    if($response->successful()) {
+                        // Request was successful
+                        $data = $response->json();
+                        $cust_acct_balance = ($data['data']['balanceAmount'] / 100);
+                        
+                        // If Admin Auth  
+                        if($customer){
+                            return view('dashboard.index', compact('customer', 'cust_acct_balance', 'transaction_count', 'amount_spent'));
+                        }else{
+                            return redirect()->route('login');
+                        }
                     }else{
-                        return redirect()->route('login');
+                        // Request failed
+                        Log::error('API Request Failed: ' . $response->status());
+    
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'API Request Failed: ' . $response->status(),
+                        ]);
                     }
-                }else{
-                    // Request failed
-                    Log::error('API Request Failed: ' . $response->status());
-
+                }catch(RequestException $e) {
+                    // Log the error
+                    Log::error('HTTP Request Error: ' . $e->getMessage());
+    
+                    // Handle HTTP request-specific errors
                     return response()->json([
                         'status' => false,
-                        'message' => 'API Request Failed: ' . $response->status(),
+                        'message' => 'Please try again later! (' . $e->getMessage() . ')',
                     ]);
                 }
-            }catch(RequestException $e) {
-                // Log the error
-                Log::error('HTTP Request Error: ' . $e->getMessage());
-
-                // Handle HTTP request-specific errors
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Please try again later! (' . $e->getMessage() . ')',
-                ]);
-            }
-        
-        // End of Get Customer Account Balance
+            
+            // End of Get Customer Account Balance
+        }else{
+            return redirect()->route('cust-account');
+        }
     }
 
     // Wallet 
