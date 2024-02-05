@@ -35,9 +35,11 @@
             <!-- Navigation Container  -->
                 <div id="dashboardNav" class="col-span-1 bg-white hidden lg:block">
                     <!-- logo  -->
-                    <div class="slogan text-center py-12">
-                        PiccoloPay
-                    </div>
+                    <a href="{{ route('cust-dashboard') }}">
+                        <div class="slogan text-center py-12">
+                            PiccoloPay
+                        </div>
+                    </a>
                     <!-- link Top  -->
                     <div class="text-sm ml-10 mt-12">
                         <div class="p-3 cursor-pointer">

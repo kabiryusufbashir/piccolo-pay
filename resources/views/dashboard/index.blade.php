@@ -96,48 +96,72 @@
         <div class="mx-3 mb-4">
             <div class="lg:grid grid-cols-2 gap-4">
                 <div class="bg-white rounded-xl">
-                    <div class="px-4 font-bold py-10">Buy Data</div>
-                    <div class="grid lg:grid-cols-4 grid-cols-2 gap-4 px-10 pb-10">
-                        <!-- MTN  -->
-                        <div id="mtnModal" data-network="1" class="flex items-center flex-col cursor-pointer">
-                            <div>                            
-                                <img class="w-8" src="{{ asset('images/mtn_2.png') }}" alt="">
+                    <!-- Data  -->
+                    <div class="py-4">
+                        <div class="px-4 font-bold">Buy Data</div>
+                        <div class="grid lg:grid-cols-4 grid-cols-2 gap-4 px-10 pt-4">
+                            <!-- MTN  -->
+                            <div id="mtnModal" class="flex items-center flex-col cursor-pointer">
+                                <div>                            
+                                    <img class="w-8" src="{{ asset('images/mtn_2.png') }}" alt="">
+                                </div>
+                                <div class="lg:text-sm text-xs lg:py-4 py-2">
+                                    MTN
+                                </div>
                             </div>
-                            <div class="lg:text-sm text-xs lg:py-4 py-2">
-                                MTN
+    
+                            <!-- Glo  -->
+                            <div id="gloModal" class="flex items-center flex-col cursor-pointer">
+                                <div>
+                                    <img class="w-8" src="{{ asset('images/glo_2.png') }}" alt="">
+                                </div>
+                                <div class="lg:text-sm text-xs lg:py-4 py-2">
+                                    Glo
+                                </div>
+                            </div>
+    
+                            <!-- Airtel -->
+                            <div id="airtelModal" class="flex items-center flex-col cursor-pointer">
+                                <div>
+                                    <img class="w-8" src="{{ asset('images/airtel.png') }}" alt="">
+                                </div>
+                                <div class="lg:text-sm text-xs lg:py-4 py-2">
+                                    Airtel
+                                </div>
+                            </div>
+    
+                            <!-- 9mobile  -->
+                            <div id="n9mobileModal" class="flex items-center flex-col cursor-pointer">
+                                <div>
+                                    <img class="w-8" src="{{ asset('images/9mobile.png') }}" alt="">
+                                </div>
+                                <div class="lg:text-sm text-xs lg:py-4 py-2">
+                                    9mobile
+                                </div>
                             </div>
                         </div>
-                        <!-- Glo  -->
-                        <div class="flex items-center flex-col">
+                    </div>
+                    <!-- Airtime  -->
+                    <div class="">
+                        <div class="px-4 font-bold">Buy Airtime</div>
+                        <!-- Airtime  -->
+                        <div id="airtimeModal" class="px-10 pt-4 flex flex-col cursor-pointer">
                             <div>
-                                <img class="w-8" src="{{ asset('images/glo_2.png') }}" alt="">
-                            </div>
-                            <div class="lg:text-sm text-xs lg:py-4 py-2">
-                                Glo
-                            </div>
-                        </div>
-                        <!-- Airtel -->
-                        <div class="flex items-center flex-col">
-                            <div>
-                                <img class="w-8" src="{{ asset('images/airtel.png') }}" alt="">
-                            </div>
-                            <div class="lg:text-sm text-xs lg:py-4 py-2">
-                                Airtel
-                            </div>
-                        </div>
-                        <!-- 9mobile  -->
-                        <div class="flex items-center flex-col">
-                            <div>
-                                <img class="w-8" src="{{ asset('images/9mobile.png') }}" alt="">
-                            </div>
-                            <div class="lg:text-sm text-xs lg:py-4 py-2">
-                                9mobile
+                                <div>
+                                    <svg width="33" height="33" viewBox="0 0 73 73" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="36.5" cy="36.5" r="36.5" fill="#FF0C37" fill-opacity="0.15"/>
+                                        <path d="M33.89 34.5597L36.575 32.0997C37.3092 31.4258 37.8252 30.5478 38.0568 29.5785C38.2884 28.6092 38.2251 27.5928 37.875 26.6597L36.73 23.6022C36.3022 22.4608 35.4554 21.5253 34.3619 20.9865C33.2685 20.4477 32.0108 20.346 30.845 20.7022C26.555 22.0147 23.2575 26.0022 24.2725 30.7372C24.94 33.8522 26.2175 37.7622 28.6375 41.9222C31.0625 46.0922 33.8325 49.1722 36.2075 51.3372C39.7925 54.5997 44.9175 53.7847 48.215 50.7097C49.0989 49.8856 49.6353 48.7553 49.7147 47.5494C49.7941 46.3435 49.4107 45.1527 48.6425 44.2197L46.5425 41.6697C45.9091 40.8986 45.0595 40.3346 44.103 40.0504C43.1464 39.7661 42.1267 39.7746 41.175 40.0747L37.705 41.1672C36.8089 40.2424 36.0236 39.2163 35.365 38.1097C34.7293 36.9906 34.2339 35.7975 33.89 34.5572V34.5597Z" fill="#FF0C37"/>
+                                    </svg>
+                                </div>
+                                <div class="lg:text-sm text-xs lg:py-4 py-2">
+                                    Airtime
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="bg-white rounded-xl hidden lg:block">
-                    <div class="px-4 font-bold py-10">Data Balance Codes</div>
+                    <div class="px-4 font-bold py-4">Data Balance Codes</div>
                     <div class="px-10 pb-10">
                         <!-- MTN  -->
                         <div class="flex items-center">
@@ -252,7 +276,8 @@
     <!-- Modal  -->
         <!-- MTN Modal  -->
         <div id="mtnModalContent" class="yus_modal">
-            <form action="" class="yus_modal-content text-xs lg:text-sm">
+            <form action="{{ route('cust-data-purchase') }}" method="POST" class="yus_modal-content text-xs lg:text-sm">
+                @csrf 
                 <div class="px-4 font-bold pt-4">
                     <div class="flex justify-between items-center">
                         <div>
@@ -286,7 +311,7 @@
                 <div class="px-10 pb-2 lg:flex justify-between">
                     <div class="my-3 w-full">
                         <label for="data_type">Data Type</label><br>
-                        <select id="dataType" class="plan_input_box" name="data_type">
+                        <select id="dataType" class="plan_input_box">
                             <option value=""></option>
                             <option value="SME">SME</option>
                             <option value="CORPORATE GIFTING">CORPORATE GIFTING</option>
@@ -294,38 +319,40 @@
                     </div>
                     <div id="dataPlanSme" class="my-3 w-full hidden">
                         <label for="data_plan_sme">Plan Type</label><br>
-                        <select id="planTypeSme" class="plan_input_box" name="plan_type_sme">
+                        <select id="planTypeSme" class="plan_input_box" name="plan_type">
                             <option value=""></option>
-                            <option value="210" data-type="500">MTN SME - 500MB</option>
-                            <option value="7" data-type="1">MTN SME - 1GB</option>
-                            <option value="8" data-type="2">MTN SME - 2GB</option>
-                            <option value="240" data-type="3">MTN SME - 3GB</option>
-                            <option value="222" data-type="5">MTN SME - 5GB</option>
-                            <option value="247" data-type="10">MTN SME - 10GB</option>
+                            @foreach($dataPlansMtnSme as $data)
+                                <option value="{{ $data['dataplan_id'] }}" data-plan="{{ $data['dataplan_id'] }}" data-amount="{{ $data['plan_amount'] }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
+                            @endforeach
                         </select>
                     </div>
                     <div id="dataPlanCor" class="my-3 w-full hidden">
                         <label for="data_plan_cor">Plan Type</label><br>
                         <select id="planTypeCor" class="plan_input_box" name="plan_type_cor">
                             <option value=""></option>
-                            <option value="225" data-type="500">MTN CORPORATE GIFTING - 500MB</option>
-                            <option value="216" data-type="1">MTN CORPORATE GIFTING - 1GB</option>
-                            <option value="217" data-type="2">MTN CORPORATE GIFTING - 2GB</option>
-                            <option value="218" data-type="3">MTN CORPORATE GIFTING - 3GB</option>
-                            <option value="219" data-type="5">MTN CORPORATE GIFTING - 5GB</option>
-                            <option value="220" data-type="10">MTN CORPORATE GIFTING - 10GB</option>
+                            @foreach($dataPlansMtnCorporate as $data)
+                                <option value="{{ $data['dataplan_id'] }}" data-plan="{{ $data['dataplan_id'] }}" data-amount="{{ $data['plan_amount'] }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
+                <!-- Amount  -->
                 <div id="dataAmount" class="hidden">
                     <div class="px-10 pb-2 lg:flex justify-between">
                         <div class="my-3 w-full">
                             <label for="amount">Amount</label><br>
+                            <input class="plan_input_box" name="network_id" value="1" hidden>
+                            <input id="transactionAmount" class="plan_input_box" name="transaction_amount" hidden>
+                            <input id="transactionReference" class="plan_input_box" name="transaction_reference" hidden>
                             <input id="planAmount" class="plan_input_box" name="amount" disabled>
                         </div>
                         <div class="my-3 w-full">
-                            <label for="amount">Transaction PIN</label><br>
-                            <input required class="plan_input_box" name="pin">
+                            <label for="transaction_no">Mobile Phone</label><br>
+                            <input type="number" required class="plan_input_box" name="transaction_no">
+                        </div>
+                        <div class="my-3 w-full">
+                            <label for="pin">Transaction PIN</label><br>
+                            <input id="custPin" type="number" required class="plan_input_box" name="pin">
                         </div>
                     </div>
                 </div>
@@ -336,15 +363,304 @@
                 </div>
             </form>
         </div>
+
+        <!-- GLO Modal  -->
+        <div id="gloModalContent" class="yus_modal">
+            <form action="{{ route('cust-data-purchase') }}" method="POST" class="yus_modal-content text-xs lg:text-sm">
+                @csrf 
+                <div class="px-4 font-bold pt-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            GLO Data Plans
+                        </div>
+                        <div>
+                            <div id="closeGloModal" class="cursor-pointer">
+                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g filter="url(#filter0_d_73_1706)">
+                                        <circle cx="45" cy="45" r="29" fill="white"/>
+                                    </g>
+                                    <path d="M40.4419 50.4369L45.4398 45.439L50.4377 50.4369M50.4377 40.4411L45.4388 45.439L40.4419 40.4411" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <defs>
+                                        <filter id="filter0_d_73_1706" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                            <feMorphology radius="2" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_73_1706"/>
+                                            <feOffset/>
+                                            <feGaussianBlur stdDeviation="7"/>
+                                            <feComposite in2="hardAlpha" operator="out"/>
+                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_73_1706"/>
+                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_73_1706" result="shape"/>
+                                        </filter>
+                                    </defs>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-10 pb-2 lg:flex justify-between">
+                    <div class="my-3 w-full">
+                        <label for="data_type">Data Type</label><br>
+                        <select id="gloDataType" class="plan_input_box" name="plan_type">
+                            <option value=""></option>
+                            @foreach($dataPlansGloAll as $data)
+                                <option value="{{ $data['dataplan_id'] }}" data-amount="{{ $data['plan_amount'] }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <!-- Amount  -->
+                <div id="gloDataAmount" class="hidden">
+                    <div class="px-10 pb-2 lg:flex justify-between">
+                        <div class="my-3 w-full">
+                            <label for="amount">Amount</label><br>
+                            <input class="plan_input_box" name="network_id" value="1" hidden>
+                            <input id="gloTransactionAmount" class="plan_input_box" name="transaction_amount" hidden>
+                            <input id="gloTransactionReference" class="plan_input_box" name="transaction_reference" hidden>
+                            <input id="gloPlanAmount" class="plan_input_box" name="amount" disabled>
+                        </div>
+                        <div class="my-3 w-full">
+                            <label for="transaction_no">Mobile Phone</label><br>
+                            <input type="number" required class="plan_input_box" name="transaction_no">
+                        </div>
+                        <div class="my-3 w-full">
+                            <label for="pin">Transaction PIN</label><br>
+                            <input id="gloCustPin" type="number" required class="plan_input_box" name="pin">
+                        </div>
+                    </div>
+                </div>
+                <div id="gloDataBuy" class="px-10 pb-5 hidden">
+                    <div class="my-2 submit_box">
+                        <input class="" type="submit" value="BUY" name="submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- AIRTEL Modal  -->
+        <div id="airtelModalContent" class="yus_modal">
+            <form action="{{ route('cust-data-purchase') }}" method="POST" class="yus_modal-content text-xs lg:text-sm">
+                @csrf 
+                <div class="px-4 font-bold pt-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            Airtel Data Plans
+                        </div>
+                        <div>
+                            <div id="closeAirtelModal" class="cursor-pointer">
+                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g filter="url(#filter0_d_73_1706)">
+                                        <circle cx="45" cy="45" r="29" fill="white"/>
+                                    </g>
+                                    <path d="M40.4419 50.4369L45.4398 45.439L50.4377 50.4369M50.4377 40.4411L45.4388 45.439L40.4419 40.4411" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <defs>
+                                        <filter id="filter0_d_73_1706" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                            <feMorphology radius="2" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_73_1706"/>
+                                            <feOffset/>
+                                            <feGaussianBlur stdDeviation="7"/>
+                                            <feComposite in2="hardAlpha" operator="out"/>
+                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_73_1706"/>
+                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_73_1706" result="shape"/>
+                                        </filter>
+                                    </defs>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-10 pb-2 lg:flex justify-between">
+                    <div class="my-3 w-full">
+                        <label for="data_type">Data Type</label><br>
+                        <select id="airtelDataType" class="plan_input_box" name="plan_type">
+                            <option value=""></option>
+                            @foreach($dataPlansAirtelAll as $data)
+                                <option value="{{ $data['dataplan_id'] }}" data-amount="{{ $data['plan_amount'] }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <!-- Amount  -->
+                <div id="airtelDataAmount" class="hidden">
+                    <div class="px-10 pb-2 lg:flex justify-between">
+                        <div class="my-3 w-full">
+                            <label for="amount">Amount</label><br>
+                            <input class="plan_input_box" name="network_id" value="1" hidden>
+                            <input id="airtelTransactionAmount" class="plan_input_box" name="transaction_amount" hidden>
+                            <input id="airtelTransactionReference" class="plan_input_box" name="transaction_reference" hidden>
+                            <input id="airtelPlanAmount" class="plan_input_box" name="amount" disabled>
+                        </div>
+                        <div class="my-3 w-full">
+                            <label for="transaction_no">Mobile Phone</label><br>
+                            <input type="number" required class="plan_input_box" name="transaction_no">
+                        </div>
+                        <div class="my-3 w-full">
+                            <label for="pin">Transaction PIN</label><br>
+                            <input id="airtelCustPin" type="number" required class="plan_input_box" name="pin">
+                        </div>
+                    </div>
+                </div>
+                <div id="airtelDataBuy" class="px-10 pb-5 hidden">
+                    <div class="my-2 submit_box">
+                        <input class="" type="submit" value="BUY" name="submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- 9Mobile Modal  -->
+        <div id="n9mobileModalContent" class="yus_modal">
+            <form action="{{ route('cust-data-purchase') }}" method="POST" class="yus_modal-content text-xs lg:text-sm">
+                @csrf 
+                <div class="px-4 font-bold pt-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            9mobile Data Plans
+                        </div>
+                        <div>
+                            <div id="closen9mobileModal" class="cursor-pointer">
+                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g filter="url(#filter0_d_73_1706)">
+                                        <circle cx="45" cy="45" r="29" fill="white"/>
+                                    </g>
+                                    <path d="M40.4419 50.4369L45.4398 45.439L50.4377 50.4369M50.4377 40.4411L45.4388 45.439L40.4419 40.4411" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <defs>
+                                        <filter id="filter0_d_73_1706" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                            <feMorphology radius="2" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_73_1706"/>
+                                            <feOffset/>
+                                            <feGaussianBlur stdDeviation="7"/>
+                                            <feComposite in2="hardAlpha" operator="out"/>
+                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_73_1706"/>
+                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_73_1706" result="shape"/>
+                                        </filter>
+                                    </defs>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-10 pb-2 lg:flex justify-between">
+                    <div class="my-3 w-full">
+                        <label for="data_type">Data Type</label><br>
+                        <select id="n9mobileDataType" class="plan_input_box" name="plan_type">
+                            <option value=""></option>
+                            @foreach($dataPlans9MobileAll as $data)
+                                <option value="{{ $data['dataplan_id'] }}" data-amount="{{ $data['plan_amount'] }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <!-- Amount  -->
+                <div id="n9mobileDataAmount" class="hidden">
+                    <div class="px-10 pb-2 lg:flex justify-between">
+                        <div class="my-3 w-full">
+                            <label for="amount">Amount</label><br>
+                            <input class="plan_input_box" name="network_id" value="1" hidden>
+                            <input id="n9mobileTransactionAmount" class="plan_input_box" name="transaction_amount" hidden>
+                            <input id="n9mobileTransactionReference" class="plan_input_box" name="transaction_reference" hidden>
+                            <input id="n9mobilePlanAmount" class="plan_input_box" name="amount" disabled>
+                        </div>
+                        <div class="my-3 w-full">
+                            <label for="transaction_no">Mobile Phone</label><br>
+                            <input type="number" required class="plan_input_box" name="transaction_no">
+                        </div>
+                        <div class="my-3 w-full">
+                            <label for="pin">Transaction PIN</label><br>
+                            <input id="n9mobileCustPin" type="number" required class="plan_input_box" name="pin">
+                        </div>
+                    </div>
+                </div>
+                <div id="n9mobileDataBuy" class="px-10 pb-5 hidden">
+                    <div class="my-2 submit_box">
+                        <input class="" type="submit" value="BUY" name="submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Airtime Modal  -->
+        <div id="airtimeModalContent" class="yus_modal">
+            <form action="{{ route('cust-airtime-purchase') }}" method="POST" class="yus_modal-content text-xs lg:text-sm">
+                @csrf 
+                <div class="px-4 font-bold pt-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            Airtime Purchase
+                        </div>
+                        <div>
+                            <div id="closeAirtimeModal" class="cursor-pointer">
+                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g filter="url(#filter0_d_73_1706)">
+                                        <circle cx="45" cy="45" r="29" fill="white"/>
+                                    </g>
+                                    <path d="M40.4419 50.4369L45.4398 45.439L50.4377 50.4369M50.4377 40.4411L45.4388 45.439L40.4419 40.4411" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <defs>
+                                        <filter id="filter0_d_73_1706" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                            <feMorphology radius="2" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_73_1706"/>
+                                            <feOffset/>
+                                            <feGaussianBlur stdDeviation="7"/>
+                                            <feComposite in2="hardAlpha" operator="out"/>
+                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_73_1706"/>
+                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_73_1706" result="shape"/>
+                                        </filter>
+                                    </defs>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-10 pb-2 lg:flex justify-between">
+                    <div class="my-3 w-full">
+                        <label for="network_id">Network</label><br>
+                        <select id="networkId" class="plan_input_box" name="network">
+                            <option value=""></option>
+                            <option value="1">MTN</option>
+                            <option value="2">GLO</option>
+                            <option value="3">9Mobile</option>
+                            <option value="4">Airtel</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Amount  -->
+                <div id="airtimeAmount" class="hidden">
+                    <div class="px-10 pb-2 lg:flex justify-between">
+                        <div class="my-3 w-full">
+                            <label for="amount">Amount</label><br>
+                            <input type="number" required class="plan_input_box" name="amount">
+                        </div>
+                        <div class="my-3 w-full">
+                            <label for="mobile_number">Mobile Phone</label><br>
+                            <input type="number" required class="plan_input_box" name="mobile_number">
+                            <input type="text" value="VTU" class="plan_input_box hidden" name="airtime_type">
+                        </div>
+                        <div class="my-3 w-full">
+                            <label for="pin">Transaction PIN</label><br>
+                            <input id="airtimeCustPin" type="number" required class="plan_input_box" name="pin">
+                        </div>
+                    </div>
+                </div>
+                <div id="airtimeBuy" class="px-10 pb-5 hidden">
+                    <div class="my-2 submit_box">
+                        <input class="" type="submit" value="BUY" name="submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+
     <!-- End of Modal  -->
 
     <!-- Script  -->
         <script>
             // Wait for the document to be ready
             $(document).ready(function() {
-                
-                let mtnSmePrice = 270
-                let mtnCorPrice = 275
 
                 // Close MTN Modal 
                 $(document).on('click', '#closeMtnModal', function() {
@@ -354,10 +670,39 @@
                 // MTN Modal
                 $(document).on('click', '#mtnModal', function(){
                     $('#mtnModalContent').toggle();
-                    let networkId = $(this).data('network')
-                    // alert(networkId)
                 })
 
+                // Close GLO Modal 
+                $(document).on('click', '#closeGloModal', function() {
+                    $('#gloModalContent').toggle();
+                })
+
+                // GLO Modal
+                $(document).on('click', '#gloModal', function(){
+                    $('#gloModalContent').toggle();
+                })
+                
+                // Close AIRTEL Modal 
+                $(document).on('click', '#closeAirtelModal', function() {
+                    $('#airtelModalContent').toggle();
+                })
+
+                // AIRTEL Modal
+                $(document).on('click', '#airtelModal', function(){
+                    $('#airtelModalContent').toggle();
+                })
+                
+                // Close 9mobile Modal 
+                $(document).on('click', '#closen9mobileModal', function() {
+                    $('#n9mobileModalContent').toggle();
+                })
+
+                // 9mobile Modal
+                $(document).on('click', '#n9mobileModal', function(){
+                    $('#n9mobileModalContent').toggle();
+                })
+
+                // On Change data Type (MTN )
                 $(document).on('change', '#dataType', function(){
                     let dataType = $(this).val()
                     
@@ -368,25 +713,27 @@
                         $('#dataPlanCor').show()
                         $('#dataPlanSme').hide()
                     }
+
+                    $('#dataAmount').hide()
                 })
 
                 // MTN SME 
                 $(document).on('change', '#planTypeSme', function(){
-                    let dataId = $(this).val();
-                    let dataPlan = parseInt($(this).find(':selected').data('type'), 10);
+                    let dataId = $(this).val()
+                    let dataPlanId = $(this).find(':selected').data('plan')
+                    let dataAmount = $(this).find(':selected').data('amount')
+                    let transactionReference = $(this).find(':selected').data('refer')
 
                     if(dataId !== ''){
-                        $('#dataAmount').toggle(dataPlan !== 0); // Show/hide based on dataPlan value
+                        $('#dataAmount').toggle(dataAmount !== 0); // Show/hide based on dataAmount value
     
-                        if(dataPlan == 500) {
-                            let planAmountTotal = parseInt(mtnSmePrice / 2)
-                            $('#planAmount').val(planAmountTotal)
-                            console.log('The Data ID is: ' + dataId + ', the Data Plan selected is: ' + dataPlan + ', the unit Price is: ' + mtnSmePrice + ', and the cost prize is: '+planAmountTotal);
-                        }else{
-                            let planAmountTotal = parseInt(mtnSmePrice * dataPlan)
-                            $('#planAmount').val(planAmountTotal)
-                            console.log('The Data ID is: ' + dataId + ', the Data Plan selected is: ' + dataPlan + ', the unit Price is: ' + mtnSmePrice + ', and the cost prize is: '+planAmountTotal);
-                        }
+                        let planAmountTotal = parseInt(dataAmount + 10)
+                        $('#planTypeSme').val(dataPlanId)
+                        $('#planTypeCor').val(null)
+                        $('#planAmount').val(planAmountTotal)
+                        $('#transactionAmount').val(planAmountTotal)
+                        $('#transactionReference').val(transactionReference)
+                        
                     }else{
                         $('#dataAmount').toggle()
                     }
@@ -394,29 +741,165 @@
 
                 // MTN Corporate 
                 $(document).on('change', '#planTypeCor', function(){
-                    let dataId = $(this).val();
-                    let dataPlan = parseInt($(this).find(':selected').data('type'), 10);
+                    let dataId = $(this).val()
+                    let dataAmount = $(this).find(':selected').data('amount')
+                    let dataPlanId = $(this).find(':selected').data('plan')
+                    let transactionReference = $(this).find(':selected').data('refer')
 
                     if(dataId !== ''){
-                        $('#dataAmount').toggle(dataPlan !== 0); // Show/hide based on dataPlan value
+                        $('#dataAmount').toggle(dataAmount !== 0); // Show/hide based on dataAmount value
     
-                        if(dataPlan == 500) {
-                            let planAmountTotal = parseInt(mtnCorPrice / 2)
-                            $('#planAmount').val(planAmountTotal)
-                            console.log('The Data ID is: ' + dataId + ', the Data Plan selected is: ' + dataPlan + ', the unit Price is: ' + mtnCorPrice + ', and the cost prize is: '+planAmountTotal);
-                        }else{
-                            let planAmountTotal = parseInt(mtnCorPrice * dataPlan)
-                            $('#planAmount').val(planAmountTotal)
-                            console.log('The Data ID is: ' + dataId + ', the Data Plan selected is: ' + dataPlan + ', the unit Price is: ' + mtnCorPrice + ', and the cost prize is: '+planAmountTotal);
-                        }
+                        let planAmountTotal = parseInt(dataAmount + 10)
+                        $('#planTypeCor').val(dataPlanId)
+                        $('#planTypeSme').val(null)
+                        $('#planAmount').val(planAmountTotal)
+                        $('#transactionAmount').val(planAmountTotal)
+                        $('#transactionReference').val(transactionReference)
+                        
                     }else{
                         $('#dataAmount').toggle()
-                    }The Data ID is: '+dataId+' and the Data Plan selected is: '+dataPlan)
+                    }
+                })
+
+                // MTN Cust PIN 
+                $(document).on('keyup', '#custPin', function(){
+                    let custPin = $(this).val()
+
+                    if(custPin.length > 3){
+                        $('#dataBuy').show()
+                    }else{
+                        $('#dataBuy').hide()
+                    }
+
+                })
+
+                // GLO 
+                $(document).on('change', '#gloDataType', function(){
+                    let dataId = $(this).val()
+                    let dataAmount = $(this).find(':selected').data('amount')
+                    let transactionReference = $(this).find(':selected').data('refer')
+
+                    if(dataId !== ''){
+                        $('#gloDataAmount').toggle(dataAmount !== 0); // Show/hide based on dataAmount value
+    
+                        let planAmountTotal = parseInt(dataAmount + 10)
+                        $('#gloPlanAmount').val(planAmountTotal)
+                        $('#gloTransactionAmount').val(planAmountTotal)
+                        $('#gloTransactionReference').val(transactionReference)
+                        
+                    }else{
+                        $('#gloDataAmount').toggle()
+                    }
+                })
+
+                // GLO Cust PIN 
+                $(document).on('keyup', '#gloCustPin', function(){
+                    let custPin = $(this).val()
+
+                    if(custPin.length > 3){
+                        $('#gloDataBuy').show()
+                    }else{
+                        $('#gloDataBuy').hide()
+                    }
+
+                })
+
+                // AIRTEL 
+                $(document).on('change', '#airtelDataType', function(){
+                    let dataId = $(this).val()
+                    let dataAmount = $(this).find(':selected').data('amount')
+                    let transactionReference = $(this).find(':selected').data('refer')
+
+                    if(dataId !== ''){
+                        $('#airtelDataAmount').toggle(dataAmount !== 0); // Show/hide based on dataAmount value
+    
+                        let planAmountTotal = parseInt(dataAmount + 10)
+                        $('#airtelPlanAmount').val(planAmountTotal)
+                        $('#airtelTransactionAmount').val(planAmountTotal)
+                        $('#airtelTransactionReference').val(transactionReference)
+                        
+                    }else{
+                        $('#airtelDataAmount').toggle()
+                    }
+                })
+
+                // AIRTEL Cust PIN 
+                $(document).on('keyup', '#airtelCustPin', function(){
+                    let custPin = $(this).val()
+
+                    if(custPin.length > 3){
+                        $('#airtelDataBuy').show()
+                    }else{
+                        $('#airtelDataBuy').hide()
+                    }
+
+                })
+
+                // 9mobile 
+                $(document).on('change', '#n9mobileDataType', function(){
+                    let dataId = $(this).val()
+                    let dataAmount = $(this).find(':selected').data('amount')
+                    let transactionReference = $(this).find(':selected').data('refer')
+
+                    if(dataId !== ''){
+                        $('#n9mobileDataAmount').toggle(dataAmount !== 0); // Show/hide based on dataAmount value
+    
+                        let planAmountTotal = parseInt(dataAmount + 10)
+                        $('#n9mobilePlanAmount').val(planAmountTotal)
+                        $('#n9mobileTransactionAmount').val(planAmountTotal)
+                        $('#n9mobileTransactionReference').val(transactionReference)
+                        
+                    }else{
+                        $('#n9mobileDataAmount').toggle()
+                    }
+                })
+
+                // 9mobile Cust PIN 
+                $(document).on('keyup', '#n9mobileCustPin', function(){
+                    let custPin = $(this).val()
+
+                    if(custPin.length > 3){
+                        $('#n9mobileDataBuy').show()
+                    }else{
+                        $('#n9mobileDataBuy').hide()
+                    }
+
+                })
+
+                // Airtime Modal
+                $(document).on('click', '#airtimeModal', function(){
+                    $('#airtimeModalContent').toggle();
+                })
+
+                // Close Airtime Modal 
+                $(document).on('click', '#closeAirtimeModal', function() {
+                    $('#airtimeModalContent').toggle();
+                })
+
+                // Airtime 
+                $(document).on('change', '#networkId', function(){
+                    let dataId = $(this).val()
+
+                    if(dataId !== ''){
+                        $('#airtimeAmount').show()    
+                    }else{
+                        $('#airtimeAmount').hide()
+                    }
+                })
+
+                // Airtime Cust PIN 
+                $(document).on('keyup', '#airtimeCustPin', function(){
+                    let custPin = $(this).val()
+
+                    if(custPin.length > 3){
+                        $('#airtimeBuy').show()
+                    }else{
+                        $('#airtimeBuy').hide()
+                    }
+
                 })
 
             });
-            
-
         </script>
     <!-- End of Script  -->
 @endsection

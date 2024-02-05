@@ -25,6 +25,7 @@ Route::get('/clear_cache', function () {
 });
 
 Route::get('/', [CustomerController::class, 'index'])->name('home');
+Route::get('/zainbox', [CustomerController::class, 'webhookEndpoint']);
 
 // SignUp 
 Route::get('/signup', [CustomerController::class, 'signUpPage'])->name('signup');
@@ -43,6 +44,10 @@ Route::prefix('dashboard')->group(function(){
     Route::get('/transactions', [CustomerController::class, 'transactions'])->name('cust-transactions')->middleware('auth:web');
     Route::get('/account', [CustomerController::class, 'account'])->name('cust-account')->middleware('auth:web');
     Route::get('/support', [CustomerController::class, 'support'])->name('cust-support')->middleware('auth:web');
+
+    // Purchase 
+    Route::post('/data/purchase', [CustomerController::class, 'dataPurchase'])->name('cust-data-purchase')->middleware('auth:web');
+    Route::post('/airtime/purchase', [CustomerController::class, 'airtimePurchase'])->name('cust-airtime-purchase')->middleware('auth:web');
     
     // Forms 
     Route::post('/account/password', [CustomerController::class, 'accountPassword'])->name('cust-account-password')->middleware('auth:web');
