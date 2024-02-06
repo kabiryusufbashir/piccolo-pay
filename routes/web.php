@@ -25,7 +25,7 @@ Route::get('/clear_cache', function () {
 });
 
 Route::get('/', [CustomerController::class, 'index'])->name('home');
-Route::get('/zainbox', [CustomerController::class, 'webhookEndpoint']);
+Route::post('/zainbox_live', [CustomerController::class, 'merchantDeposit']);
 
 // SignUp 
 Route::get('/signup', [CustomerController::class, 'signUpPage'])->name('signup');

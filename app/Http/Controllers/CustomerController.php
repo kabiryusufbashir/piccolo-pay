@@ -27,8 +27,94 @@ class CustomerController extends Controller
         return view('welcome');
     }
 
-    public function webhookEndpoint(Request $request){
-        return response()->json(['success' => true]);
+    // Deposit Check 
+    public function merchantDeposit(Request $request){
+
+        $payload = $request->getContent();
+
+        // extract the Zainpay-Signature from header
+        $signature = $request->header('Zainpay-Signature');
+        $secretKey = env('ZAINPAY_SECRET_KEY');
+
+        if ($this->verifySignature($payload, $signature, $secretKey)) {
+
+            Log::info('Zainpay Event', array('payload' => $payload));
+
+            $event = $request->input('event');
+            $data = $request->input('data');
+
+            switch($event){
+                case 'deposit.success':
+                    $acct_transfer = $data['beneficiaryAccountNumber'];
+                    $amount_transfer = $data['depositedAmount'] / 100;
+                    $payment_reference = $data['paymentRef'];
+
+                    // Handle deposit success event
+                    $cust_id = CustomerBankDetails::select('cust_id')->where('acct_no', $acct_transfer)->pluck('cust_id')->first();
+                    
+                    if($cust_id){
+                        // process payment
+                        $customer = Customer::where('id', $cust_id)->first();
+                        $cust_username = $customer->username;
+                        $cust_wallet_balance = $customer->acct_balance;
+
+                        // Check whether Transaction has been processed 
+                        $check_transaction = CustomerTransactionHistory::where('reference', $payment_reference)->count();
+
+                        if($check_transaction == 0){
+
+                            // Store Transaction History
+                            $new_transaction = CustomerTransactionHistory::create([
+                                'cust_id' => $cust_username,
+                                'network_id' => 200,
+                                'transaction_type' => 'deposit',
+                                'transaction_no' => $acct_transfer,
+                                'transaction_amount' => $amount_transfer,
+                                'transaction_paid' => $amount_transfer,
+                                'reference' => $payment_reference,
+                                'status' => 1,
+                            ]);
+
+                            // Update Customer Wallet Balance 
+                            $new_cust_acct_balance = $cust_wallet_balance + $amount_transfer;
+                            $update_cust_acct_bal = Customer::where('username', $cust_username)->update(['acct_balance' => $new_cust_acct_balance]);
+                            
+                            return response()->json(['message' => 'Transaction processed successfully'], 200);
+                        }else{
+                            return response()->json(['message' => 'Transaction already processed'], 200);
+                        }
+                    }else{
+                        return response()->json(['message' => 'Account No not found'], 400);
+                    }
+                    break;
+                case 'withdrawal.success':
+                    // Handle withdrawal success event
+                    return response()->json(['message' => 'Received. Will Work on the module'], 200);
+                    break;
+                case 'transfer.success':
+                    // Handle transfer success event
+                    return response()->json(['message' => 'Received. Will Work on the module'], 200);
+                    break;
+                case 'transfer.failed':
+                    // Handle Transfer fail event
+                    return response()->json(['message' => 'Received. Will Work on the module'], 200);
+                    break;
+                default:
+                    return response()->json(['error' => 'Invalid event'], 400);
+            }
+            return response()->json(['message' => 'Webhook received'], 200);
+        }
+
+        return response()->json(['error' => 'Invalid signature'], 400);
+    }
+
+    // Verify Signature 
+    private function verifySignature(string $payload, string $signature, string $secretKey): bool{
+        // Generate the expected signature using the webhook payload and the secret key
+        $expectedSignature =  hash_hmac('sha256', $payload, $secretKey);
+
+        // Compare the expected and actual signatures
+        return hash_equals($expectedSignature, $signature);
     }
 
     public function signUpPage(){
@@ -249,92 +335,57 @@ class CustomerController extends Controller
         $amount_spent = CustomerTransactionHistory::where('cust_id', $customer->username)->where('status', 1)->sum('transaction_paid');
         
         if(!empty($customer->pin)){
-            // Get Customer Account Balance 
-                        
-                $apiEndpoint = 'https://api.zainpay.ng/virtual-account/wallet/balance/'.$cust_account;
-    
+            // Getting User Details from TOMSUB
                 try{
+
+                    $apiEndpoint = 'https://tomsub.com/api/user/';
+
                     $response = Http::withHeaders([
                         'Content-Type' => 'application/json',
-                        'Authorization' => env('ZAINPAY_BEARER_TOKEN'),
+                        'Authorization' => env('TOMSUB_BEARER_TOKEN'),
+
                     ])->get($apiEndpoint);
-    
-                    if($response->successful()) {
-                        // Request was successful
+
+                        // Get the response body as an array
                         $data = $response->json();
-                        $cust_acct_balance = ($data['data']['balanceAmount'] / 100);
-                        
-                        // Getting USEr Details from TOMSUB
-                            try{
+                        $account_info = $data['user'];
+                        $notification = $data['notification'];
+                        $exams = $data['Exam'];
+                        $dataPlansMtnCorporate = $data['Dataplans']['MTN_PLAN']['CORPORATE'];
+                        $dataPlansMtnSme = $data['Dataplans']['MTN_PLAN']['SME'];
+                        $dataPlansGloAll = $data['Dataplans']['GLO_PLAN']['ALL'];
+                        $dataPlansAirtelAll = $data['Dataplans']['AIRTEL_PLAN']['ALL'];
+                        $dataPlans9MobileAll = $data['Dataplans']['9MOBILE_PLAN']['ALL'];
+                        $cablePlanGotv = $data['Cableplan']['GOTVPLAN'];
+                        $cablePlanDstv = $data['Cableplan']['DSTVPLAN'];
+                        $cablePlanStartime = $data['Cableplan']['STARTIMEPLAN'];
+                        $rechargePinMtn = $data['recharge']['mtn_pin'];
+                        $rechargePinGlo = $data['recharge']['glo_pin'];
+                        $rechargePinAirtel = $data['recharge']['airtel_pin'];
+                        $rechargePin9Mobile = $data['recharge']['9mobile_pin'];
 
-                                $apiEndpoint = 'https://tomsub.com/api/user/';
-                
-                                $response = Http::withHeaders([
-                                    'Content-Type' => 'application/json',
-                                    'Authorization' => env('TOMSUB_BEARER_TOKEN'),
-                
-                                ])->get($apiEndpoint);
-                
-                                    // Get the response body as an array
-                                    $data = $response->json();
-                                    $account_info = $data['user'];
-                                    $notification = $data['notification'];
-                                    $exams = $data['Exam'];
-                                    $dataPlansMtnCorporate = $data['Dataplans']['MTN_PLAN']['CORPORATE'];
-                                    $dataPlansMtnSme = $data['Dataplans']['MTN_PLAN']['SME'];
-                                    $dataPlansGloAll = $data['Dataplans']['GLO_PLAN']['ALL'];
-                                    $dataPlansAirtelAll = $data['Dataplans']['AIRTEL_PLAN']['ALL'];
-                                    $dataPlans9MobileAll = $data['Dataplans']['9MOBILE_PLAN']['ALL'];
-                                    $cablePlanGotv = $data['Cableplan']['GOTVPLAN'];
-                                    $cablePlanDstv = $data['Cableplan']['DSTVPLAN'];
-                                    $cablePlanStartime = $data['Cableplan']['STARTIMEPLAN'];
-                                    $rechargePinMtn = $data['recharge']['mtn_pin'];
-                                    $rechargePinGlo = $data['recharge']['glo_pin'];
-                                    $rechargePinAirtel = $data['recharge']['airtel_pin'];
-                                    $rechargePin9Mobile = $data['recharge']['9mobile_pin'];
+                        // If Admin Auth  
+                        if($customer){
+                            return view('dashboard.index', 
+                                compact(
+                                    'customer', 'transaction_count', 'amount_spent', 
+                                    'account_info', 'notification', 'exams', 'dataPlansMtnCorporate', 'dataPlansMtnSme', 
+                                    'dataPlansGloAll', 'dataPlansAirtelAll', 'dataPlans9MobileAll', 'cablePlanGotv', 'cablePlanDstv', 
+                                    'cablePlanStartime', 'rechargePinMtn', 'rechargePinGlo', 'rechargePinAirtel', 'rechargePin9Mobile'
+                                )
+                            );
+                        }else{
+                            return redirect()->route('login');
+                        }
 
-                                    // If Admin Auth  
-                                    if($customer){
-                                        return view('dashboard.index', 
-                                            compact(
-                                                'customer', 'cust_acct_balance', 'transaction_count', 'amount_spent', 
-                                                'account_info', 'notification', 'exams', 'dataPlansMtnCorporate', 'dataPlansMtnSme', 
-                                                'dataPlansGloAll', 'dataPlansAirtelAll', 'dataPlans9MobileAll', 'cablePlanGotv', 'cablePlanDstv', 
-                                                'cablePlanStartime', 'rechargePinMtn', 'rechargePinGlo', 'rechargePinAirtel', 'rechargePin9Mobile', 
-                                            )
-                                        );
-                                    }else{
-                                        return redirect()->route('login');
-                                    }
-                
-                            }catch(Exception $e){
-                                return response()->json([
-                                    'status' => false,
-                                    'message' => 'Please try again later! ('.$e.')'
-                                ]);
-                            } 
-                        // End of Getting USEr Details from TOMSUB 
-                    }else{
-                        // Request failed
-                        Log::error('API Request Failed: ' . $response->status());
-    
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'API Request Failed: ' . $response->status(),
-                        ]);
-                    }
-                }catch(RequestException $e) {
-                    // Log the error
-                    Log::error('HTTP Request Error: ' . $e->getMessage());
-    
-                    // Handle HTTP request-specific errors
+                }catch(Exception $e){
                     return response()->json([
                         'status' => false,
-                        'message' => 'Please try again later! (' . $e->getMessage() . ')',
+                        'message' => 'Please try again later! ('.$e.')'
                     ]);
-                }
-            
-            // End of Get Customer Account Balance
+                } 
+            // End of Getting User Details from TOMSUB
+
         }else{
             return redirect()->route('cust-account');
         }
@@ -359,6 +410,7 @@ class CustomerController extends Controller
         
         $cust_id = Auth::guard('web')->user()->username;
         $cust_pin = Auth::guard('web')->user()->pin;
+        $cust_acct_balance = Auth::guard('web')->user()->acct_balance;
 
         $network_id = $request->network_id;
         $transaction_no = $request->transaction_no;
@@ -373,68 +425,81 @@ class CustomerController extends Controller
 
         // Check if PIN is correct 
         if(Hash::check($transaction_pin, $cust_pin)){
-         
-            $new_transaction = CustomerTransactionHistory::create([
-                'cust_id' => $cust_id,
-                'network_id' => $network_id,
-                'transaction_type' => 'data',
-                'transaction_no' => $transaction_no,
-                'transaction_amount' => $transaction_amount - 10,
-                'transaction_paid' => $transaction_amount,
-                'reference' => $transaction_reference,
-                'status' => 0,
-            ]);
+            
+            // Check Account Balance 
+            if($cust_acct_balance >= $transaction_amount){
+                
+                $new_cust_acct_balance = $cust_acct_balance - $transaction_amount;
 
-            // Purchase DATA Using Geodnatech API 
-
-                // JSON payload for the request
-                $payload = [
-                    "network" => $network_id,
-                    "mobile_number" => $transaction_no,
-                    "plan" => $plan_id,
-                    "Ported_number" => true
-                ];
-
-                try{
-                    $apiEndpoint = 'https://tomsub.com/api/data/';
-        
-                    $response = Http::withHeaders([
-                        'Content-Type' => 'application/json',
-                        'Authorization' => env('TOMSUB_BEARER_TOKEN'),
-                    ])->post($apiEndpoint, $payload);
-        
-                    // Check if the request was successful
-                    if($response->successful()) {
-                        // Get the response body as an array
-                        $data = $response->json();
-        
-                        // Return the response data
-                        if($data['Status'] == 'successful'){
-                            $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)->update(['status' => 1]);
+                $new_transaction = CustomerTransactionHistory::create([
+                    'cust_id' => $cust_id,
+                    'network_id' => $network_id,
+                    'transaction_type' => 'data',
+                    'transaction_no' => $transaction_no,
+                    'transaction_amount' => $transaction_amount - 10,
+                    'transaction_paid' => $transaction_amount,
+                    'reference' => $transaction_reference,
+                    'status' => 0,
+                ]);
+    
+                // Purchase DATA Using Geodnatech API 
+    
+                    // JSON payload for the request
+                    $payload = [
+                        "network" => $network_id,
+                        "mobile_number" => $transaction_no,
+                        "plan" => $plan_id,
+                        "Ported_number" => true
+                    ];
+    
+                    try{
+                        $apiEndpoint = 'https://tomsub.com/api/data/';
+            
+                        $response = Http::withHeaders([
+                            'Content-Type' => 'application/json',
+                            'Authorization' => env('TOMSUB_BEARER_TOKEN'),
+                        ])->post($apiEndpoint, $payload);
+            
+                        // Check if the request was successful
+                        if($response->successful()) {
+                            // Get the response body as an array
+                            $data = $response->json();
+            
+                            // Return the response data
+                            if($data['Status'] == 'successful'){
+                                // Update Transaction Status 
+                                $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)->update(['status' => 1]);
+                                // Update Cust Acct Balance 
+                                $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $new_cust_acct_balance]);
+                            }
+    
+                            return response()->json($data);
+    
+                        }else{
+                            // Handle unsuccessful request
+                            return response()->json([
+                                'status' => false,
+                                'message' => 'API Request Failed: ' . $response->status(),
+                            ]);
                         }
-
-                        return response()->json($data);
-
-                    }else{
-                        // Handle unsuccessful request
+                    }catch(RequestException $e) {
+                        // Log the error
+                        \Log::error('HTTP Request Error: ' . $e->getMessage());
+            
+                        // Handle HTTP request-specific errors
                         return response()->json([
                             'status' => false,
-                            'message' => 'API Request Failed: ' . $response->status(),
+                            'message' => 'Please try again later! (' . $e->getMessage() . ')',
                         ]);
                     }
-                }catch(RequestException $e) {
-                    // Log the error
-                    \Log::error('HTTP Request Error: ' . $e->getMessage());
-        
-                    // Handle HTTP request-specific errors
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'Please try again later! (' . $e->getMessage() . ')',
-                    ]);
-                }
-        
-            // End of Purchase DATA Using Geodnatech API
-
+            
+                // End of Purchase DATA Using Geodnatech API
+            }else{
+                return response()->json([
+                    "status" => true, 
+                    'message' => "Oops, Account Balance Low"
+                ]);
+            }
         }else{
             return response()->json([
                 "status" => true, 
@@ -449,6 +514,7 @@ class CustomerController extends Controller
         
         $cust_id = Auth::guard('web')->user()->username;
         $cust_pin = Auth::guard('web')->user()->pin;
+        $cust_acct_balance = Auth::guard('web')->user()->acct_balance;
 
         $network_id = $request->network;
         $transaction_amount = $request->amount;
@@ -460,70 +526,83 @@ class CustomerController extends Controller
         // Check if PIN is correct 
         if(Hash::check($transaction_pin, $cust_pin)){
          
-            $new_transaction = CustomerTransactionHistory::create([
-                'cust_id' => $cust_id,
-                'network_id' => $network_id,
-                'transaction_type' => 'airtime',
-                'transaction_no' => $transaction_no,
-                'transaction_amount' => $transaction_amount ,
-                'transaction_paid' => $transaction_amount,
-                'reference' => $transaction_reference,
-                'status' => 0,
-            ]);
+            // Check Account Balance 
+            if($cust_acct_balance >= $transaction_amount){
+                $new_cust_acct_balance = $cust_acct_balance - $transaction_amount;
+                
+                $new_transaction = CustomerTransactionHistory::create([
+                    'cust_id' => $cust_id,
+                    'network_id' => $network_id,
+                    'transaction_type' => 'airtime',
+                    'transaction_no' => $transaction_no,
+                    'transaction_amount' => $transaction_amount ,
+                    'transaction_paid' => $transaction_amount,
+                    'reference' => $transaction_reference,
+                    'status' => 0,
+                ]);
+    
+                // Purchase Airtime Using Geodnatech API 
+    
+                    // JSON payload for the request
+                    $payload = [
+                        "network" => $network_id,
+                        "amount" => $transaction_amount,
+                        "mobile_number" => $transaction_no,
+                        "Ported_number" => true,
+                        "airtime_type" => $airtime_type
+                    ];
+    
+                    try{
+                        $apiEndpoint = 'https://tomsub.com/api/topup/';
+            
+                        $response = Http::withHeaders([
+                            'Content-Type' => 'application/json',
+                            'Authorization' => env('TOMSUB_BEARER_TOKEN'),
+                        ])->post($apiEndpoint, $payload);
+            
+                        // Check if the request was successful
+                        if($response->successful()) {
+                            // Get the response body as an array
+                            $data = $response->json();
+                            
+                            // Return the response data
+                            if($data['Status'] == 'successful'){
+                                $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)->update([
+                                    'status' => 1, 
+                                    'transaction_amount' => $data['paid_amount']
+                                ]);
 
-            // Purchase Airtime Using Geodnatech API 
-
-                // JSON payload for the request
-                $payload = [
-                    "network" => $network_id,
-                    "amount" => $transaction_amount,
-                    "mobile_number" => $transaction_no,
-                    "Ported_number" => true,
-                    "airtime_type" => $airtime_type
-                ];
-
-                try{
-                    $apiEndpoint = 'https://tomsub.com/api/topup/';
-        
-                    $response = Http::withHeaders([
-                        'Content-Type' => 'application/json',
-                        'Authorization' => env('TOMSUB_BEARER_TOKEN'),
-                    ])->post($apiEndpoint, $payload);
-        
-                    // Check if the request was successful
-                    if($response->successful()) {
-                        // Get the response body as an array
-                        $data = $response->json();
-                        
-                        // Return the response data
-                        if($data['Status'] == 'successful'){
-                            $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)->update([
-                                'status' => 1, 
-                                'transaction_amount' => $data['paid_amount']
+                                // Update Cust Acct Balance 
+                                $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $new_cust_acct_balance]);
+                            }
+    
+                            return response()->json($data);
+    
+                        }else{
+                            // Handle unsuccessful request
+                            return response()->json([
+                                'status' => false,
+                                'message' => 'API Request Failed: ' . $response->status(),
                             ]);
                         }
-
-                        return response()->json($data);
-
-                    }else{
-                        // Handle unsuccessful request
+                    }catch(RequestException $e) {
+                        // Log the error
+                        \Log::error('HTTP Request Error: ' . $e->getMessage());
+            
+                        // Handle HTTP request-specific errors
                         return response()->json([
                             'status' => false,
-                            'message' => 'API Request Failed: ' . $response->status(),
+                            'message' => 'Please try again later! (' . $e->getMessage() . ')',
                         ]);
                     }
-                }catch(RequestException $e) {
-                    // Log the error
-                    \Log::error('HTTP Request Error: ' . $e->getMessage());
-        
-                    // Handle HTTP request-specific errors
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'Please try again later! (' . $e->getMessage() . ')',
-                    ]);
-                }
-        
-            // End of Purchase Airtime Using Geodnatech API
+            
+                // End of Purchase Airtime Using Geodnatech API
+            }else{
+                return response()->json([
+                    "status" => true, 
+                    'message' => "Oops, Account Balance Low"
+                ]);
+            }
 
         }else{
             return response()->json([
