@@ -127,6 +127,14 @@ body{
     color: #05976A;
 }
 
+.yellow-text{
+    color: #FFFF00;
+}
+
+.red-text{
+    color: #FF0000;
+}
+
 .gray-text{
     color: #888888;
 }
@@ -142,6 +150,9 @@ body{
     border-radius: 5px;
 }
 
+*:focus {
+    outline: none;
+}
 
 .plan_input_box{
     border: 1px solid #eee;

@@ -49,6 +49,9 @@ Route::prefix('dashboard')->group(function(){
     Route::post('/data/purchase', [CustomerController::class, 'dataPurchase'])->name('cust-data-purchase')->middleware('auth:web');
     Route::post('/airtime/purchase', [CustomerController::class, 'airtimePurchase'])->name('cust-airtime-purchase')->middleware('auth:web');
     
+    // Transaction 
+    Route::get('/transaction/view', [CustomerController::class, 'transactionView'])->name('cust-transaction-view')->middleware('auth:web');
+    
     // Forms 
     Route::post('/account/password', [CustomerController::class, 'accountPassword'])->name('cust-account-password')->middleware('auth:web');
     Route::post('/account/pin', [CustomerController::class, 'accountPin'])->name('cust-account-pin')->middleware('auth:web');

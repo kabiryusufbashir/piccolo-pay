@@ -67,7 +67,7 @@ class CustomerController extends Controller
                             $new_transaction = CustomerTransactionHistory::create([
                                 'cust_id' => $cust_username,
                                 'network_id' => 200,
-                                'transaction_type' => 'deposit',
+                                'transaction_type' => 'Deposit',
                                 'transaction_no' => $acct_transfer,
                                 'transaction_amount' => $amount_transfer,
                                 'transaction_paid' => $amount_transfer,
@@ -391,20 +391,6 @@ class CustomerController extends Controller
         }
     }
 
-    // Wallet 
-    public function wallet(){
-        $customer = Auth::guard('web')->user();
-
-        $cust_banks = CustomerBankDetails::where('cust_id', $customer->id)->orderby('id', 'desc')->get();
-
-        // If Admin Auth  
-        if($customer){
-            return view('dashboard.wallet', compact('customer', 'cust_banks'));
-        }else{
-            return redirect()->route('login');
-        }
-    }
-
     // Buy Data 
     public function dataPurchase(Request $request){
         
@@ -434,7 +420,7 @@ class CustomerController extends Controller
                 $new_transaction = CustomerTransactionHistory::create([
                     'cust_id' => $cust_id,
                     'network_id' => $network_id,
-                    'transaction_type' => 'data',
+                    'transaction_type' => 'Data',
                     'transaction_no' => $transaction_no,
                     'transaction_amount' => $transaction_amount - 10,
                     'transaction_paid' => $transaction_amount,
@@ -468,18 +454,25 @@ class CustomerController extends Controller
                             // Return the response data
                             if($data['Status'] == 'successful'){
                                 // Update Transaction Status 
-                                $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)->update(['status' => 1]);
+                                $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)->update(['status' => 1, 'reference' => $data['id']]);
                                 // Update Cust Acct Balance 
                                 $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $new_cust_acct_balance]);
+                                
+                                return response()->json([
+                                    'status' => true,
+                                    'message' => 'Data sent. Mu gode sosai.',
+                                ]);
+                            }else{
+                                return response()->json([
+                                    'status' => true,
+                                    'message' => 'Transaction processing.',
+                                ]);
                             }
-    
-                            return response()->json($data);
-    
                         }else{
                             // Handle unsuccessful request
                             return response()->json([
                                 'status' => false,
-                                'message' => 'API Request Failed: ' . $response->status(),
+                                'message' => 'Please try again later!: ' .$response->status(),
                             ]);
                         }
                     }catch(RequestException $e) {
@@ -489,7 +482,7 @@ class CustomerController extends Controller
                         // Handle HTTP request-specific errors
                         return response()->json([
                             'status' => false,
-                            'message' => 'Please try again later! (' . $e->getMessage() . ')',
+                            'message' => 'Please try again later! (' .$e->getMessage(). ')',
                         ]);
                     }
             
@@ -497,7 +490,7 @@ class CustomerController extends Controller
             }else{
                 return response()->json([
                     "status" => true, 
-                    'message' => "Oops, Account Balance Low"
+                    'message' => "Oops, Account Balance Low."
                 ]);
             }
         }else{
@@ -533,7 +526,7 @@ class CustomerController extends Controller
                 $new_transaction = CustomerTransactionHistory::create([
                     'cust_id' => $cust_id,
                     'network_id' => $network_id,
-                    'transaction_type' => 'airtime',
+                    'transaction_type' => 'Airtime',
                     'transaction_no' => $transaction_no,
                     'transaction_amount' => $transaction_amount ,
                     'transaction_paid' => $transaction_amount,
@@ -569,20 +562,28 @@ class CustomerController extends Controller
                             if($data['Status'] == 'successful'){
                                 $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)->update([
                                     'status' => 1, 
-                                    'transaction_amount' => $data['paid_amount']
+                                    'transaction_amount' => $data['paid_amount'],
+                                    'reference' => $data['id']
                                 ]);
 
                                 // Update Cust Acct Balance 
                                 $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $new_cust_acct_balance]);
+                                return response()->json([
+                                    'status' => true,
+                                    'message' => 'Airtime sent. Mu gode sosai.',
+                                ]);
+                            }else{
+                                return response()->json([
+                                    'status' => true,
+                                    'message' => 'Transaction processing.',
+                                ]);
                             }
-    
-                            return response()->json($data);
     
                         }else{
                             // Handle unsuccessful request
                             return response()->json([
                                 'status' => false,
-                                'message' => 'API Request Failed: ' . $response->status(),
+                                'message' => 'Please try again later!: ' . $response->status(),
                             ]);
                         }
                     }catch(RequestException $e) {
@@ -608,6 +609,84 @@ class CustomerController extends Controller
             return response()->json([
                 "status" => true, 
                 'message' => "Incorrect Pin"
+            ]);
+        }
+    }
+
+    // Wallet 
+    public function wallet(){
+        $customer = Auth::guard('web')->user();
+
+        $cust_banks = CustomerBankDetails::where('cust_id', $customer->id)->orderby('id', 'desc')->get();
+
+        // If Admin Auth  
+        if($customer){
+            return view('dashboard.wallet', compact('customer', 'cust_banks'));
+        }else{
+            return redirect()->route('login');
+        }
+    }
+
+    // Transactions
+    public function transactions(){
+        $customer = Auth::guard('web')->user();
+
+        $transactions = CustomerTransactionHistory::where('cust_id', $customer->username)->orderby('id', 'desc')->get();
+
+        // If Admin Auth  
+        if($customer){
+            return view('dashboard.transactions', compact('customer', 'transactions'));
+        }else{
+            return redirect()->route('login');
+        }
+    }
+
+    // Transactions View 
+    public function transactionView(Request $request){
+        try{
+            $transaction_id = $request->transactionId;
+            
+            // Getting Transaction Details from TOMSUB
+            try{
+
+                $apiEndpoint = 'https://tomsub.com/api/data/'.$transaction_id;
+
+                $response = Http::withHeaders([
+                    'Content-Type' => 'application/json',
+                    'Authorization' => env('TOMSUB_BEARER_TOKEN'),
+
+                ])->get($apiEndpoint);
+
+                    // Get the response body as an array
+                    $data = $response->json();
+                    $data['transaction'] = CustomerTransactionHistory::where('reference', $transaction_id)->first();
+                    
+                    if(!empty($data)){
+                        $jsondata = json_encode($data);
+                        return response()->json([
+                            'status' => true, 
+                            'message' => $jsondata, 
+                        ]);
+                    }else{
+                        $jsondata = json_encode('No Record Found!');
+                        return response()->json([
+                            'status' => true, 
+                            'message' => $jsondata, 
+                        ]);
+                    }
+
+            }catch(Exception $e){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Please try again later! ('.$e.')'
+                ]);
+            } 
+            // Getting Transaction Details from TOMSUB
+            
+        }catch(Expection $e){
+            return response()->json([
+                'status' => false,
+                'message' => 'Please try again later! ('.$e.')'
             ]);
         }
     }
