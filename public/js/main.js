@@ -350,6 +350,10 @@ $(document).on('click', '#viewTransaction', function(){
                     transactionStatus = 'Successful'
                 }
 
+                if(transactionType == 'Deposit'){
+                    transactionAmount = dataArray.transaction.transaction_amount
+                }
+
                 if(networkProvider == 1){
                     networkProvider = 'MTN'
                 }else if(networkProvider == 2){

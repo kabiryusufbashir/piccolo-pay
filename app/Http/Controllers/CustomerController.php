@@ -46,7 +46,8 @@ class CustomerController extends Controller
             switch($event){
                 case 'deposit.success':
                     $acct_transfer = $data['beneficiaryAccountNumber'];
-                    $amount_transfer = $data['depositedAmount'] / 100;
+                    $amount_deposit = $data['depositedAmount'] / 100;
+                    $amount_transfer = $data['amountAfterCharges'] / 100;
                     $payment_reference = $data['paymentRef'];
 
                     // Handle deposit success event
@@ -70,7 +71,7 @@ class CustomerController extends Controller
                                 'transaction_type' => 'Deposit',
                                 'transaction_no' => $acct_transfer,
                                 'transaction_amount' => $amount_transfer,
-                                'transaction_paid' => $amount_transfer,
+                                'transaction_paid' => $amount_deposit,
                                 'reference' => $payment_reference,
                                 'status' => 1,
                             ]);
