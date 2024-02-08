@@ -21,6 +21,9 @@ use App\Models\Customer;
 use App\Models\CustomerBankDetails;
 use App\Models\CustomerTransactionHistory;
 
+use Zainpay\SDK\Engine;
+use Zainpay\SDK\VirtualAccount;
+
 class CustomerController extends Controller
 {
     public function index(){
@@ -158,42 +161,38 @@ class CustomerController extends Controller
 
                 // Create Customer Virtual Wallet Using ZainPay API 
                     
-                    // Replace 'YOUR_API_ENDPOINT' with the actual API endpoint URL
-                    $apiEndpoint = 'https://api.zainpay.ng/virtual-account/create/request';
+                    require base_path('vendor/autoload.php');
 
-                    // JSON payload for the request
-                    $payload = [
-                        "bankType" => 'wemaBank',
-                        "firstName" => '-PiccoloPay',
-                        "surname"  => $username,
-                        "email" => $email,
-                        "mobileNumber" => $phone,
-                        "dob" => "27-07-1993",
-                        "gender" => "M",
-                        "address" => "Farawa Layout Kano",
-                        "title" => "Mr",
-                        "state" => "Kano",
-                        "zainboxCode" => env('ZAINPAY_BOX')
-                    ];
+                    Engine::setMode(Engine::MODE_PRODUCTION);
+                    Engine::setToken(env('ZAINPAY_BEARER_TOKEN'));
 
-                    // Make a POST request to the API endpoint with the headers and payload
-                    try{
-                        $response = Http::withHeaders([
-                            'Content-Type' => 'application/json',
-                            'Authorization' => env('ZAINPAY_BEARER_TOKEN'),
-    
-                        ])->post($apiEndpoint, $payload);
-    
-                        // Get the response body as an array
-                        $data = $response->json();
-    
-                        // Handle the API response as needed
-                        $acct_no = $data['data']['accountNumber'];
-                        $acct_name = $data['data']['accountName'];
-                        $bank_name = $data['data']['bankName'];
+                    $response = VirtualAccount::instantiate()->createVirtualAccount(
+                        'wemaBank',            
+                        '22175618554',         
+                        '-PiccoloPay',         
+                        $username,             
+                        $email,                
+                        '08068593127',                   
+                        '27-07-1993',                    
+                        'M',                             
+                        'Farawa Layout Kano',   
+                        'Mr',                            
+                        'Kano',                          
+                        env('ZAINPAY_BOX')                   
+                    );
+
+                    if($response->hasSucceeded()){
+
+                        $data = $response->getData();
+                        
                         $cust_id = $new_customer->id;
 
-                        if(!empty($acct_no)){
+                        if(!empty($data)){
+                            // Handle the API response as needed
+                            $acct_no = $data['accountNumber'];
+                            $acct_name = $data['accountName'];
+                            $bank_name = $data['bankName'];
+
                             // Store Customer Bank Details
                             try{
                                 $cust_bank_details = CustomerBankDetails::create([
@@ -234,7 +233,7 @@ class CustomerController extends Controller
                             }catch(Exception $e){
                                 return response()->json([
                                     'status' => false,
-                                    'message' => 'Error: Can\'t add bank details. Please try again! ('.$e.')'
+                                    'message' => 'Error: Can\'t add bank details. Please try again!'
                                 ]);
                             }
                         }else{
@@ -243,15 +242,19 @@ class CustomerController extends Controller
                             
                             return response()->json([
                                 'status' => false,
-                                'message' => 'Error: Please try again! ('.$e.')'
+                                'message' => 'Error Creating Virutal Account, Please try again!'
                             ]);
                         }
-                    }catch(Exception $e){
+                    }else{
+                        // If the Customer Acct No is not generated 
+                        $delete_cust = Customer::where('id', $cust_id)->delete();
+                        
                         return response()->json([
                             'status' => false,
-                            'message' => 'Please try again later! ('.$e.')'
+                            'message' => 'Error Creating Virutal Account, Please try again!'
                         ]);
                     }
+                    
                 
                 // End of Create Customer Virtual Wallet Using ZainPay API
 

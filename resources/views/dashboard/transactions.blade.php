@@ -20,14 +20,14 @@
             </div>
         </div>
         <!-- Transaction Table  -->
-        <div class="overflow-x-auto">
+        <div class="table-container">
             <table class="w-full text-xs">
                 <tr class="my-4 text-xs gray-bg">
                     <th class="text-center py-3 border">Type</th>    
-                    <th class="text-center py-3 border hidden">Date</th>    
+                    <th class="text-center py-3 border">Date</th>    
                     <th class="text-center py-3 border">Phone</th>    
-                    <th class="text-center py-3 border hidden">Amount</th>    
-                    <th class="text-center py-3 border hidden">Reference</th>    
+                    <th class="text-center py-3 border">Amount</th>    
+                    <th class="text-center py-3 border">Reference</th>    
                     <th class="text-center py-3 border">Status</th>    
                     <th class="text-center py-3 border">More</th>    
                 </tr>
@@ -36,10 +36,10 @@
                     @foreach($transactions as $record)
                     <tr class="border text-xs">
                         <td class="text-center py-3 border">{{ $record->transaction_type }}</td>
-                        <td class="text-center py-3 whitespace-nowrap border hidden">{{ $record->transactionDate($record->created_at) }}</td>
+                        <td class="text-center py-3 whitespace-nowrap border">{{ $record->transactionDate($record->created_at) }}</td>
                         <td class="text-center py-3 whitespace-nowrap border">{{ $record->transaction_no }}</td>
-                        <td class="text-center py-3 whitespace-nowrap border hidden">{{ $record->transaction_paid }}</td>
-                        <td class="text-center py-3 whitespace-nowrap border hidden">{{ $record->reference }}</td>
+                        <td class="text-center py-3 whitespace-nowrap border">{{ $record->transaction_paid }}</td>
+                        <td class="text-center py-3 whitespace-nowrap border">{{ $record->reference }}</td>
                         <td class="text-center py-3 whitespace-nowrap border">{!! $record->transactionStatus($record->status) !!}</td>
                         <td class="text-center py-3 whitespace-nowrap cursor-pointer border"><a id="viewTransaction" data-id="{{ $record->reference }}"><span class="green-bg p-2 text-white rounded-lg text-xs">Details</span></a></td>
                     </tr>    

@@ -154,6 +154,11 @@ body{
     outline: none;
 }
 
+.table-container {
+    overflow-x: auto;
+    max-width: 100%; /* Adjust as needed */
+}
+
 .plan_input_box{
     border: 1px solid #eee;
     padding-left: 2%;

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c491b8531eec05ba41a11d9276a5749",
+    "content-hash": "698d76e6251ef32638f433d387103f11",
     "packages": [
         {
             "name": "brick/math",
@@ -5702,6 +5702,63 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "zainpay/sdk",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zainpay/zainpay-php-sdk.git",
+                "reference": "4bbd71cd90640df31a4c1b535942b4f065e16348"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zainpay/zainpay-php-sdk/zipball/4bbd71cd90640df31a4c1b535942b4f065e16348",
+                "reference": "4bbd71cd90640df31a4c1b535942b4f065e16348",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^7.4",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.19",
+                "pestphp/pest": "^1.21",
+                "phpstan/phpstan": "^1.5",
+                "symfony/var-dumper": "^5.4"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Zainpay\\SDK\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ahmard",
+                    "email": "ahmardy@outlook.com"
+                },
+                {
+                    "name": "nurayusuf",
+                    "email": "nurakilauren@gmail.com"
+                },
+                {
+                    "name": "Gidado",
+                    "email": "alaleeyuugidado@gmail.com"
+                }
+            ],
+            "description": "PHP SDK",
+            "support": {
+                "issues": "https://github.com/zainpay/zainpay-php-sdk/issues",
+                "source": "https://github.com/zainpay/zainpay-php-sdk/tree/main"
+            },
+            "time": "2024-02-01T09:51:00+00:00"
         }
     ],
     "packages-dev": [
@@ -8145,7 +8202,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "zainpay/sdk": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

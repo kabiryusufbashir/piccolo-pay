@@ -141,15 +141,15 @@
                                 if(data.status === false) {
                                     // Check if the errors property is a string
                                     if(typeof data.errors === 'string') {
-                                        $("#feedbackContainer").append('<div class="alert alert-danger text-xs">' + data.errors + '</div>');
+                                        $("#feedbackContainer").append('<div class="alert alert-danger text-xs">' +data.errors+'</div>');
                                     }else if(typeof data.errors === 'object') {
                                         // If errors is an object (possibly from server validation)
                                         $.each(data.errors, function (key, val) {
-                                            $("#feedbackContainer").append('<div class="alert alert-danger text-xs">' + val + '</div>');
+                                            $("#feedbackContainer").append('<div class="alert alert-danger text-xs">' +val+'</div>');
                                         });
                                     }else{
                                         // Handle other cases or provide a default message
-                                        $("#feedbackContainer").append('<div class="alert alert-danger text-xs">An error occurred.</div>');
+                                        $("#feedbackContainer").append('<div class="alert alert-danger text-xs">'+data.message+'</div>');
                                     }
                                 }
                                 

@@ -29,7 +29,7 @@ Route::post('/zainbox_live', [CustomerController::class, 'merchantDeposit']);
 
 // SignUp 
 Route::get('/signup', [CustomerController::class, 'signUpPage'])->name('signup');
-Route::post('/signup', [CustomerController::class, 'signUpForm'])->name('signupform');
+Route::post('/signup/submit', [CustomerController::class, 'signUpForm'])->name('signupform');
 
 // Login 
 Route::get('/login', [CustomerController::class, 'loginPage'])->name('login');
