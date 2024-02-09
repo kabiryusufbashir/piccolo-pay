@@ -351,7 +351,7 @@
                         </div>
                         <div class="my-3 w-full">
                             <label for="pin">Transaction PIN</label><br>
-                            <input id="custPin" type="number" required class="plan_input_box" name="pin">
+                            <input id="custPin" type="password" required class="plan_input_box" name="pin">
                         </div>
                     </div>
                 </div>
@@ -432,7 +432,7 @@
                         </div>
                         <div class="my-3 w-full">
                             <label for="pin">Transaction PIN</label><br>
-                            <input id="gloCustPin" type="number" required class="plan_input_box" name="pin">
+                            <input id="gloCustPin" type="password" required class="plan_input_box" name="pin">
                         </div>
                     </div>
                 </div>
@@ -513,7 +513,7 @@
                         </div>
                         <div class="my-3 w-full">
                             <label for="pin">Transaction PIN</label><br>
-                            <input id="airtelCustPin" type="number" required class="plan_input_box" name="pin">
+                            <input id="airtelCustPin" type="password" required class="plan_input_box" name="pin">
                         </div>
                     </div>
                 </div>
@@ -594,7 +594,7 @@
                         </div>
                         <div class="my-3 w-full">
                             <label for="pin">Transaction PIN</label><br>
-                            <input id="n9mobileCustPin" type="number" required class="plan_input_box" name="pin">
+                            <input id="n9mobileCustPin" type="password" required class="plan_input_box" name="pin">
                         </div>
                     </div>
                 </div>
@@ -674,7 +674,7 @@
                         </div>
                         <div class="my-3 w-full">
                             <label for="pin">Transaction PIN</label><br>
-                            <input id="airtimeCustPin" type="number" required class="plan_input_box" name="pin">
+                            <input id="airtimeCustPin" type="password" required class="plan_input_box" name="pin">
                         </div>
                     </div>
                 </div>
