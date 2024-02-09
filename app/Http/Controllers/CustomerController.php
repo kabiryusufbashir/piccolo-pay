@@ -464,7 +464,7 @@ class CustomerController extends Controller
                                 
                                 return response()->json([
                                     'status' => true,
-                                    'message' => 'Data sent. Mu gode sosai.',
+                                    'message' => 'Data sent. Mun gode sosai.',
                                 ]);
                             }else{
                                 return response()->json([
@@ -574,7 +574,7 @@ class CustomerController extends Controller
                                 $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $new_cust_acct_balance]);
                                 return response()->json([
                                     'status' => true,
-                                    'message' => 'Airtime sent. Mu gode sosai.',
+                                    'message' => 'Airtime sent. Mun gode sosai.',
                                 ]);
                             }else{
                                 return response()->json([
