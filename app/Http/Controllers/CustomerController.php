@@ -170,7 +170,7 @@ class CustomerController extends Controller
                         'wemaBank',            
                         '22175618554',         
                         '-PiccoloPay',         
-                        $username,             
+                        'Betastack/'.$username,             
                         $email,                
                         '08068593127',                   
                         '27-07-1993',                    
@@ -202,9 +202,9 @@ class CustomerController extends Controller
                                     'acct_no' => $acct_no,
                                 ]);
                                 
-                                if(Auth::guard('web')->attempt($request->only(["email", "password"]))) {
+                                if(Auth::guard('web')->attempt($request->only(["username", "password"]))) {
                                     try{
-                                        $cust_status = Customer::where('email', $request->email)->where('cust_status', '1')->count();
+                                        $cust_status = Customer::where('username', $request->username)->where('cust_status', '1')->count();
                                             if($cust_status == 1){
                                                 $request->session()->regenerate();
                                                 return response()->json([
@@ -274,7 +274,7 @@ class CustomerController extends Controller
     public function loginForm(Request $request){
         
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
+            'username' => 'required',
             'password' => 'required',
         ]);
 
@@ -285,13 +285,13 @@ class CustomerController extends Controller
             ]);
         }else{
 
-            $email = $request->email;
+            $username = $request->username;
             $password = $request->password;
 
             try{
-                if(Auth::guard('web')->attempt($request->only(["email", "password"]))) {
+                if(Auth::guard('web')->attempt($request->only(["username", "password"]))) {
                     try{
-                        $cust_status = Customer::where('email', $request->email)->where('cust_status', '1')->count();
+                        $cust_status = Customer::where('username', $request->username)->where('cust_status', '1')->count();
                             if($cust_status == 1){
                                 $request->session()->regenerate();
                                 return response()->json([

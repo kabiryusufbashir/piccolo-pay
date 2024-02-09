@@ -80,7 +80,7 @@
                             <div id="feedbackContainer" class="my-2">@include('includes.messages')</div>
 
                             <div class="my-4">
-                                <input class="input_box" type="email" placeholder="Email" name="email" required>
+                                <input class="input_box" type="text" placeholder="Username" name="username" required>
                             </div>
                             <div class="my-4">
                                 <input class="input_box" type="password" placeholder="Password" name="password" required>
