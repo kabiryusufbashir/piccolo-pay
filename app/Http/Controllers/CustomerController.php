@@ -22,7 +22,10 @@ use App\Models\CustomerBankDetails;
 use App\Models\CustomerTransactionHistory;
 
 use Zainpay\SDK\Engine;
+use Zainpay\SDK\ZainBox;
 use Zainpay\SDK\VirtualAccount;
+
+require base_path('vendor/autoload.php');
 
 class CustomerController extends Controller
 {
@@ -337,7 +340,22 @@ class CustomerController extends Controller
         $cust_account = CustomerBankDetails::select('acct_no')->where('cust_id', $customer->id)->pluck('acct_no')->first();
         $transaction_count = CustomerTransactionHistory::where('cust_id', $customer->username)->where('status', 1)->count();
         $amount_spent = CustomerTransactionHistory::where('cust_id', $customer->username)->where('status', 1)->sum('transaction_paid');
+        $cust_balance = Customer::select('acct_balance')->sum('acct_balance');
         
+        // Getting Zainbox Balance 
+        // Engine::setMode(Engine::MODE_PRODUCTION);
+        // Engine::setToken(env('ZAINPAY_BEARER_TOKEN'));
+
+        // $response = VirtualAccount::instantiate()->allVirtualAccountsBalanceOfZainBox(
+        //     'picco_soh1NzjlrnwaOdJi9OOy' //zainboxCode - required (string)
+        // );
+    
+        // if($response->hasSucceeded()){
+        //     var_dump($response->getData());
+        // }else{
+        //     var_dump($response->getErrorMessage());
+        // }
+
         if(!empty($customer->pin)){
             // Getting User Details from TOMSUB
                 try{
@@ -375,7 +393,7 @@ class CustomerController extends Controller
                                     'customer', 'transaction_count', 'amount_spent', 
                                     'account_info', 'notification', 'exams', 'dataPlansMtnCorporate', 'dataPlansMtnSme', 
                                     'dataPlansGloAll', 'dataPlansAirtelAll', 'dataPlans9MobileAll', 'cablePlanGotv', 'cablePlanDstv', 
-                                    'cablePlanStartime', 'rechargePinMtn', 'rechargePinGlo', 'rechargePinAirtel', 'rechargePin9Mobile'
+                                    'cablePlanStartime', 'rechargePinMtn', 'rechargePinGlo', 'rechargePinAirtel', 'rechargePin9Mobile', 'cust_balance'
                                 )
                             );
                         }else{
