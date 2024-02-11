@@ -17,6 +17,7 @@ class CustomerTransactionHistory extends Model
         'transaction_type',
         'transaction_amount',
         'transaction_paid',
+        'profit',
         'reference',
         'status'
     ];

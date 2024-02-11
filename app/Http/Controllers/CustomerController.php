@@ -358,33 +358,87 @@ class CustomerController extends Controller
 
         if(!empty($customer->pin)){
             // Getting User Details from TOMSUB
+                // try{
+
+                //     $apiEndpoint = 'https://tomsub.com/api/user/';
+
+                //     $response = Http::withHeaders([
+                //         'Content-Type' => 'application/json',
+                //         'Authorization' => env('TOMSUB_BEARER_TOKEN'),
+
+                //     ])->get($apiEndpoint);
+
+                //         // Get the response body as an array
+                //         $data = $response->json();
+                //         $account_info = $data['user'];
+                //         $notification = $data['notification'];
+                //         $exams = $data['Exam'];
+                //         $dataPlansMtnCorporate = $data['Dataplans']['MTN_PLAN']['CORPORATE'];
+                //         $dataPlansMtnSme = $data['Dataplans']['MTN_PLAN']['SME'];
+                //         $dataPlansGloAll = $data['Dataplans']['GLO_PLAN']['ALL'];
+                //         $dataPlansAirtelAll = $data['Dataplans']['AIRTEL_PLAN']['ALL'];
+                //         $dataPlans9MobileAll = $data['Dataplans']['9MOBILE_PLAN']['ALL'];
+                //         $cablePlanGotv = $data['Cableplan']['GOTVPLAN'];
+                //         $cablePlanDstv = $data['Cableplan']['DSTVPLAN'];
+                //         $cablePlanStartime = $data['Cableplan']['STARTIMEPLAN'];
+                //         $rechargePinMtn = $data['recharge']['mtn_pin'];
+                //         $rechargePinGlo = $data['recharge']['glo_pin'];
+                //         $rechargePinAirtel = $data['recharge']['airtel_pin'];
+                //         $rechargePin9Mobile = $data['recharge']['9mobile_pin'];
+
+                //         // If Admin Auth  
+                //         if($customer){
+                //             return view('dashboard.index', 
+                //                 compact(
+                //                     'customer', 'transaction_count', 'amount_spent', 
+                //                     'account_info', 'notification', 'exams', 'dataPlansMtnCorporate', 'dataPlansMtnSme', 
+                //                     'dataPlansGloAll', 'dataPlansAirtelAll', 'dataPlans9MobileAll', 'cablePlanGotv', 'cablePlanDstv', 
+                //                     'cablePlanStartime', 'rechargePinMtn', 'rechargePinGlo', 'rechargePinAirtel', 'rechargePin9Mobile', 'cust_balance'
+                //                 )
+                //             );
+                //         }else{
+                //             return redirect()->route('login');
+                //         }
+
+                // }catch(Exception $e){
+                //     return response()->json([
+                //         'status' => false,
+                //         'message' => 'Please try again later! ('.$e.')'
+                //     ]);
+                // } 
+            // End of Getting User Details from TOMSUB
+
+            // Getting User Details from HUSMO
                 try{
 
-                    $apiEndpoint = 'https://tomsub.com/api/user/';
+                    $apiEndpoint = 'https://www.husmodata.com/api/user/';
 
                     $response = Http::withHeaders([
                         'Content-Type' => 'application/json',
-                        'Authorization' => env('TOMSUB_BEARER_TOKEN'),
+                        'Authorization' => env('HUSMO_BEARER_TOKEN'),
 
                     ])->get($apiEndpoint);
 
+                    // Check if the request was successful (status code 200)
+                    if($response->successful()) {
                         // Get the response body as an array
-                        $data = $response->json();
-                        $account_info = $data['user'];
-                        $notification = $data['notification'];
-                        $exams = $data['Exam'];
-                        $dataPlansMtnCorporate = $data['Dataplans']['MTN_PLAN']['CORPORATE'];
-                        $dataPlansMtnSme = $data['Dataplans']['MTN_PLAN']['SME'];
-                        $dataPlansGloAll = $data['Dataplans']['GLO_PLAN']['ALL'];
-                        $dataPlansAirtelAll = $data['Dataplans']['AIRTEL_PLAN']['ALL'];
-                        $dataPlans9MobileAll = $data['Dataplans']['9MOBILE_PLAN']['ALL'];
-                        $cablePlanGotv = $data['Cableplan']['GOTVPLAN'];
-                        $cablePlanDstv = $data['Cableplan']['DSTVPLAN'];
-                        $cablePlanStartime = $data['Cableplan']['STARTIMEPLAN'];
-                        $rechargePinMtn = $data['recharge']['mtn_pin'];
-                        $rechargePinGlo = $data['recharge']['glo_pin'];
-                        $rechargePinAirtel = $data['recharge']['airtel_pin'];
-                        $rechargePin9Mobile = $data['recharge']['9mobile_pin'];
+                        $responseData = $response->json();
+
+                        $account_info = $responseData['user'];
+                        $notification = $responseData['notification'];
+                        $exams = $responseData['Exam'];
+                        $dataPlansMtnCorporate = $responseData['Dataplans']['MTN_PLAN']['ALL'];
+                        $dataPlansMtnSme = $responseData['Dataplans']['MTN_PLAN']['SME'];
+                        $dataPlansGloAll = $responseData['Dataplans']['GLO_PLAN']['ALL'];
+                        $dataPlansAirtelAll = $responseData['Dataplans']['AIRTEL_PLAN']['ALL'];
+                        $dataPlans9MobileAll = $responseData['Dataplans']['9MOBILE_PLAN']['ALL'];
+                        $cablePlanGotv = $responseData['Cableplan']['GOTVPLAN'];
+                        $cablePlanDstv = $responseData['Cableplan']['DSTVPLAN'];
+                        $cablePlanStartime = $responseData['Cableplan']['STARTIME'];
+                        $rechargePinMtn = $responseData['recharge']['mtn_pin'];
+                        $rechargePinGlo = $responseData['recharge']['glo_pin'];
+                        $rechargePinAirtel = $responseData['recharge']['airtel_pin'];
+                        $rechargePin9Mobile = $responseData['recharge']['9mobile_pin'];
 
                         // If Admin Auth  
                         if($customer){
@@ -399,6 +453,13 @@ class CustomerController extends Controller
                         }else{
                             return redirect()->route('login');
                         }
+                    }else{
+                        // Handle the case when the request was not successful
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Please try again later! ('.$response->status().')'
+                        ]);
+                    }
 
                 }catch(Exception $e){
                     return response()->json([
@@ -406,8 +467,7 @@ class CustomerController extends Controller
                         'message' => 'Please try again later! ('.$e.')'
                     ]);
                 } 
-            // End of Getting User Details from TOMSUB
-
+            // End of Getting User Details from HUSMO
         }else{
             return redirect()->route('cust-account');
         }
@@ -424,8 +484,11 @@ class CustomerController extends Controller
         $transaction_no = $request->transaction_no;
         $plan_id = $request->plan_type;
         $transaction_amount = $request->transaction_amount;
+        $transaction_buying = $request->transaction_buying;
         $transaction_reference = $request->transaction_reference;
         $transaction_pin = $request->pin;
+
+        $profit = $transaction_amount - $transaction_buying;
 
         if(empty($plan_id)){
             $plan_id = $request->plan_type_cor;
@@ -444,8 +507,9 @@ class CustomerController extends Controller
                     'network_id' => $network_id,
                     'transaction_type' => 'Data',
                     'transaction_no' => $transaction_no,
-                    'transaction_amount' => $transaction_amount - 10,
+                    'transaction_amount' => $transaction_buying,
                     'transaction_paid' => $transaction_amount,
+                    'profit' => $profit,
                     'reference' => $transaction_reference,
                     'status' => 0,
                 ]);
