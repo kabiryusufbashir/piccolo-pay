@@ -203,6 +203,7 @@ class CustomerController extends Controller
                                     'bank_name' => $bank_name,
                                     'acct_name' => $acct_name,
                                     'acct_no' => $acct_no,
+                                    'gateway' => 'Zainpay',
                                 ]);
                                 
                                 if(Auth::guard('web')->attempt($request->only(["username", "password"]))) {
@@ -341,7 +342,9 @@ class CustomerController extends Controller
         $transaction_count = CustomerTransactionHistory::where('cust_id', $customer->username)->where('status', 1)->count();
         $amount_spent = CustomerTransactionHistory::where('cust_id', $customer->username)->where('status', 1)->sum('transaction_paid');
         $cust_balance = Customer::select('acct_balance')->sum('acct_balance');
-        
+        $cust_count = Customer::count();
+        $profit_made = CustomerTransactionHistory::where('status', 1)->sum('profit');
+
         // Getting Zainbox Balance 
         // Engine::setMode(Engine::MODE_PRODUCTION);
         // Engine::setToken(env('ZAINPAY_BEARER_TOKEN'));
@@ -447,7 +450,7 @@ class CustomerController extends Controller
                                     'customer', 'transaction_count', 'amount_spent', 
                                     'account_info', 'notification', 'exams', 'dataPlansMtnCorporate', 'dataPlansMtnSme', 
                                     'dataPlansGloAll', 'dataPlansAirtelAll', 'dataPlans9MobileAll', 'cablePlanGotv', 'cablePlanDstv', 
-                                    'cablePlanStartime', 'rechargePinMtn', 'rechargePinGlo', 'rechargePinAirtel', 'rechargePin9Mobile', 'cust_balance'
+                                    'cablePlanStartime', 'rechargePinMtn', 'rechargePinGlo', 'rechargePinAirtel', 'rechargePin9Mobile', 'cust_balance', 'profit_made', 'cust_count'
                                 )
                             );
                         }else{
@@ -514,7 +517,7 @@ class CustomerController extends Controller
                     'status' => 0,
                 ]);
     
-                // Purchase DATA Using Geodnatech API 
+                // Purchase DATA Using HUMSO API 
     
                     // JSON payload for the request
                     $payload = [
@@ -525,11 +528,11 @@ class CustomerController extends Controller
                     ];
     
                     try{
-                        $apiEndpoint = 'https://tomsub.com/api/data/';
+                        $apiEndpoint = 'https://www.husmodata.com/api/data/';
             
                         $response = Http::withHeaders([
                             'Content-Type' => 'application/json',
-                            'Authorization' => env('TOMSUB_BEARER_TOKEN'),
+                            'Authorization' => env('HUSMO_BEARER_TOKEN'),
                         ])->post($apiEndpoint, $payload);
             
                         // Check if the request was successful
@@ -572,7 +575,7 @@ class CustomerController extends Controller
                         ]);
                     }
             
-                // End of Purchase DATA Using Geodnatech API
+                // End of Purchase DATA Using HUMSO API
             }else{
                 return response()->json([
                     "status" => true, 
@@ -632,11 +635,11 @@ class CustomerController extends Controller
                     ];
     
                     try{
-                        $apiEndpoint = 'https://tomsub.com/api/topup/';
+                        $apiEndpoint = 'https://www.husmodata.com/api/topup/';
             
                         $response = Http::withHeaders([
                             'Content-Type' => 'application/json',
-                            'Authorization' => env('TOMSUB_BEARER_TOKEN'),
+                            'Authorization' => env('HUSMO_BEARER_TOKEN'),
                         ])->post($apiEndpoint, $payload);
             
                         // Check if the request was successful
@@ -646,10 +649,13 @@ class CustomerController extends Controller
                             
                             // Return the response data
                             if($data['Status'] == 'successful'){
+                                $profit = $transaction_amount - $data['paid_amount'];
+
                                 $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)->update([
                                     'status' => 1, 
                                     'transaction_amount' => $data['paid_amount'],
-                                    'reference' => $data['id']
+                                    'reference' => $data['id'],
+                                    'profit' => $profit
                                 ]);
 
                                 // Update Cust Acct Balance 
@@ -683,7 +689,7 @@ class CustomerController extends Controller
                         ]);
                     }
             
-                // End of Purchase Airtime Using Geodnatech API
+                // End of Purchase Airtime Using HUMSO API
             }else{
                 return response()->json([
                     "status" => true, 
@@ -732,14 +738,14 @@ class CustomerController extends Controller
         try{
             $transaction_id = $request->transactionId;
             
-            // Getting Transaction Details from TOMSUB
+            // Getting Transaction Details from HUSMO
             try{
 
-                $apiEndpoint = 'https://tomsub.com/api/data/'.$transaction_id;
+                $apiEndpoint = 'https://www.husmodata.com/api/data/'.$transaction_id;
 
                 $response = Http::withHeaders([
                     'Content-Type' => 'application/json',
-                    'Authorization' => env('TOMSUB_BEARER_TOKEN'),
+                    'Authorization' => env('HUSMO_BEARER_TOKEN'),
 
                 ])->get($apiEndpoint);
 
@@ -767,13 +773,27 @@ class CustomerController extends Controller
                     'message' => 'Please try again later! ('.$e.')'
                 ]);
             } 
-            // Getting Transaction Details from TOMSUB
+            // Getting Transaction Details from HUSMO
             
         }catch(Expection $e){
             return response()->json([
                 'status' => false,
                 'message' => 'Please try again later! ('.$e.')'
             ]);
+        }
+    }
+
+    // Customers
+    public function customers(){
+        $customer = Auth::guard('web')->user();
+
+        $customers_list = Customer::orderby('id', 'desc')->get();
+
+        // If Admin Auth  
+        if($customer){
+            return view('dashboard.customers', compact('customer', 'customers_list'));
+        }else{
+            return redirect()->route('login');
         }
     }
 

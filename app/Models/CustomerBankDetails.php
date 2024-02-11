@@ -14,5 +14,6 @@ class CustomerBankDetails extends Model
         'bank_name',
         'acct_name',
         'acct_no',
+        'gateway',
     ];
 }
