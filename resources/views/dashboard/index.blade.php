@@ -412,7 +412,7 @@
                         <select id="planTypeCor" class="plan_input_box" name="plan_type_cor">
                             <option value=""></option>
                             @php
-                                $specialIds = [60, 99, 111, 112, 234, 238, 253, 254, 255, 271];
+                                $specialIds = [60, 99, 111, 112, 234, 238, 253, 254, 255, 271, 294];
                             @endphp
                             @foreach($dataPlansMtnCorporate as $data)
                                 @if(in_array($data['dataplan_id'], $specialIds))
