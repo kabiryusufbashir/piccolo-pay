@@ -23,6 +23,9 @@
         <div class="table-container">
             <table class="w-full text-xs">
                 <tr class="my-4 text-xs gray-bg">
+                    @if($customer->cust_type == 1)
+                        <th class="text-center py-3 border">Customer</th>    
+                    @endif
                     <th class="text-center py-3 border">Type</th>    
                     <th class="text-center py-3 border">Date</th>    
                     <th class="text-center py-3 border">Phone</th>    
@@ -34,7 +37,10 @@
                 <!-- Fetch Data  -->
                 @if(count($transactions) > 0)
                     @foreach($transactions as $record)
-                    <tr class="border text-xs">
+                    <tr class="border text-xs {{ ($record->status == 1) ? '' : 'red-text' }}">
+                        @if($customer->cust_type == 1)
+                        <td class="text-center py-3 border">{{ $record->cust_id }}</td>
+                        @endif
                         <td class="text-center py-3 border">{{ $record->transaction_type }}</td>
                         <td class="text-center py-3 whitespace-nowrap border">{{ $record->transactionDate($record->created_at) }}</td>
                         <td class="text-center py-3 whitespace-nowrap border">{{ $record->transaction_no }}</td>

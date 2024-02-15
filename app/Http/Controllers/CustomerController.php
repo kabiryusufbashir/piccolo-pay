@@ -729,7 +729,11 @@ class CustomerController extends Controller
     public function transactions(){
         $customer = Auth::guard('web')->user();
 
-        $transactions = CustomerTransactionHistory::where('cust_id', $customer->username)->orderby('id', 'desc')->get();
+        if($customer->cust_type == 1){
+            $transactions = CustomerTransactionHistory::orderby('id', 'desc')->get();
+        }else{
+            $transactions = CustomerTransactionHistory::where('cust_id', $customer->username)->orderby('id', 'desc')->get();
+        }
 
         // If Admin Auth  
         if($customer){
