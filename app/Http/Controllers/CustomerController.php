@@ -55,6 +55,7 @@ class CustomerController extends Controller
                     $amount_deposit = $data['depositedAmount'] / 100;
                     $amount_transfer = $data['amountAfterCharges'] / 100;
                     $payment_reference = $data['paymentRef'];
+                    $charges = $amount_deposit - $amount_transfer;
 
                     // Handle deposit success event
                     $cust_id = CustomerBankDetails::select('cust_id')->where('acct_no', $acct_transfer)->pluck('cust_id')->first();
@@ -70,20 +71,25 @@ class CustomerController extends Controller
 
                         if($check_transaction == 0){
 
+                            // Yusuf Charges Lost 
+                            $piccolopay_amount_payimg_to_customer = $amount_deposit - 50;
+                            $deposit_profit = $amount_transfer - $piccolopay_amount_payimg_to_customer;
+
                             // Store Transaction History
                             $new_transaction = CustomerTransactionHistory::create([
                                 'cust_id' => $cust_username,
                                 'network_id' => 200,
                                 'transaction_type' => 'Deposit',
                                 'transaction_no' => $acct_transfer,
-                                'transaction_amount' => $amount_transfer,
+                                'transaction_amount' => $piccolopay_amount_payimg_to_customer,
                                 'transaction_paid' => $amount_deposit,
                                 'reference' => $payment_reference,
+                                'profit' => $deposit_profit,
                                 'status' => 1,
                             ]);
 
                             // Update Customer Wallet Balance 
-                            $new_cust_acct_balance = $cust_wallet_balance + $amount_transfer;
+                            $new_cust_acct_balance = $cust_wallet_balance + $piccolopay_amount_payimg_to_customer;
                             $update_cust_acct_bal = Customer::where('username', $cust_username)->update(['acct_balance' => $new_cust_acct_balance]);
                             
                             return response()->json(['message' => 'Transaction processed successfully'], 200);

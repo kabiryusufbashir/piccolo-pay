@@ -528,7 +528,7 @@
                     <div class="px-10 pb-2 lg:flex justify-between">
                         <div class="my-3 w-full">
                             <label for="amount">Amount</label><br>
-                            <input class="plan_input_box" name="network_id" value="1" hidden>
+                            <input class="plan_input_box" name="network_id" value="2" hidden>
                             <input id="gloTransactionAmount" class="plan_input_box" name="transaction_amount" hidden>
                             <input id="gloTransactionBuying" class="plan_input_box" name="transaction_buying" hidden>
                             <input id="gloTransactionReference" class="plan_input_box" name="transaction_reference" hidden>
@@ -622,7 +622,7 @@
                     <div class="px-10 pb-2 lg:flex justify-between">
                         <div class="my-3 w-full">
                             <label for="amount">Amount</label><br>
-                            <input class="plan_input_box" name="network_id" value="1" hidden>
+                            <input class="plan_input_box" name="network_id" value="4" hidden>
                             <input id="airtelTransactionAmount" class="plan_input_box" name="transaction_amount" hidden>
                             <input id="airtelTransactionBuying" class="plan_input_box" name="transaction_buying" hidden>
                             <input id="airtelTransactionReference" class="plan_input_box" name="transaction_reference" hidden>
@@ -716,7 +716,7 @@
                     <div class="px-10 pb-2 lg:flex justify-between">
                         <div class="my-3 w-full">
                             <label for="amount">Amount</label><br>
-                            <input class="plan_input_box" name="network_id" value="1" hidden>
+                            <input class="plan_input_box" name="network_id" value="3" hidden>
                             <input id="n9mobileTransactionAmount" class="plan_input_box" name="transaction_amount" hidden>
                             <input id="n9mobileTransactionBuying" class="plan_input_box" name="transaction_buying" hidden>
                             <input id="n9mobileTransactionReference" class="plan_input_box" name="transaction_reference" hidden>
