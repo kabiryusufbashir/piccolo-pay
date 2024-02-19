@@ -522,7 +522,10 @@ class CustomerController extends Controller
                     'reference' => $transaction_reference,
                     'status' => 0,
                 ]);
-    
+
+                // Update Cust Acct Balance 
+                $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $new_cust_acct_balance]);
+                
                 // Purchase DATA Using HUMSO API 
     
                     // JSON payload for the request
@@ -550,8 +553,6 @@ class CustomerController extends Controller
                             if($data['Status'] == 'successful'){
                                 // Update Transaction Status 
                                 $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)->update(['status' => 1, 'reference' => $data['id']]);
-                                // Update Cust Acct Balance 
-                                $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $new_cust_acct_balance]);
                                 
                                 return response()->json([
                                     'status' => true,
@@ -564,6 +565,11 @@ class CustomerController extends Controller
                                 ]);
                             }
                         }else{
+                            // If Transaction Failed 
+                            $cust_acct_balance_current = Auth::guard('web')->user()->acct_balance;
+                            $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
+                            $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
+                            
                             // Handle unsuccessful request
                             return response()->json([
                                 'status' => false,
@@ -571,6 +577,11 @@ class CustomerController extends Controller
                             ]);
                         }
                     }catch(RequestException $e) {
+                        // If Transaction Failed 
+                        $cust_acct_balance_current = Auth::guard('web')->user()->acct_balance;
+                        $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
+                        $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
+
                         // Log the error
                         \Log::error('HTTP Request Error: ' . $e->getMessage());
             
@@ -628,6 +639,9 @@ class CustomerController extends Controller
                     'reference' => $transaction_reference,
                     'status' => 0,
                 ]);
+
+                // Update Cust Acct Balance 
+                $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $new_cust_acct_balance]);
     
                 // Purchase Airtime Using Geodnatech API 
     
@@ -664,8 +678,6 @@ class CustomerController extends Controller
                                     'profit' => $profit
                                 ]);
 
-                                // Update Cust Acct Balance 
-                                $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $new_cust_acct_balance]);
                                 return response()->json([
                                     'status' => true,
                                     'message' => 'Airtime sent. Mun gode sosai.',
@@ -678,6 +690,12 @@ class CustomerController extends Controller
                             }
     
                         }else{
+                            
+                            // If Transaction Failed 
+                            $cust_acct_balance_current = Auth::guard('web')->user()->acct_balance;
+                            $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
+                            $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
+
                             // Handle unsuccessful request
                             return response()->json([
                                 'status' => false,
@@ -685,6 +703,11 @@ class CustomerController extends Controller
                             ]);
                         }
                     }catch(RequestException $e) {
+                        // If Transaction Failed 
+                        $cust_acct_balance_current = Auth::guard('web')->user()->acct_balance;
+                        $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
+                        $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
+
                         // Log the error
                         \Log::error('HTTP Request Error: ' . $e->getMessage());
             
