@@ -559,14 +559,19 @@ class CustomerController extends Controller
                                     'message' => 'Data sent. Mun gode sosai.',
                                 ]);
                             }else{
+                                // If Transaction Failed 
+                                $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
+                                $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
+                                $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
+                                
                                 return response()->json([
                                     'status' => true,
-                                    'message' => 'Transaction processing.',
+                                    'message' => $data['api_response'],
                                 ]);
                             }
                         }else{
                             // If Transaction Failed 
-                            $cust_acct_balance_current = Auth::guard('web')->user()->acct_balance;
+                            $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
                             $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
                             $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
                             
@@ -578,10 +583,10 @@ class CustomerController extends Controller
                         }
                     }catch(RequestException $e) {
                         // If Transaction Failed 
-                        $cust_acct_balance_current = Auth::guard('web')->user()->acct_balance;
+                        $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
                         $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
                         $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
-
+                        
                         // Log the error
                         \Log::error('HTTP Request Error: ' . $e->getMessage());
             
@@ -683,16 +688,20 @@ class CustomerController extends Controller
                                     'message' => 'Airtime sent. Mun gode sosai.',
                                 ]);
                             }else{
+                                // If Transaction Failed 
+                                $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
+                                $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
+                                $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
+                                
                                 return response()->json([
                                     'status' => true,
-                                    'message' => 'Transaction processing.',
+                                    'message' => $data['api_response'],
                                 ]);
                             }
     
                         }else{
-                            
                             // If Transaction Failed 
-                            $cust_acct_balance_current = Auth::guard('web')->user()->acct_balance;
+                            $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
                             $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
                             $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
 
@@ -704,10 +713,10 @@ class CustomerController extends Controller
                         }
                     }catch(RequestException $e) {
                         // If Transaction Failed 
-                        $cust_acct_balance_current = Auth::guard('web')->user()->acct_balance;
+                        $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
                         $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
                         $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
-
+                        
                         // Log the error
                         \Log::error('HTTP Request Error: ' . $e->getMessage());
             

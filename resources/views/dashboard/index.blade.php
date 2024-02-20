@@ -339,14 +339,6 @@
         <div id="mtnModalContent" class="yus_modal">
             <form action="{{ route('cust-data-purchase') }}" id="purchaseDataMtn" method="POST" class="yus_modal-content text-xs lg:text-sm">
                 @csrf 
-                <!-- Loading -->
-                <div class="loader hidden">
-                    @include('includes.loader')
-                </div>
-                                            
-                <!-- Feedback Container  -->
-                <div id="feedbackContainerMtn" class="my-2">@include('includes.messages')</div>
-
                 <div class="px-4 font-bold pt-4">
                     <div class="flex justify-between items-center">
                         <div>
@@ -455,6 +447,14 @@
                         <input class="" type="submit" value="BUY" name="submit">
                     </div>
                 </div>
+
+                <!-- Loading -->
+                <div class="loader hidden">
+                    @include('includes.loader')
+                </div>
+                                            
+                <!-- Feedback Container  -->
+                <div id="feedbackContainerMtn" class="my-2">@include('includes.messages')</div>
             </form>
         </div>
 
@@ -462,13 +462,6 @@
         <div id="gloModalContent" class="yus_modal">
             <form action="{{ route('cust-data-purchase') }}" id="purchaseDataGlo" method="POST" class="yus_modal-content text-xs lg:text-sm">
                 @csrf 
-                <!-- Loading -->
-                <div class="loader hidden">
-                    @include('includes.loader')
-                </div>
-                                            
-                <!-- Feedback Container  -->
-                <div id="feedbackContainerGlo" class="my-2">@include('includes.messages')</div>
 
                 <div class="px-4 font-bold pt-4">
                     <div class="flex justify-between items-center">
@@ -549,6 +542,15 @@
                         <input class="" type="submit" value="BUY" name="submit">
                     </div>
                 </div>
+
+                <!-- Loading -->
+                <div class="loader hidden">
+                    @include('includes.loader')
+                </div>
+                                            
+                <!-- Feedback Container  -->
+                <div id="feedbackContainerGlo" class="my-2">@include('includes.messages')</div>
+
             </form>
         </div>
 
@@ -556,13 +558,6 @@
         <div id="airtelModalContent" class="yus_modal">
             <form action="{{ route('cust-data-purchase') }}" id="purchaseDataAirtel" method="POST" class="yus_modal-content text-xs lg:text-sm">
                 @csrf 
-                <!-- Loading -->
-                <div class="loader hidden">
-                    @include('includes.loader')
-                </div>
-                                            
-                <!-- Feedback Container  -->
-                <div id="feedbackContainerAirtel" class="my-2">@include('includes.messages')</div>
 
                 <div class="px-4 font-bold pt-4">
                     <div class="flex justify-between items-center">
@@ -643,6 +638,14 @@
                         <input class="" type="submit" value="BUY" name="submit">
                     </div>
                 </div>
+
+                <!-- Loading -->
+                <div class="loader hidden">
+                    @include('includes.loader')
+                </div>
+                                            
+                <!-- Feedback Container  -->
+                <div id="feedbackContainerAirtel" class="my-2">@include('includes.messages')</div>
             </form>
         </div>
 
@@ -650,13 +653,6 @@
         <div id="n9mobileModalContent" class="yus_modal">
             <form action="{{ route('cust-data-purchase') }}" id="purchaseData9Mobile" method="POST" class="yus_modal-content text-xs lg:text-sm">
                 @csrf 
-                <!-- Loading -->
-                <div class="loader hidden">
-                    @include('includes.loader')
-                </div>
-                                            
-                <!-- Feedback Container  -->
-                <div id="feedbackContainer9Mobile" class="my-2">@include('includes.messages')</div>
 
                 <div class="px-4 font-bold pt-4">
                     <div class="flex justify-between items-center">
@@ -737,6 +733,14 @@
                         <input class="" type="submit" value="BUY" name="submit">
                     </div>
                 </div>
+
+                <!-- Loading -->
+                <div class="loader hidden">
+                    @include('includes.loader')
+                </div>
+                                            
+                <!-- Feedback Container  -->
+                <div id="feedbackContainer9Mobile" class="my-2">@include('includes.messages')</div>
             </form>
         </div>
 
@@ -744,13 +748,6 @@
         <div id="airtimeModalContent" class="yus_modal">
             <form action="{{ route('cust-airtime-purchase') }}" id="purchaseAirtime" method="POST" class="yus_modal-content text-xs lg:text-sm">
                 @csrf 
-                <!-- Loading -->
-                <div class="loader hidden">
-                    @include('includes.loader')
-                </div>
-                                            
-                <!-- Feedback Container  -->
-                <div id="feedbackContainerAirtime" class="my-2">@include('includes.messages')</div>
 
                 <div class="px-4 font-bold pt-4">
                     <div class="flex justify-between items-center">
@@ -817,6 +814,14 @@
                         <input class="" type="submit" value="BUY" name="submit">
                     </div>
                 </div>
+
+                <!-- Loading -->
+                <div class="loader hidden">
+                    @include('includes.loader')
+                </div>
+                                            
+                <!-- Feedback Container  -->
+                <div id="feedbackContainerAirtime" class="my-2">@include('includes.messages')</div>
             </form>
         </div>
 
