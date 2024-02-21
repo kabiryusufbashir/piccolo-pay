@@ -484,12 +484,12 @@ class CustomerController extends Controller
 
     // Buy Data 
     public function dataPurchase(Request $request){
-        
         $cust_id = Auth::guard('web')->user()->username;
         $cust_pin = Auth::guard('web')->user()->pin;
         $cust_acct_balance = Auth::guard('web')->user()->acct_balance;
 
         $network_id = $request->network_id;
+        $data_unit = $request->data_unit;
         $transaction_no = $request->transaction_no;
         $plan_id = $request->plan_type;
         $transaction_amount = $request->transaction_amount;
@@ -514,6 +514,7 @@ class CustomerController extends Controller
                 $new_transaction = CustomerTransactionHistory::create([
                     'cust_id' => $cust_id,
                     'network_id' => $network_id,
+                    'data_unit' => $data_unit,
                     'transaction_type' => 'Data',
                     'transaction_no' => $transaction_no,
                     'transaction_amount' => $transaction_buying,
@@ -716,7 +717,7 @@ class CustomerController extends Controller
                         $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
                         $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
                         $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
-                        
+
                         // Log the error
                         \Log::error('HTTP Request Error: ' . $e->getMessage());
             

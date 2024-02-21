@@ -13,6 +13,7 @@ class CustomerTransactionHistory extends Model
     protected $fillable = [
         'cust_id',
         'network_id',
+        'data_unit',
         'transaction_no',
         'transaction_type',
         'transaction_amount',

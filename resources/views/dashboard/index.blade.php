@@ -387,14 +387,14 @@
                             @endphp
                             @foreach($dataPlansMtnSme as $data)
                                 @if(in_array($data['dataplan_id'], $specialIds))
-                                    <option value="{{ $data['dataplan_id'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
+                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
                                 @else
                                 @php
                                     $parts = explode('.', $data['plan']);
                                     $beforeDecimal = $parts[0];
                                     $charges = $beforeDecimal * 10;
                                 @endphp
-                                    <option value="{{ $data['dataplan_id'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
+                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
                                 @endif 
                             @endforeach
                         </select>
@@ -408,14 +408,14 @@
                             @endphp
                             @foreach($dataPlansMtnCorporate as $data)
                                 @if(in_array($data['dataplan_id'], $specialIds))
-                                    <option value="{{ $data['dataplan_id'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
+                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
                                 @else
                                 @php
                                     $parts = explode('.', $data['plan']);
                                     $beforeDecimal = $parts[0];
                                     $charges = $beforeDecimal * 10;
                                 @endphp
-                                    <option value="{{ $data['dataplan_id'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
+                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
                                 @endif
                             @endforeach
                         </select>
@@ -427,6 +427,7 @@
                         <div class="my-3 w-full">
                             <label for="amount">Amount</label><br>
                             <input class="plan_input_box" name="network_id" value="1" hidden>
+                            <input id="dataUnit" class="plan_input_box" name="data_unit" hidden>
                             <input id="transactionBuying" class="plan_input_box" name="transaction_buying" hidden>
                             <input id="transactionAmount" class="plan_input_box" name="transaction_amount" hidden>
                             <input id="transactionReference" class="plan_input_box" name="transaction_reference" hidden>
@@ -503,14 +504,14 @@
                             @endphp
                             @foreach($dataPlansGloAll as $data)
                                 @if(in_array($data['dataplan_id'], $specialIds))
-                                    <option value="{{ $data['dataplan_id'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
+                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
                                 @else
                                 @php
                                     $parts = explode('.', $data['plan']);
                                     $beforeDecimal = $parts[0];
                                     $charges = $beforeDecimal * 10;
                                 @endphp
-                                    <option value="{{ $data['dataplan_id'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
+                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
                                 @endif
                             @endforeach
                         </select>
@@ -522,6 +523,7 @@
                         <div class="my-3 w-full">
                             <label for="amount">Amount</label><br>
                             <input class="plan_input_box" name="network_id" value="2" hidden>
+                            <input id="gloDataUnit" class="plan_input_box" name="data_unit" hidden>
                             <input id="gloTransactionAmount" class="plan_input_box" name="transaction_amount" hidden>
                             <input id="gloTransactionBuying" class="plan_input_box" name="transaction_buying" hidden>
                             <input id="gloTransactionReference" class="plan_input_box" name="transaction_reference" hidden>
@@ -599,14 +601,14 @@
                             @endphp
                             @foreach($dataPlansAirtelAll as $data)
                                 @if(in_array($data['dataplan_id'], $specialIds))
-                                    <option value="{{ $data['dataplan_id'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
+                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
                                 @else
                                 @php
                                     $parts = explode('.', $data['plan']);
                                     $beforeDecimal = $parts[0];
                                     $charges = $beforeDecimal * 10;
                                 @endphp
-                                    <option value="{{ $data['dataplan_id'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
+                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
                                 @endif
                             @endforeach
                         </select>
@@ -618,6 +620,7 @@
                         <div class="my-3 w-full">
                             <label for="amount">Amount</label><br>
                             <input class="plan_input_box" name="network_id" value="4" hidden>
+                            <input id="airtelDataUnit" class="plan_input_box" name="data_unit" hidden>
                             <input id="airtelTransactionAmount" class="plan_input_box" name="transaction_amount" hidden>
                             <input id="airtelTransactionBuying" class="plan_input_box" name="transaction_buying" hidden>
                             <input id="airtelTransactionReference" class="plan_input_box" name="transaction_reference" hidden>
@@ -694,14 +697,14 @@
                             @endphp
                             @foreach($dataPlans9MobileAll as $data)
                                 @if(in_array($data['dataplan_id'], $specialIds))
-                                    <option value="{{ $data['dataplan_id'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
+                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
                                 @else
                                 @php
                                     $parts = explode('.', $data['plan']);
                                     $beforeDecimal = $parts[0];
                                     $charges = $beforeDecimal * 10;
                                 @endphp
-                                    <option value="{{ $data['dataplan_id'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
+                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
                                 @endif
                             @endforeach
                         </select>
@@ -713,6 +716,7 @@
                         <div class="my-3 w-full">
                             <label for="amount">Amount</label><br>
                             <input class="plan_input_box" name="network_id" value="3" hidden>
+                            <input id="n9mobileDataUnit" class="plan_input_box" name="data_unit" hidden>
                             <input id="n9mobileTransactionAmount" class="plan_input_box" name="transaction_amount" hidden>
                             <input id="n9mobileTransactionBuying" class="plan_input_box" name="transaction_buying" hidden>
                             <input id="n9mobileTransactionReference" class="plan_input_box" name="transaction_reference" hidden>
@@ -890,6 +894,7 @@
                 // MTN SME 
                 $(document).on('change', '#planTypeSme', function(){
                     let dataId = $(this).val()
+                    let dataUnit = $(this).find(':selected').data('unit')
                     let dataPlanId = $(this).find(':selected').data('plan')
                     let dataAmount = $(this).find(':selected').data('amount')
                     let dataBuying = $(this).find(':selected').data('buying')
@@ -903,6 +908,7 @@
 
                         $('#planTypeSme').val(dataPlanId)
                         $('#planTypeCor').val(null)
+                        $('#dataUnit').val(dataUnit)
                         $('#planAmount').val(planAmountTotal)
                         $('#transactionBuying').val(planBuyingTotal)
                         $('#transactionAmount').val(planAmountTotal)
@@ -916,6 +922,7 @@
                 // MTN Corporate 
                 $(document).on('change', '#planTypeCor', function(){
                     let dataId = $(this).val()
+                    let dataUnit = $(this).find(':selected').data('unit')
                     let dataAmount = $(this).find(':selected').data('amount')
                     let dataPlanId = $(this).find(':selected').data('plan')
                     let dataBuying = $(this).find(':selected').data('buying')
@@ -929,6 +936,7 @@
 
                         $('#planTypeCor').val(dataPlanId)
                         $('#planTypeSme').val(null)
+                        $('#dataUnit').val(dataUnit)
                         $('#planAmount').val(planAmountTotal)
                         $('#transactionBuying').val(planBuyingTotal)
                         $('#transactionAmount').val(planAmountTotal)
@@ -954,6 +962,7 @@
                 // GLO 
                 $(document).on('change', '#gloDataType', function(){
                     let dataId = $(this).val()
+                    let dataUnit = $(this).find(':selected').data('unit')
                     let dataAmount = $(this).find(':selected').data('amount')
                     let dataBuying = $(this).find(':selected').data('buying')
                     let transactionReference = $(this).find(':selected').data('refer')
@@ -964,6 +973,7 @@
                         let planAmountTotal = parseInt(dataAmount)
                         let planBuyingTotal = parseInt(dataBuying)
 
+                        $('#gloDataUnit').val(dataUnit)
                         $('#gloPlanAmount').val(planAmountTotal)
                         $('#gloTransactionAmount').val(planAmountTotal)
                         $('#gloTransactionBuying').val(planBuyingTotal)
@@ -989,6 +999,7 @@
                 // AIRTEL 
                 $(document).on('change', '#airtelDataType', function(){
                     let dataId = $(this).val()
+                    let dataUnit = $(this).find(':selected').data('unit')
                     let dataAmount = $(this).find(':selected').data('amount')
                     let dataBuying = $(this).find(':selected').data('buying')
                     let transactionReference = $(this).find(':selected').data('refer')
@@ -999,6 +1010,7 @@
                         let planAmountTotal = parseInt(dataAmount)
                         let planBuyingTotal = parseInt(dataBuying)
 
+                        $('#airtelDataUnit').val(dataUnit)
                         $('#airtelPlanAmount').val(planAmountTotal)
                         $('#airtelTransactionAmount').val(planAmountTotal)
                         $('#airtelTransactionBuying').val(planBuyingTotal)
@@ -1024,6 +1036,7 @@
                 // 9mobile 
                 $(document).on('change', '#n9mobileDataType', function(){
                     let dataId = $(this).val()
+                    let dataUnit = $(this).find(':selected').data('unit')
                     let dataAmount = $(this).find(':selected').data('amount')
                     let dataBuying = $(this).find(':selected').data('buying')
                     let transactionReference = $(this).find(':selected').data('refer')
@@ -1034,6 +1047,7 @@
                         let planAmountTotal = parseInt(dataAmount)
                         let planBuyingTotal = parseInt(dataBuying)
 
+                        $('#n9mobileDataUnit').val(dataUnit)
                         $('#n9mobilePlanAmount').val(planAmountTotal)
                         $('#n9mobileTransactionAmount').val(planAmountTotal)
                         $('#n9mobileTransactionBuying').val(planBuyingTotal)
