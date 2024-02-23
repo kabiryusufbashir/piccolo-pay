@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="px-2 lg:px-4">
                                     <span><b>Data Purchase</b></span><br>
-                                    <span class="gray-text">{{ $record->transactionDate($record->created_at) }} - {{ $record->transaction_no }} - {{ $record->data_unit }}</span><br>
+                                    <span class="gray-text">{{ $record->transactionDate($record->created_at) }} <br> {{ $record->transaction_no }} - {{ $record->data_unit }}</span><br>
                                     @if($customer->cust_type == 1)
                                         <span class="gray-text">{{ $record->cust_id }}</span><br>
                                     @endif
@@ -71,7 +71,7 @@
                                 </div>
                                 <div class="px-2 lg:px-4">
                                     <span><b>Airtime Purchase</b></span> <br>
-                                    <span class="gray-text">{{ $record->transactionDate($record->created_at) }} - {{ $record->transaction_no }}</span><br>
+                                    <span class="gray-text">{{ $record->transactionDate($record->created_at) }} <br> {{ $record->transaction_no }}</span><br>
                                     @if($customer->cust_type == 1)
                                         <span class="gray-text">{{ $record->cust_id }}</span><br>
                                     @endif
@@ -103,7 +103,7 @@
                                 </div>
                                 <div class="px-2 lg:px-4">
                                     <span><b>Electricity Purchase</b></span><br>
-                                    <span class="text-gray">{{ $record->transactionDate($record->created_at) }} - {{ $record->transaction_no }}</span><br>
+                                    <span class="text-gray">{{ $record->transactionDate($record->created_at) }} <br> {{ $record->transaction_no }}</span><br>
                                     @if($customer->cust_type == 1)
                                         <span class="gray-text">{{ $record->cust_id }}</span><br>
                                     @endif
