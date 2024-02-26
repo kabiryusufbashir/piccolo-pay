@@ -10,10 +10,14 @@
     <meta name="author" content="Team Piccolo">
 @endsection
 
+@section('nav')
+    @include('includes.nav')
+@endsection
+
 @section('pageContents')
     <!-- Banner Section  -->
-        <div id="bannerSection" class="lg:grid grid-cols-2 gap-4 py-12 items-center mx-4">
-            <div class="">
+        <div id="bannerSection" class="lg:grid grid-cols-2 gap-4 py-12 items-center bg-white">
+            <div class="mx-4 p-1">
                 <div id="bannerAdvertNoti" class="absolute lg:top-64 top-32 lg:left-12 lg:block">
                     <!-- Airtime  -->
                     <div class="my-4 flex bg-white shadow-lg rounded-lg py-3 px-3 w-48 items-center">
@@ -38,7 +42,7 @@
                     <img class="mx-auto" src="{{ asset('images/photo_1.png') }}" alt="Advert 1">
                 </div>
             </div>
-            <div>
+            <div class="p-2">
                 <div class="banner-header">
                     Welcome to Piccolo Pay - Your One-Stop Shop for Connectivity and Convenience!
                 </div>
@@ -331,4 +335,8 @@
             </div>
         </div>
     <!-- End of Page Contents  -->
+@endsection
+
+@section('footer')
+    @include('includes.footer')
 @endsection

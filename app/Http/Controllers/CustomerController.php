@@ -25,6 +25,12 @@ use Zainpay\SDK\Engine;
 use Zainpay\SDK\ZainBox;
 use Zainpay\SDK\VirtualAccount;
 
+use Session;
+use Exception;
+use Carbon\Carbon;
+
+use App\Mail\ForgotPasswordMail;
+
 require base_path('vendor/autoload.php');
 
 class CustomerController extends Controller
@@ -360,10 +366,52 @@ class CustomerController extends Controller
                 "errors" => $validator->errors()
             ]);
         }else{
-            return response()->json([
-                'status' => true,
-                'message' => 'Received'
-            ]);
+            try{
+                $cust_status = Customer::where('cust_status', 1)->where('username', $request->username)->where('email', $request->email)->where('phone', $request->phone)->count();
+                    if($cust_status == 1){
+                        try{       
+                            $email = Customer::select('email')->where('cust_status', 1)->where('username', $request->username)->where('email', $request->email)->where('phone', $request->phone)->pluck('email')->first();
+
+                            $cust = Customer::where('email', $email)->firstOrFail();
+                            
+                            $autopass = Str::random(12);
+                            
+                            $input['password'] = Hash::make($autopass);
+                            
+                            Session::put('password', $autopass);
+                            
+                            if($cust->update($input)){
+                                Mail::to($email)->send(new ForgotPasswordMail($email));
+                                
+                                return response()->json([
+                                    "status" => true, 
+                                    'message' => "Check your email for your new password..."
+                                ]);
+                            }else{
+                                return response()->json([
+                                    "status" => true, 
+                                    'message' => 'Email was not sent, please try again...',
+                                ]);
+                            }
+                            
+                        }catch(Expection $e){
+                            return response()->json([
+                                'status' => true,
+                                'message' => 'Please try again later! ('.$e.')'
+                            ]);
+                        }
+                    }else{
+                        return response()->json([
+                            'status' => true,
+                            'message' => 'Invalid details... try again'
+                        ]);
+                    }
+            }catch(Exception $e){
+                return response()->json([
+                    'status' => true,
+                    'message' => $e->getMessage()
+                ]);            
+            }
         }
     }
 
