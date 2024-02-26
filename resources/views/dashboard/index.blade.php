@@ -214,10 +214,9 @@
                         </div>
                     </div>
                     <!-- Other Services  -->
-                    <div class="lg:grid grid-cols-4 gap-4 pb-5">
+                    <div class="grid lg:grid-cols-4 grid-cols-2 gap-4 pb-5 mb-24">
                         <!-- Airtime  -->
-                        <div id="airtimeModal" class="mx-auto shadow text-center p-3 cursor-pointer">
-                            <div class="px-4 font-bold">Airtime</div>
+                        <div id="airtimeModal" class="flex items-center flex-col cursor-pointer">
                             <!-- Airtime  -->
                             <div class="px-10 pt-4 flex flex-col">
                                 <div>
@@ -234,8 +233,7 @@
                             </div>
                         </div>
                         <!-- Electricity  -->
-                        <div id="electricityModal" class="mx-auto shadow text-center p-3 cursor-pointer">
-                            <div class="px-4 font-bold">Electricity</div>
+                        <div id="electricityModal" class="flex items-center flex-col cursor-pointer">
                             <!-- Electricity  -->
                             <div class="px-10 pt-4 flex flex-col">
                                 <div>
@@ -252,8 +250,7 @@
                             </div>
                         </div>
                         <!-- Cable  -->
-                        <div id="cableModal" class="mx-auto shadow text-center p-3 cursor-pointer">
-                            <div class="px-4 font-bold">Cable Sub</div>
+                        <div id="cableModal" class="flex items-center flex-col cursor-pointer">
                             <!-- Cable  -->
                             <div class="px-10 pt-4 flex flex-col">
                                 <div>
@@ -264,14 +261,13 @@
                                         </svg>
                                     </div>
                                     <div class="lg:text-sm text-xs lg:py-4 py-2">
-                                        Cable Sub
+                                        Cable
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- Exams Pin  -->
-                        <div id="examsModal" class="mx-auto shadow text-center p-3 cursor-pointer">
-                            <div class="px-4 font-bold">Exams PIN</div>
+                        <div id="examsModal" class="flex items-center flex-col cursor-pointer">
                             <!-- Exams  -->
                             <div class="px-10 pt-4 flex flex-col">
                                 <div>
@@ -282,7 +278,7 @@
                                         </svg>
                                     </div>
                                     <div class="lg:text-sm text-xs lg:py-4 py-2">
-                                        Exams PIN
+                                        Exams
                                     </div>
                                 </div>
                             </div>
