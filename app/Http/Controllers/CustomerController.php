@@ -341,6 +341,32 @@ class CustomerController extends Controller
         return redirect()->route('login');
     }
 
+    //Forgot Password
+    public function forgotPassword(){
+        return view('forgotpassword');
+    } 
+
+    // Forgot Password Submit 
+    public function forgotPasswordForm(Request $request){
+        $validator = Validator::make($request->all(), [
+            'username' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                "status" => false,
+                "errors" => $validator->errors()
+            ]);
+        }else{
+            return response()->json([
+                'status' => true,
+                'message' => 'Received'
+            ]);
+        }
+    }
+
     // Dashboard 
     public function dashboard(){
         $customer = Auth::guard('web')->user();

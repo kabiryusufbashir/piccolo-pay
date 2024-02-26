@@ -36,6 +36,10 @@ Route::get('/login', [CustomerController::class, 'loginPage'])->name('login');
 Route::post('/login', [CustomerController::class, 'loginForm'])->name('loginform');
 Route::get('/logout', [CustomerController::class, 'logout'])->name('logout');
 
+//Forgot Password
+Route::get('/forgot/password', [CustomerController::class, 'forgotPassword'])->name('forgot-password');
+Route::post('/forgot/password', [CustomerController::class, 'forgotPasswordForm'])->name('forgot-password-form');
+
 // Customer 
 Route::prefix('dashboard')->group(function(){
     // Pages 

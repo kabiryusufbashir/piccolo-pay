@@ -96,13 +96,13 @@
                                     <span class="relative -top-1">Remember me</span> 
                                 </div>
                                 <div class="green-text">
-                                    Forgot Password
+                                    <a href="{{ route('forgot-password') }}" class="green-text hover:green-text">Forgot Password</a>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="text-center text-sm">
-                        Don't have an account? <a href="{{ route('signup') }}" class="green-text">Sign Up</a>
+                        Don't have an account? <a href="{{ route('signup') }}" class="green-text hover:green-text">Sign Up</a>
                     </div>
                 </div>
             </div>
@@ -128,7 +128,7 @@
                                 
                                 $('#feedbackContainer').fadeIn().delay(5000).fadeOut()
                                 
-                                $("#feedbackContainer").append('<div class="alert alert-success text-xs">Welcome to PiccoloPay!</div>')
+                                $("#feedbackContainer").append('<div class="alert alert-success text-xs text-center">Welcome to PiccoloPay!</div>')
                                 // Redirect 
                                 setTimeout(function(){
                                     window.location = data.redirect
