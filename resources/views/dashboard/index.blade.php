@@ -368,13 +368,31 @@
                 <div class="px-10 pb-2 lg:flex justify-between">
                     <div class="my-3 w-full">
                         <label for="data_type">Data Type</label><br>
-                        <select id="dataType" class="plan_input_box">
+                        <!-- <select id="dataType" class="plan_input_box">
                             <option value=""></option>
                             <option value="SME">SME</option>
                             <option value="CORPORATE GIFTING">ALL</option>
+                        </select> -->
+                        <select id="planTypeSme" class="plan_input_box" name="plan_type">
+                            <option value=""></option>
+                            @php
+                                $specialIds = [60];
+                            @endphp
+                            @foreach($dataPlansMtnSme as $data)
+                                @if(in_array($data['dataplan_id'], $specialIds))
+                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
+                                @else
+                                @php
+                                    $parts = explode('.', $data['plan']);
+                                    $beforeDecimal = $parts[0];
+                                    $charges = $beforeDecimal * 10;
+                                @endphp
+                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
+                                @endif 
+                            @endforeach
                         </select>
                     </div>
-                    <div id="dataPlanSme" class="my-3 w-full hidden">
+                    <!-- <div id="dataPlanSme" class="my-3 w-full hidden">
                         <label for="data_plan_sme">Plan Type</label><br>
                         <select id="planTypeSme" class="plan_input_box" name="plan_type">
                             <option value=""></option>
@@ -415,7 +433,7 @@
                                 @endif
                             @endforeach
                         </select>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- Amount  -->
                 <div id="dataAmount" class="hidden">

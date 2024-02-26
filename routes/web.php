@@ -24,7 +24,8 @@ Route::get('/clear_cache', function () {
 
 });
 
-Route::get('/', [CustomerController::class, 'index'])->name('home');
+Route::get('/', [CustomerController::class, 'loginPage'])->name('login');
+Route::get('/home', [CustomerController::class, 'index'])->name('home');
 Route::post('/zainbox_live', [CustomerController::class, 'merchantDeposit']);
 
 // SignUp 
