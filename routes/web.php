@@ -54,6 +54,8 @@ Route::prefix('dashboard')->group(function(){
     // Purchase 
     Route::post('/data/purchase', [CustomerController::class, 'dataPurchase'])->name('cust-data-purchase')->middleware('auth:web');
     Route::post('/airtime/purchase', [CustomerController::class, 'airtimePurchase'])->name('cust-airtime-purchase')->middleware('auth:web');
+    Route::post('/electricity/search/meter', [CustomerController::class, 'electricitySearchMeter'])->name('cust-electricity-search-meter')->middleware('auth:web');
+    Route::post('/electricity/purchase', [CustomerController::class, 'electricityPurchase'])->name('cust-electricity-purchase')->middleware('auth:web');
     
     // Transaction 
     Route::get('/transaction/view', [CustomerController::class, 'transactionView'])->name('cust-transaction-view')->middleware('auth:web');

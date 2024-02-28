@@ -6,6 +6,8 @@ $(document).on('submit', '#purchaseDataMtn', function() {
     // display Loader 
     $('.loader').show()
 
+    $('#dataBuy').hide()
+
     $.ajax({
         url: $(this).attr('action'),
         data: $(this).serialize(),
@@ -67,6 +69,7 @@ $(document).on('submit', '#purchaseDataGlo', function() {
 
     // display Loader 
     $('.loader').show()
+    $('#gloDataBuy').hide()
 
     $.ajax({
         url: $(this).attr('action'),
@@ -129,6 +132,7 @@ $(document).on('submit', '#purchaseDataAirtel', function() {
 
     // display Loader 
     $('.loader').show()
+    $('#airtelDataBuy').hide()
 
     $.ajax({
         url: $(this).attr('action'),
@@ -191,6 +195,7 @@ $(document).on('submit', '#purchaseData9Mobile', function() {
 
     // display Loader 
     $('.loader').show()
+    $('#n9mobileDataBuy').hide()
 
     $.ajax({
         url: $(this).attr('action'),
@@ -253,6 +258,7 @@ $(document).on('submit', '#purchaseAirtime', function() {
 
     // display Loader 
     $('.loader').show()
+    $('#airtimeBuy').hide()
 
     $.ajax({
         url: $(this).attr('action'),
@@ -292,6 +298,149 @@ $(document).on('submit', '#purchaseAirtime', function() {
                     }else{
                         // Handle other cases or provide a default message
                         container.append('<div class="alert alert-danger text-xs text-center">An error occurred.</div>');
+                    }
+                }
+
+                // Redirect 
+                setTimeout(function(){
+                    location.reload()
+                }, 5000)
+
+            }
+        
+        }
+    });
+
+    return false;
+})
+
+// Search Meter Electricity
+$(document).on('submit', '#searchMeterElectricity', function() {
+    var e = this
+    let searchMeterBtn = $('#searchMeterBtn')
+    let meterName = $('#meterName')
+    let meterNameBox = $('#meterNameBox')
+    let container = $('#feedbackContainerElectricity')
+
+    // display Loader 
+    $('.loader').show()
+    searchMeterBtn.hide()
+
+    $.ajax({
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        type: "POST",
+        dataType: 'json',
+        success: function(data) {
+
+            if(data.status === true) {
+                // Loader Hide 
+                $('.loader').hide()
+                meterName.show()
+
+                // Add Value to Meter Box 
+                meterNameBox.val(data.message)
+
+                // Show Amount Container 
+                $('#electricityAmount').show()    
+
+            }else{
+                $(".alert").remove();
+                
+                // Loader Hide 
+                $('.loader').hide()
+
+                // Display Search Btn Back 
+                searchMeterBtn.show()
+                
+                if(data.status === false) {
+                    // Check if the errors property is a string
+                    if(typeof data.errors === 'string') {
+                        container.append('<div class="alert alert-danger text-xs text-center">' + data.errors + '</div>');
+                    }else if(typeof data.errors === 'object') {
+                        // If errors is an object (possibly from server validation)
+                        $.each(data.errors, function (key, val) {
+                            container.append('<div class="alert alert-danger text-xs text-center">' +val+ '</div>');
+                        });
+                    }else{
+                        // Handle other cases or provide a default message
+                        container.append('<div class="alert alert-danger text-xs text-center">'+data.message+'</div>');
+                    }
+                }
+
+                // Redirect 
+                // setTimeout(function(){
+                //     location.reload()
+                // }, 5000)
+
+            }
+        
+        }
+    });
+
+    return false;
+})
+
+// Purchase Electricity
+$(document).on('submit', '#purchaseElectricity', function() {
+    var e = this
+    let csrfToken = $('meta[name="csrf-token"]').attr('content');
+    let container = $('#feedbackContainerElectricity')
+    let discoName = $('#discoName').val()
+    let meterNumber = $('#meterNumber').val()
+    let tokenAmount = $('#tokenAmount').val()
+    let custPin = $('#electricityCustPin').val()
+
+    // display Loader 
+    $('.loader').show()
+
+    $('#electricityBuy').hide()
+
+    $.ajax({
+        url: $(this).attr('action'),
+        data: {
+            _token: csrfToken,
+            discoName: discoName,
+            meterNumber: meterNumber,
+            tokenAmount: tokenAmount,
+            custPin: custPin,
+        },
+        // data: $(this).serialize(),
+        type: "POST",
+        dataType: 'json',
+        success: function(data) {
+
+            if(data.status) {
+                // Loader Hide 
+                $('.loader').hide()
+                
+                container.fadeIn().delay(5000).fadeOut()
+                
+                container.append('<div class="alert alert-success text-xs text-center">'+data.message+'</div>')
+                
+                // Redirect 
+                setTimeout(function(){
+                    location.reload()
+                }, 5000)
+
+            }else{
+                $(".alert").remove();
+                
+                // Loader Hide 
+                $('.loader').hide()
+
+                if(data.status === false) {
+                    // Check if the errors property is a string
+                    if(typeof data.errors === 'string') {
+                        container.append('<div class="alert alert-danger text-xs text-center">' + data.errors + '</div>');
+                    }else if(typeof data.errors === 'object') {
+                        // If errors is an object (possibly from server validation)
+                        $.each(data.errors, function (key, val) {
+                            container.append('<div class="alert alert-danger text-xs text-center">' + val + '</div>');
+                        });
+                    }else{
+                        // Handle other cases or provide a default message
+                        container.append('<div class="alert alert-danger text-xs text-center">'+data.message+'</div>');
                     }
                 }
 

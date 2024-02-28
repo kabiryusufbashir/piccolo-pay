@@ -522,7 +522,7 @@ class CustomerController extends Controller
                         $rechargePinGlo = $responseData['recharge']['glo_pin'];
                         $rechargePinAirtel = $responseData['recharge']['airtel_pin'];
                         $rechargePin9Mobile = $responseData['recharge']['9mobile_pin'];
-
+                        
                         // If Admin Auth  
                         if($customer){
                             return view('dashboard.index', 
@@ -816,6 +816,202 @@ class CustomerController extends Controller
                 'message' => "Incorrect Pin"
             ]);
         }
+    }
+
+    // Search Meter 
+    public function electricitySearchMeter(Request $request){
+        
+        $disco_name = $request->disco_id;
+        $meternumber = $request->meter_number;
+
+        // Search Meter Using Husmodata API 
+        try{
+            $apiEndpoint = 'https://www.husmodata.com/ajax/validate_meter_number?meternumber='.$meternumber.'&disconame='.$disco_name.'&mtype=Prepaid';
+
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'Authorization' => env('HUSMO_BEARER_TOKEN'),
+            ])->get($apiEndpoint);
+
+            // Check if the request was successful
+            if($response->successful()) {
+                // Return the response data
+                
+                $data = $response->json();
+                
+                if($data['invalid'] == false){
+                    return response()->json([
+                        'status' => true,
+                        'message' => $data['name'].' ('.$data['address'].')',
+                    ]);
+                }else{
+                    return response()->json([
+                        'status' => false,
+                        'message' => $data['name'].' ('.$data['address'].')',
+                    ]);
+                }
+            }else{
+                // Handle unsuccessful request
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Please try again later!: ' . $response->status(),
+                ]);
+            }
+        }catch(RequestException $e) {
+            // Log the error
+            \Log::error('HTTP Request Error: ' . $e->getMessage());
+
+            // Handle HTTP request-specific errors
+            return response()->json([
+                'status' => false,
+                'message' => 'Please try again later! (' . $e->getMessage() . ')',
+            ]);
+        }
+    }
+
+    // Buy Electricity 
+    public function electricityPurchase(Request $request){
+        $disco_name = $request->discoName;
+        $meter_number =  $request->meterNumber;
+        $amount =  $request->tokenAmount;
+        $transaction_pin =  $request->custPin;
+
+        $cust_id = Auth::guard('web')->user()->username;
+        $cust_pin = Auth::guard('web')->user()->pin;
+        $cust_acct_balance = Auth::guard('web')->user()->acct_balance;
+
+        $network_id = $disco_name;
+        $transaction_amount = $amount;
+        $transaction_no = $meter_number;
+        $transaction_reference = $disco_name.' - '.$amount;
+
+        return response()->json([
+            "status" => true, 
+            'message' => "Feature coming soon..."
+        ]);
+
+        // Check if PIN is correct 
+        // if(Hash::check(2564, $cust_pin)){
+         
+        //     // Check Account Balance 
+        //     if($cust_acct_balance >= $transaction_amount){
+        //         $new_cust_acct_balance = $cust_acct_balance - $transaction_amount;
+                
+        //         $new_transaction = CustomerTransactionHistory::create([
+        //             'cust_id' => $cust_id,
+        //             'network_id' => 914,
+        //             // 'network_id' => $network_id,
+        //             'transaction_type' => 'Electricity',
+        //             'transaction_no' => $transaction_no,
+        //             'transaction_amount' => 500,
+        //             // 'transaction_amount' => $transaction_amount ,
+        //             // 'transaction_paid' => $transaction_amount,
+        //             'transaction_paid' => 200,
+        //             'reference' => $transaction_reference,
+        //             'status' => 0,
+        //         ]);
+
+        //         // Update Cust Acct Balance 
+        //         $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $new_cust_acct_balance]);
+    
+        //         // Purchase Electricity Using Geodnatech API 
+    
+        //             // JSON payload for the request
+        //             $payload = [
+        //                 // "disco_name" => $network_id,
+        //                 // "amount" => $transaction_amount,
+        //                 // "meter_number" => $transaction_no,
+        //                 "disco_name" => 4,
+        //                 "amount" => 500,
+        //                 "meter_number" => 30530104279,
+        //                 "meterType" => 1,
+        //             ];
+    
+        //             try{
+        //                 $apiEndpoint = 'https://www.husmodata.com/api/billpayment/';
+            
+        //                 $response = Http::withHeaders([
+        //                     'Content-Type' => 'application/json',
+        //                     'Authorization' => env('HUSMO_BEARER_TOKEN'),
+        //                 ])->post($apiEndpoint, $payload);
+            
+        //                 $data = $response->json();
+        //                 dd($response);
+                        
+        //                 // Check if the request was successful
+        //                 if($response->successful()) {
+        //                     // Get the response body as an array
+        //                     $data = $response->json();
+        //                     dd($data);
+        //                     // Return the response data
+        //                     // if($data['Status'] == 'successful'){
+        //                     //     $profit = $transaction_amount - $data['paid_amount'];
+
+        //                     //     $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)->update([
+        //                     //         'status' => 1, 
+        //                     //         'transaction_amount' => $data['paid_amount'],
+        //                     //         'reference' => $data['id'],
+        //                     //         'profit' => $profit
+        //                     //     ]);
+
+        //                     //     return response()->json([
+        //                     //         'status' => true,
+        //                     //         'message' => 'Airtime sent. Mun gode sosai.',
+        //                     //     ]);
+        //                     // }else{
+        //                     //     // If Transaction Failed 
+        //                     //     $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
+        //                     //     $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
+        //                     //     $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
+                                
+        //                     //     return response()->json([
+        //                     //         'status' => true,
+        //                     //         'message' => $data['api_response'],
+        //                     //     ]);
+        //                     // }
+    
+        //                 }else{
+        //                     // If Transaction Failed 
+        //                     $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
+        //                     $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
+        //                     $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
+
+        //                     // Handle unsuccessful request
+        //                     return response()->json([
+        //                         'status' => false,
+        //                         'message' => 'Please try again later!: ' . $response->status(),
+        //                     ]);
+        //                 }
+        //             }catch(RequestException $e) {
+        //                 // If Transaction Failed 
+        //                 $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
+        //                 $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
+        //                 $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
+
+        //                 // Log the error
+        //                 \Log::error('HTTP Request Error: ' . $e->getMessage());
+            
+        //                 // Handle HTTP request-specific errors
+        //                 return response()->json([
+        //                     'status' => false,
+        //                     'message' => 'Please try again later! (' . $e->getMessage() . ')',
+        //                 ]);
+        //             }
+            
+        //         // End of Purchase Electricity Using HUMSO API
+        //     }else{
+        //         return response()->json([
+        //             "status" => true, 
+        //             'message' => "Oops, Account Balance Low"
+        //         ]);
+        //     }
+
+        // }else{
+        //     return response()->json([
+        //         "status" => true, 
+        //         'message' => "Incorrect Pin"
+        //     ]);
+        // }
     }
 
     // Wallet 

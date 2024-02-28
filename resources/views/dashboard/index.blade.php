@@ -843,6 +843,106 @@
             </form>
         </div>
 
+        <!-- Electricity Modal  -->
+        <div id="electricityModalContent" class="yus_modal">
+            <div class="yus_modal-content text-xs lg:text-sm">
+                <div class="px-4 font-bold pt-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            Electricity Purchase
+                        </div>
+                        <div>
+                            <div id="closeElectricityModal" class="cursor-pointer">
+                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g filter="url(#filter0_d_73_1706)">
+                                        <circle cx="45" cy="45" r="29" fill="white"/>
+                                    </g>
+                                    <path d="M40.4419 50.4369L45.4398 45.439L50.4377 50.4369M50.4377 40.4411L45.4388 45.439L40.4419 40.4411" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <defs>
+                                        <filter id="filter0_d_73_1706" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                            <feMorphology radius="2" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_73_1706"/>
+                                            <feOffset/>
+                                            <feGaussianBlur stdDeviation="7"/>
+                                            <feComposite in2="hardAlpha" operator="out"/>
+                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_73_1706"/>
+                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_73_1706" result="shape"/>
+                                        </filter>
+                                    </defs>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Validate Meter  -->
+                <form action="{{ route('cust-electricity-search-meter') }}" id="searchMeterElectricity" method="POST">
+                    @csrf
+                    <div class="px-10 pb-2 lg:flex justify-between">
+                        <div class="my-3 w-full">
+                            <label for="disco_id">Disco</label><br>
+                            <select id="discoName" class="plan_input_box" name="disco_id">
+                                <option value=""></option>
+                                <option value="Ikeja Electric">Ikeja Electricity</option>
+                                <option value="Eko Electric">Eko Electricity</option>
+                                <option value="Abuja Electric">Abuja Electricity</option>
+                                <option value="Kano Electric">Kano Electricity</option>
+                                <option value="Enugu Electric">Enugu Electricity</option>
+                                <option value="Port Harcourt Electric">Port-harcourt Electricity</option>
+                                <option value="Ibadan Electric">Ibadan Electricity</option>
+                                <option value="Kaduna Electric">Kaduna Electricity</option>
+                                <option value="Jos Electric">Jos Electricity</option>
+                                <option value="Yola Electric">Yola Electricity</option>
+                                <option value="Benin Electric">Benin Electricity</option>
+                            </select>
+                        </div>
+                        <div class="my-3 w-full">
+                            <label for="meter_number">Meter No</label><br>
+                            <input id="meterNumber" type="number" required class="plan_input_box" name="meter_number">
+                        </div>
+                        <div class="my-3 w-full hidden" id="meterName">
+                            <label for="meter_name">Meter Name</label><br>
+                            <input id="meterNameBox" type="text" class="plan_input_box" disabled name="meter_name">
+                        </div>
+                        <div id="searchMeterBtn" class="my-2 submit_box">
+                            <input class="" type="submit" value="SEARCH METER" name="submit">
+                        </div>
+                    </div>
+                </form>
+                <form action="{{ route('cust-electricity-purchase') }}" id="purchaseElectricity" method="POST">
+                    @csrf 
+                    
+                    <!-- Amount  -->
+                    <div id="electricityAmount" class="hidden">
+                        <div class="px-10 pb-2 lg:flex justify-between">
+                            <div class="my-3 w-full">
+                                <label for="amount">Amount</label><br>
+                                <input id="tokenAmount" type="number" required class="plan_input_box" name="amount" placeholder="Min:₦500">
+                            </div>
+                            <div class="my-3 w-full">
+                                <label for="pin">Transaction PIN</label><br>
+                                <input id="electricityCustPin" type="password" required class="plan_input_box" name="pin">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="electricityBuy" class="px-10 pb-5 hidden">
+                        <div class="my-2 submit_box">
+                            <input class="" type="submit" value="BUY" name="submit">
+                        </div>
+                    </div>
+    
+                    <!-- Loading -->
+                    <div class="loader hidden">
+                        @include('includes.loader')
+                    </div>
+                                                
+                    <!-- Feedback Container  -->
+                    <div id="feedbackContainerElectricity" class="my-2">@include('includes.messages')</div>
+                </form>
+            </div>
+        </div>
+
     <!-- End of Modal  -->
 
     <!-- Script  -->
@@ -1113,6 +1213,28 @@
                         $('#airtimeBuy').show()
                     }else{
                         $('#airtimeBuy').hide()
+                    }
+
+                })
+
+                // Electricity Modal
+                $(document).on('click', '#electricityModal', function(){
+                    $('#electricityModalContent').toggle();
+                })
+
+                // Close Electricity Modal 
+                $(document).on('click', '#closeElectricityModal', function() {
+                    $('#electricityModalContent').toggle();
+                })
+
+                // Electricity Cust PIN 
+                $(document).on('keyup', '#electricityCustPin', function(){
+                    let custPin = $(this).val()
+
+                    if(custPin.length > 3){
+                        $('#electricityBuy').show()
+                    }else{
+                        $('#electricityBuy').hide()
                     }
 
                 })
