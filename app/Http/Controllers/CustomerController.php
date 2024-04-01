@@ -418,12 +418,16 @@ class CustomerController extends Controller
     // Dashboard 
     public function dashboard(){
         $customer = Auth::guard('web')->user();
+        
+        $currentMonth = Carbon::now()->format('m');
+
         $cust_account = CustomerBankDetails::select('acct_no')->where('cust_id', $customer->id)->pluck('acct_no')->first();
-        $transaction_count = CustomerTransactionHistory::where('cust_id', $customer->username)->where('status', 1)->count();
-        $amount_spent = CustomerTransactionHistory::where('cust_id', $customer->username)->where('status', 1)->sum('transaction_paid');
-        $cust_balance = Customer::select('acct_balance')->sum('acct_balance');
         $cust_count = Customer::count();
-        $profit_made = CustomerTransactionHistory::where('status', 1)->sum('profit');
+        $cust_balance = Customer::select('acct_balance')->sum('acct_balance');
+
+        $transaction_count = CustomerTransactionHistory::where('cust_id', $customer->username)->where('status', 1)->whereMonth('created_at', $currentMonth)->count();
+        $amount_spent = CustomerTransactionHistory::where('cust_id', $customer->username)->where('status', 1)->whereMonth('created_at', $currentMonth)->sum('transaction_paid');
+        $profit_made = CustomerTransactionHistory::where('status', 1)->whereMonth('created_at', $currentMonth)->sum('profit');
 
         // Getting Zainbox Balance 
         // Engine::setMode(Engine::MODE_PRODUCTION);
