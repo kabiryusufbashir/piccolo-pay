@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PSBController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,10 @@ Route::get('/clear_cache', function () {
 
 });
 
+// 9PSB API 
+Route::get('/authenticate', [PSBController::class, 'authenticate'])->name('login');
+
+// Home 
 Route::get('/', [CustomerController::class, 'loginPage'])->name('login');
 Route::get('/home', [CustomerController::class, 'index'])->name('home');
 Route::post('/zainbox_live', [CustomerController::class, 'merchantDeposit']);

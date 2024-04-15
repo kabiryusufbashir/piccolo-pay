@@ -43,7 +43,7 @@
                                 </svg>
                             </div>
                             <div class="balance">
-                                {{ number_format($cust_count) }}
+                                {{ number_format($cust_count) }} - {{ number_format($cust_active) }}
                             </div>
                         </div>
                         <div class="flex py-2 text-sm items-center">
