@@ -424,7 +424,6 @@ class CustomerController extends Controller
         $cust_account = CustomerBankDetails::select('acct_no')->where('cust_id', $customer->id)->pluck('acct_no')->first();
         $cust_count = Customer::count();
         $cust_active = Customer::where('acct_balance', '>', 0)->count();
-
         $cust_balance = Customer::select('acct_balance')->sum('acct_balance');
 
         $transaction_count = CustomerTransactionHistory::where('cust_id', $customer->username)->where('status', 1)->whereMonth('created_at', $currentMonth)->count();
