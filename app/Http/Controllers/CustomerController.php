@@ -185,7 +185,7 @@ class CustomerController extends Controller
                         'wemaBank',            
                         '22175618554',         
                         '-PiccoloPay',         
-                        'Betastack/'.$username,             
+                        $username,             
                         $email,                
                         '08068593127',                   
                         '27-07-1993',                    
@@ -281,6 +281,90 @@ class CustomerController extends Controller
                 ]);
             }
         }
+    }
+
+    public function createFCMBAccount(){
+        $customers_list = Customer::orderby('id', 'asc')->where('username', 'not like', '%\_%')->get();
+        
+        foreach($customers_list as $cust){
+            $cust_id = $cust->id;
+            $username = $cust->username;
+            $email = $cust->email;
+            $phone = $cust->phone;
+            
+            // Check if User has a FCMB account 
+            $check = CustomerBankDetails::where('cust_id', $cust_id)->where('bank_name', 'fcmb')->count();
+
+            if($check == 0){
+                // Create Customer Virtual Wallet Using ZainPay API 
+                    
+                require base_path('vendor/autoload.php');
+
+                Engine::setMode(Engine::MODE_PRODUCTION);
+                Engine::setToken(env('ZAINPAY_BEARER_TOKEN'));
+
+                $response = VirtualAccount::instantiate()->createVirtualAccount(
+                    'fcmb',            
+                    '22175618554',         
+                    '-PiccoloPay',         
+                    $username,             
+                    $email,                
+                    '08068593127',                   
+                    '27-07-1993',                    
+                    'M',                             
+                    'Farawa Layout Kano',   
+                    'Mr',                            
+                    'Kano',                          
+                    env('ZAINPAY_BOX')                   
+                );
+
+                if($response->hasSucceeded()){
+
+                    $data = $response->getData();
+                    
+                    if(!empty($data)){
+                        // Handle the API response as needed
+                        $acct_no = $data['accountNumber'];
+                        $acct_name = $data['accountName'];
+                        $bank_name = $data['bankName'];
+
+                        // Store Customer Bank Details
+                        try{
+                            $cust_bank_details = CustomerBankDetails::create([
+                                'cust_id' => $cust_id,
+                                'bank_name' => $bank_name,
+                                'acct_name' => $acct_name,
+                                'acct_no' => $acct_no,
+                                'gateway' => 'Zainpay',
+                            ]);
+                                    
+                        }catch(Exception $e){
+                            return response()->json([
+                                'status' => false,
+                                'message' => 'Error: Can\'t add bank details. Please try again!'
+                            ]);
+                        }
+                    }else{
+                        
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Error Creating Virutal Account, Please try again II!'
+                        ]);
+                    }
+                }else{
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Error Creating Virutal Account, Please try again I! - ' .$response->getErrorMessage()
+                    ]);
+                }
+                
+            // End of Create Customer Virtual Wallet Using ZainPay API
+            
+            }
+        }
+        
+        dd('Accounts Created');
+
     }
 
     public function loginPage(){

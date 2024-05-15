@@ -33,6 +33,9 @@ Route::get('/', [CustomerController::class, 'loginPage'])->name('login');
 Route::get('/home', [CustomerController::class, 'index'])->name('home');
 Route::post('/zainbox_live', [CustomerController::class, 'merchantDeposit']);
 
+// FCMB Account 
+Route::get('/create_fcmb_account', [CustomerController::class, 'createFCMBAccount'])->name('fcmb');
+
 // SignUp 
 Route::get('/signup', [CustomerController::class, 'signUpPage'])->name('signup');
 Route::post('/signup/submit', [CustomerController::class, 'signUpForm'])->name('signupform');
