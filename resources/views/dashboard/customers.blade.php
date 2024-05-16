@@ -16,7 +16,7 @@
                 Customer's List
             </div>
             <div class="my-4">
-                <input style="width:250px;" class="input_box" type="text" placeholder="Search Customer" name="search_customer">
+                <input id="searchInput" style="width:250px;" class="input_box" type="text" placeholder="Search Customer" name="search_customer">
             </div>
         </div>
         <!-- Customer Table  -->
@@ -33,7 +33,7 @@
                 <!-- Fetch Data  -->
                 @if(count($customers_list) > 0)
                     @foreach($customers_list as $record)
-                    <tr class="border text-xs">
+                    <tr class="border text-xs transaction-record">
                         <td class="text-center py-3 border">{{ $record->fullname }}</td>
                         <td class="text-center py-3 whitespace-nowrap border">{{ $record->username }}</td>
                         <td class="text-center py-3 whitespace-nowrap border">{{ $record->email }}</td>
@@ -52,6 +52,37 @@
                     </tr>
                 @endif
             </table>
+            <div class="lg:mx-1 mx-3 yus-text-red text-sm px-2 lg:text-sm text-xs text-center py-2" id="notFoundMessage" style="display: none;">No Customer Found</div>
         </div>
     </div>
+    
+    <script>
+        // Get the input field, "Not Found" message, and listen for input events
+        const searchInput = document.getElementById('searchInput');
+        const notFoundMessage = document.getElementById('notFoundMessage');
+    
+        searchInput.addEventListener('input', function() {
+            const searchText = this.value.toLowerCase().trim(); // Get the search text and convert to lowercase
+    
+            // Loop through each record and hide/show based on the search text
+            const records = document.querySelectorAll('.transaction-record');
+            let found = false;
+            records.forEach(record => {
+                const textContent = record.textContent.toLowerCase(); // Get the text content of the record
+                if (textContent.includes(searchText)) {
+                    record.style.display = ''; // Show the record if it matches the search text
+                    found = true; // Set found to true if at least one record is found
+                } else {
+                    record.style.display = 'none'; // Hide the record if it doesn't match
+                }
+            });
+    
+            // Show/hide "Not Found" message based on search results
+            if (found) {
+                notFoundMessage.style.display = 'none'; // Hide message if records are found
+            } else {
+                notFoundMessage.style.display = ''; // Show message if no records are found
+            }
+        });
+    </script>
 @endsection
