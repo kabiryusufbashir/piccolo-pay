@@ -170,7 +170,7 @@
                 <div class="bg-white rounded-xl col-span-2">
                     <!-- Data  -->
                     <div class="py-4">
-                        <div class="px-4 font-bold">Buy Data</div>
+                        <div class="px-4 font-bold">VTU Services</div>
                         <div class="grid lg:grid-cols-4 grid-cols-2 gap-4 px-10 pt-4">
                             <!-- MTN  -->
                             <div id="mtnModal" class="flex items-center flex-col cursor-pointer">
@@ -250,9 +250,9 @@
                             </div>
                         </div>
                         <!-- Cable  -->
-                        <div id="cableModal" class="flex items-center flex-col cursor-pointer">
+                        <!-- <div id="cableModal" class="flex items-center flex-col cursor-pointer"> -->
                             <!-- Cable  -->
-                            <div class="px-10 pt-4 flex flex-col">
+                            <!-- <div class="px-10 pt-4 flex flex-col">
                                 <div>
                                     <div>
                                         <svg style="margin: 0 auto;" width="33" height="33" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -264,12 +264,12 @@
                                         Cable
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div> -->
+                        <!-- </div> -->
                         <!-- Exams Pin  -->
-                        <div id="examsModal" class="flex items-center flex-col cursor-pointer">
+                        <!-- <div id="examsModal" class="flex items-center flex-col cursor-pointer"> -->
                             <!-- Exams  -->
-                            <div class="px-10 pt-4 flex flex-col">
+                            <!-- <div class="px-10 pt-4 flex flex-col">
                                 <div>
                                     <div>
                                         <svg style="margin: 0 auto;" width="33" height="33" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -281,8 +281,8 @@
                                         Exams
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div> -->
+                        <!-- </div> -->
                     </div>
                 </div>
                 <div class="bg-white rounded-xl hidden lg:block col-span-1">
