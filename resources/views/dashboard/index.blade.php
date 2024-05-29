@@ -182,16 +182,6 @@
                                 </div>
                             </div>
     
-                            <!-- Glo  -->
-                            <div id="gloModal" class="flex items-center flex-col cursor-pointer">
-                                <div>
-                                    <img class="w-8" src="{{ asset('images/glo_2.png') }}" alt="">
-                                </div>
-                                <div class="lg:text-sm text-xs lg:py-4 py-2">
-                                    Glo
-                                </div>
-                            </div>
-    
                             <!-- Airtel -->
                             <div id="airtelModal" class="flex items-center flex-col cursor-pointer">
                                 <div>
@@ -199,6 +189,16 @@
                                 </div>
                                 <div class="lg:text-sm text-xs lg:py-4 py-2">
                                     Airtel
+                                </div>
+                            </div>
+
+                            <!-- Glo  -->
+                            <div id="gloModal" class="flex items-center flex-col cursor-pointer">
+                                <div>
+                                    <img class="w-8" src="{{ asset('images/glo_2.png') }}" alt="">
+                                </div>
+                                <div class="lg:text-sm text-xs lg:py-4 py-2">
+                                    Glo
                                 </div>
                             </div>
     
@@ -211,44 +211,39 @@
                                     9mobile
                                 </div>
                             </div>
+
+                            <!-- Airtime  -->
+                            <div id="airtimeModal" class="flex items-center flex-col cursor-pointer">
+                                <!-- Airtime  -->
+                                <div>
+                                    <svg style="margin: 0 auto;" width="33" height="33" viewBox="0 0 73 73" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="36.5" cy="36.5" r="36.5" fill="#FF0C37" fill-opacity="0.15"/>
+                                        <path d="M33.89 34.5597L36.575 32.0997C37.3092 31.4258 37.8252 30.5478 38.0568 29.5785C38.2884 28.6092 38.2251 27.5928 37.875 26.6597L36.73 23.6022C36.3022 22.4608 35.4554 21.5253 34.3619 20.9865C33.2685 20.4477 32.0108 20.346 30.845 20.7022C26.555 22.0147 23.2575 26.0022 24.2725 30.7372C24.94 33.8522 26.2175 37.7622 28.6375 41.9222C31.0625 46.0922 33.8325 49.1722 36.2075 51.3372C39.7925 54.5997 44.9175 53.7847 48.215 50.7097C49.0989 49.8856 49.6353 48.7553 49.7147 47.5494C49.7941 46.3435 49.4107 45.1527 48.6425 44.2197L46.5425 41.6697C45.9091 40.8986 45.0595 40.3346 44.103 40.0504C43.1464 39.7661 42.1267 39.7746 41.175 40.0747L37.705 41.1672C36.8089 40.2424 36.0236 39.2163 35.365 38.1097C34.7293 36.9906 34.2339 35.7975 33.89 34.5572V34.5597Z" fill="#FF0C37"/>
+                                    </svg>
+                                </div>
+                                <div class="lg:text-sm text-xs lg:py-4 py-2">
+                                    Airtime
+                                </div>
+                            </div>
+
+                            <!-- Electricity  -->
+                            <div id="electricityModal" class="flex items-center flex-col cursor-pointer">
+                                <!-- Electricity  -->
+                                <div>
+                                    <svg style="margin: 0 auto;" width="33" height="33" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="37" cy="37" r="37" fill="#FF5C00" fill-opacity="0.15"/>
+                                        <path d="M36.1666 50.333L44.2666 34.1163H38.6666V23.6663L30.3333 39.883H36.1666V50.333ZM37 20.333C41.5833 20.333 45.5 21.9997 48.75 25.2497C52 28.4997 53.6666 32.4163 53.6666 36.9997C53.6666 41.583 52 45.4997 48.75 48.7497C45.5 51.9997 41.5833 53.6663 37 53.6663C32.4166 53.6663 28.5 51.9997 25.25 48.7497C22 45.4997 20.3333 41.583 20.3333 36.9997C20.3333 32.4163 22 28.4997 25.25 25.2497C28.5 21.9997 32.4166 20.333 37 20.333Z" fill="#FF5C00"/>
+                                    </svg>
+                                </div>
+                                <div class="lg:text-sm text-xs lg:py-4 py-2">
+                                    Electricity
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <!-- Other Services  -->
-                    <div class="grid lg:grid-cols-4 grid-cols-2 gap-4 pb-5 mb-24">
-                        <!-- Airtime  -->
-                        <div id="airtimeModal" class="flex items-center flex-col cursor-pointer">
-                            <!-- Airtime  -->
-                            <div class="px-10 pt-4 flex flex-col">
-                                <div>
-                                    <div>
-                                        <svg style="margin: 0 auto;" width="33" height="33" viewBox="0 0 73 73" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="36.5" cy="36.5" r="36.5" fill="#FF0C37" fill-opacity="0.15"/>
-                                            <path d="M33.89 34.5597L36.575 32.0997C37.3092 31.4258 37.8252 30.5478 38.0568 29.5785C38.2884 28.6092 38.2251 27.5928 37.875 26.6597L36.73 23.6022C36.3022 22.4608 35.4554 21.5253 34.3619 20.9865C33.2685 20.4477 32.0108 20.346 30.845 20.7022C26.555 22.0147 23.2575 26.0022 24.2725 30.7372C24.94 33.8522 26.2175 37.7622 28.6375 41.9222C31.0625 46.0922 33.8325 49.1722 36.2075 51.3372C39.7925 54.5997 44.9175 53.7847 48.215 50.7097C49.0989 49.8856 49.6353 48.7553 49.7147 47.5494C49.7941 46.3435 49.4107 45.1527 48.6425 44.2197L46.5425 41.6697C45.9091 40.8986 45.0595 40.3346 44.103 40.0504C43.1464 39.7661 42.1267 39.7746 41.175 40.0747L37.705 41.1672C36.8089 40.2424 36.0236 39.2163 35.365 38.1097C34.7293 36.9906 34.2339 35.7975 33.89 34.5572V34.5597Z" fill="#FF0C37"/>
-                                        </svg>
-                                    </div>
-                                    <div class="lg:text-sm text-xs lg:py-4 py-2">
-                                        Airtime
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Electricity  -->
-                        <div id="electricityModal" class="flex items-center flex-col cursor-pointer">
-                            <!-- Electricity  -->
-                            <div class="px-10 pt-4 flex flex-col">
-                                <div>
-                                    <div>
-                                        <svg style="margin: 0 auto;" width="33" height="33" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="37" cy="37" r="37" fill="#FF5C00" fill-opacity="0.15"/>
-                                            <path d="M36.1666 50.333L44.2666 34.1163H38.6666V23.6663L30.3333 39.883H36.1666V50.333ZM37 20.333C41.5833 20.333 45.5 21.9997 48.75 25.2497C52 28.4997 53.6666 32.4163 53.6666 36.9997C53.6666 41.583 52 45.4997 48.75 48.7497C45.5 51.9997 41.5833 53.6663 37 53.6663C32.4166 53.6663 28.5 51.9997 25.25 48.7497C22 45.4997 20.3333 41.583 20.3333 36.9997C20.3333 32.4163 22 28.4997 25.25 25.2497C28.5 21.9997 32.4166 20.333 37 20.333Z" fill="#FF5C00"/>
-                                        </svg>
-                                    </div>
-                                    <div class="lg:text-sm text-xs lg:py-4 py-2">
-                                        Electricity
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- <div class="grid lg:grid-cols-4 grid-cols-2 gap-4 pb-5 mb-24"> -->
                         <!-- Cable  -->
                         <!-- <div id="cableModal" class="flex items-center flex-col cursor-pointer"> -->
                             <!-- Cable  -->
@@ -283,7 +278,7 @@
                                 </div>
                             </div> -->
                         <!-- </div> -->
-                    </div>
+                    <!-- </div> -->
                 </div>
                 <div class="bg-white rounded-xl hidden lg:block col-span-1">
                     <div class="px-4 font-bold py-4">Data Balance Codes</div>
@@ -612,19 +607,38 @@
                             <option value=""></option>
                             @php
                                 $specialIds = [216, 217, 212, 130];
+                                $corporate_data = [212, 213, 214, 215, 216, 217, 231, 232, 233];
                             @endphp
+                            
                             @foreach($dataPlansAirtelAll as $data)
-                                @if(in_array($data['dataplan_id'], $specialIds))
-                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
-                                @else
-                                @php
-                                    $parts = explode('.', $data['plan']);
-                                    $beforeDecimal = $parts[0];
-                                    $charges = $beforeDecimal * 10;
-                                @endphp
-                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
+                                @if(in_array($data['dataplan_id'], $corporate_data))
+                                    @if(in_array($data['dataplan_id'], $specialIds))
+                                        <option value="{{ $data['dataplan_id'] }}"
+                                                data-unit="{{ $data['plan'] }}"
+                                                data-plan="{{ $data['dataplan_id'] }}"
+                                                data-buying="{{ $data['plan_amount'] }}"
+                                                data-amount="{{ $data['plan_amount'] + 10 }}"
+                                                data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">
+                                            {{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})
+                                        </option>
+                                    @else
+                                        @php
+                                            $parts = explode('.', $data['plan']);
+                                            $beforeDecimal = $parts[0];
+                                            $charges = $beforeDecimal * 10;
+                                        @endphp
+                                        <option value="{{ $data['dataplan_id'] }}"
+                                                data-unit="{{ $data['plan'] }}"
+                                                data-plan="{{ $data['dataplan_id'] }}"
+                                                data-buying="{{ $data['plan_amount'] }}"
+                                                data-amount="{{ $data['plan_amount'] + $charges }}"
+                                                data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">
+                                            {{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})
+                                        </option>
+                                    @endif
                                 @endif
                             @endforeach
+
                         </select>
                     </div>
                 </div>
