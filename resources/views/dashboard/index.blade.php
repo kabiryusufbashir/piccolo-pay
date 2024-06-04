@@ -169,7 +169,7 @@
             <div class="lg:grid grid-cols-3 gap-4">
                 <div class="bg-white rounded-xl col-span-2">
                     <!-- Data  -->
-                    <div class="py-4">
+                    <div class="py-4 mb-24">
                         <div class="px-4 font-bold">VTU Services</div>
                         <div class="grid lg:grid-cols-4 grid-cols-2 gap-4 px-10 pt-4">
                             <!-- MTN  -->
