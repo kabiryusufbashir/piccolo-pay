@@ -370,21 +370,48 @@
                         </select> -->
                         <select id="planTypeSme" class="plan_input_box" name="plan_type">
                             <option value=""></option>
-                            @php
-                                $specialIds = [60];
-                            @endphp
-                            @foreach($dataPlansMtnSme as $data)
-                                @if(in_array($data['dataplan_id'], $specialIds))
-                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
-                                @else
                                 @php
-                                    $parts = explode('.', $data['plan']);
-                                    $beforeDecimal = $parts[0];
-                                    $charges = $beforeDecimal * 10;
+                                    $specialIds = [60, 99];
+                                    $corporate_data = [99, 100, 101, 116, 146, 149, 226, 60, 51, 50, 230, 44, 150];
+                                    
+                                    $corporate_data_map = array_flip($corporate_data);
+                                    
+                                    $filteredDataPlans = array_filter($dataPlansMtnCorporate, function($data) use ($corporate_data_map) {
+                                        return isset($corporate_data_map[$data['dataplan_id']]);
+                                    });
+                                    
+                                    usort($filteredDataPlans, function($a, $b) use ($corporate_data_map) {
+                                        return $corporate_data_map[$a['dataplan_id']] <=> $corporate_data_map[$b['dataplan_id']];
+                                    });
                                 @endphp
-                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
-                                @endif 
-                            @endforeach
+
+                                @foreach($filteredDataPlans as $data)
+                                    @if(in_array($data['dataplan_id'], $specialIds))
+                                        <option value="{{ $data['dataplan_id'] }}"
+                                                data-unit="{{ $data['plan'] }}"
+                                                data-plan="{{ $data['dataplan_id'] }}"
+                                                data-buying="{{ $data['plan_amount'] }}"
+                                                data-amount="{{ $data['plan_amount'] + 10 }}"
+                                                data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">
+                                            {{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})
+                                        </option>
+                                    @else
+                                        @php
+                                            $parts = explode('.', $data['plan']);
+                                            $beforeDecimal = $parts[0];
+                                            $charges = $beforeDecimal * 10;
+                                        @endphp
+                                        <option value="{{ $data['dataplan_id'] }}"
+                                                data-unit="{{ $data['plan'] }}"
+                                                data-plan="{{ $data['dataplan_id'] }}"
+                                                data-buying="{{ $data['plan_amount'] }}"
+                                                data-amount="{{ $data['plan_amount'] + $charges }}"
+                                                data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">
+                                            {{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})
+                                        </option>
+                                    @endif 
+                                @endforeach
+
                         </select>
                     </div>
                     <!-- <div id="dataPlanSme" class="my-3 w-full hidden">
