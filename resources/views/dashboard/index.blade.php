@@ -372,7 +372,7 @@
                             <option value=""></option>
                                 @php
                                     $specialIds = [60, 99];
-                                    $corporate_data = [99, 100, 101, 116, 146, 149, 226, 60, 51, 50, 230, 44, 150];
+                                    $corporate_data = [99, 100, 101, 226, 116, 146, 149, 60, 51, 50, 230, 44, 150];
                                     
                                     $corporate_data_map = array_flip($corporate_data);
                                     
