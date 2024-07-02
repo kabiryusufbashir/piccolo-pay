@@ -68,6 +68,10 @@ Route::prefix('dashboard')->group(function(){
     // Transaction 
     Route::get('/transaction/view', [CustomerController::class, 'transactionView'])->name('cust-transaction-view')->middleware('auth:web');
     
+    // Customer 
+    Route::get('/customer/view', [CustomerController::class, 'customerView'])->name('cust-view')->middleware('auth:web');
+    Route::post('/customer/fund/wallet', [CustomerController::class, 'customerFundWallet'])->name('cust-fund-wallet')->middleware('auth:web');
+    
     // Forms 
     Route::post('/account/password', [CustomerController::class, 'accountPassword'])->name('cust-account-password')->middleware('auth:web');
     Route::post('/account/pin', [CustomerController::class, 'accountPin'])->name('cust-account-pin')->middleware('auth:web');
