@@ -48,4 +48,17 @@ class Customer extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function customerStatus($status)
+    {
+        if($status == 1){
+            $status = '<div class="green-text">Active</div>';
+        }else if($status == 0){
+            $status = '<div class="red-text">Not Active</div>';
+        }else{
+            $status = '<div class="">Nil</div>';
+        }
+
+        return $status;
+    }
 }
