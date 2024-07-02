@@ -1305,7 +1305,7 @@ class CustomerController extends Controller
     // Customer Fund Wallet 
     public function customerFundWallet(Request $request){
 
-        $cust_id = Auth::guard('web')->user()->username;
+        $admin = Auth::guard('web')->user();
         $cust_password = Auth::guard('web')->user()->password;
 
         $cust_id_to_fund = $request->cust_id;
@@ -1313,34 +1313,41 @@ class CustomerController extends Controller
         $transaction_pin = $request->transaction_pin;
         $transaction_reference = $request->narration;
 
-        // Check if PIN is correct 
-        if(Hash::check($transaction_pin, $cust_password)){
-         
-            // Update Cust Acct Balance
-            $cust_to_fund = Customer::where('id', $cust_id_to_fund)->first();
-            $new_cust_acct_balance = $cust_to_fund->acct_balance + $amount_to_fund; 
-            $update_cust_acct_bal = Customer::where('id', $cust_id_to_fund)->update(['acct_balance' => $new_cust_acct_balance]);
-    
-            $new_transaction = CustomerTransactionHistory::create([
-                'cust_id' => $cust_to_fund->username,
-                'network_id' => '555',
-                'transaction_type' => 'Manual-Funding',
-                'transaction_no' => $cust_to_fund->phone,
-                'transaction_amount' => $amount_to_fund ,
-                'transaction_paid' => $amount_to_fund,
-                'reference' => $transaction_reference,
-                'status' => 1,
-            ]);
+        if($admin->cust_type == 1){
+            // Check if PIN is correct 
+            if(Hash::check($transaction_pin, $cust_password)){
+             
+                // Update Cust Acct Balance
+                $cust_to_fund = Customer::where('id', $cust_id_to_fund)->first();
+                $new_cust_acct_balance = $cust_to_fund->acct_balance + $amount_to_fund; 
+                $update_cust_acct_bal = Customer::where('id', $cust_id_to_fund)->update(['acct_balance' => $new_cust_acct_balance]);
         
-            return response()->json([
-                "status" => true, 
-                'message' => "Wallet Funded Successfully"
-            ]);
-
+                $new_transaction = CustomerTransactionHistory::create([
+                    'cust_id' => $cust_to_fund->username,
+                    'network_id' => '555',
+                    'transaction_type' => 'Manual-Funding',
+                    'transaction_no' => $cust_to_fund->phone,
+                    'transaction_amount' => $amount_to_fund ,
+                    'transaction_paid' => $amount_to_fund,
+                    'reference' => $transaction_reference,
+                    'status' => 1,
+                ]);
+            
+                return response()->json([
+                    "status" => true, 
+                    'message' => "Wallet Funded Successfully"
+                ]);
+    
+            }else{
+                return response()->json([
+                    "status" => true, 
+                    'message' => "Incorrect Pin"
+                ]);
+            }
         }else{
             return response()->json([
                 "status" => true, 
-                'message' => "Incorrect Pin"
+                'message' => "Please Try again later..."
             ]);
         }
     }
@@ -1352,7 +1359,7 @@ class CustomerController extends Controller
         $customers_list = Customer::orderby('id', 'desc')->get();
 
         // If Admin Auth  
-        if($customer){
+        if($customer->cust_type == 1){
             return view('dashboard.customers', compact('customer', 'customers_list'));
         }else{
             return redirect()->route('login');
