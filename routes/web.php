@@ -58,6 +58,9 @@ Route::prefix('dashboard')->group(function(){
     Route::get('/customers', [CustomerController::class, 'customers'])->name('cust-page')->middleware('auth:web');
     Route::get('/account', [CustomerController::class, 'account'])->name('cust-account')->middleware('auth:web');
     Route::get('/support', [CustomerController::class, 'support'])->name('cust-support')->middleware('auth:web');
+    Route::get('/privacy/policy', [CustomerController::class, 'privacyPolicy'])->name('privacy-policy')->middleware('auth:web');
+    Route::get('/account/delete', [CustomerController::class, 'accountDelete'])->name('account-delete')->middleware('auth:web');
+    Route::patch('/account/delete/{id}', [CustomerController::class, 'accountDeleteConfirmed'])->name('account-delete-confirmed')->middleware('auth:web');
 
     // Purchase 
     Route::post('/data/purchase', [CustomerController::class, 'dataPurchase'])->name('cust-data-purchase')->middleware('auth:web');

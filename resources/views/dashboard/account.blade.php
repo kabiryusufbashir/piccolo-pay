@@ -11,7 +11,7 @@
     </div>
 
     @if(empty($customer->pin))
-        <div class=" lg:mx-1 mx-3 yus-text-red my-3 text-sm px-2 lg:text-sm text-xs ">
+        <div class=" lg:mx-1 mx-3 yus-text-red my-3 text-sm px-2 lg:text-sm">
             Note: Please set your transaction PIN below.
         </div>
     @endif
@@ -19,8 +19,15 @@
     <div class="bg-white rounded-xl mb-4 my-4 p-6 lg:mx-1 mx-3 lg:text-sm text-xs">
         <!-- Personal data  -->
         <div class="my-4">
-            <div class="my-4 font-bold">
-                Personal Data
+            <div class="flex justify-between items-center mb-2">
+                <div class="my-4 font-bold">
+                    Personal Data
+                </div>
+                <a class='cursor-pointer' href="{{ route('account-delete') }}">
+                    <div class="bg-red-600 text-white px-4 py-3 rounded-lg">
+                        Delete Account 
+                    </div>
+                </a>
             </div>
             <div class="px-8 py-6 rounded-2xl border lg:flex justify-between">
                 <div class="lg:my-4 my-2 lg:py-4 py-2">

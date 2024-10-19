@@ -140,6 +140,10 @@ class CustomerController extends Controller
         return view('signup');
     }
     
+    public function privacyPolicy(){
+        return view('dashboard.privacy_policy');
+    }
+    
     public static function piccoloPayUSSD(Request $request){
         //$request->all();
         $text=$request->input('text');
@@ -1426,6 +1430,63 @@ class CustomerController extends Controller
         }else{
             return redirect()->route('login');
         }
+    }
+
+    // Delete Account 
+    public function accountDelete(){
+        $customer = Auth::guard('web')->user();
+
+        $cust = Customer::where('id', $customer->id)->first();
+
+        // If Admin Auth  
+        if($customer){
+            return view('dashboard.delete_account', compact('cust', 'customer'));
+        }else{
+            return redirect()->route('login');
+        }
+    }
+
+    // Delete Account Confirmed
+    public function accountDeleteConfirmed(Request $request, $id){
+        $cust = Auth::guard('web')->user();
+
+        $validator = Validator::make($request->all(), [
+            'password' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                "status" => false,
+                "errors" => $validator->errors()
+            ]);
+        }else{
+            $password = $request->password;
+
+            if(!empty($password)){
+                if(Hash::check($password, $cust->password)){
+                    $input['cust_status'] = 0;
+                    $cust->update($input);
+
+                    return response()->json([
+                        "status" => true, 
+                        'message' => "Account Deleted Successfully",
+                        'redirect' => url('/logout')
+                    ]);
+                }else{
+                    return response()->json([
+                        "status" => false, 
+                        'message' => "Incorrect password!",
+                        'redirect' => url('/logout')
+                    ]);   
+                }
+            }else{
+                return response()->json([
+                    "status" => false, 
+                    'message' => "Password field empty!",
+                    'redirect' => url('/logout')
+                ]);
+            }
+        }        
     }
 
     // Change Password 

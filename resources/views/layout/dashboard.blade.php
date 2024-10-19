@@ -40,7 +40,7 @@
 
         @yield('pageTitle')
 
-        <link rel="stylesheet" href="{{ asset('build/assets/app-1d0a5ad4.css') }}">
+        <link rel="stylesheet" href="{{ asset('build/assets/app-965d8c7c.css') }}">
         <link href="{{ asset('css/main.css?v=1.1') }}" rel="stylesheet">
         @vite('resources/css/app.css')
     
@@ -170,7 +170,7 @@
                     <div class="hidden py-10 lg:flex justify-between items-center">
                         <div>
                             <div class="banner-header text-xl py-1">
-                                Welcome back, {{ $customer->username }}
+                                Welcome back, {{ isset($customer) ? $customer->username : '' }}
                             </div>
                             <div class="text-sm gray-text">
                                 Let's do the best today
@@ -189,10 +189,10 @@
                             </a>
                             <div class="mx-2">
                                 <div class="font-bold text-sm">
-                                    {{ $customer->fullname }}
+                                    {{ isset($customer) ? $customer->fullname : '' }}
                                 </div>
                                 <div class="gray-text text-xs">
-                                    {{ $customer->email }}
+                                    {{ isset($customer) ? $customer->email : '' }}
                                 </div>
                             </div>
                         </div>
@@ -208,7 +208,7 @@
                             </div>
                             <div>
                                 <div class="text-xs">
-                                    Welcome back, <br> <span class="font-bold">{{ $customer->username }}</span>
+                                    Welcome back, <br> <span class="font-bold">{{ isset($customer) ? $customer->username : '' }}</span>
                                 </div>
                             </div>
                         </div>
