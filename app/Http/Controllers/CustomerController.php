@@ -39,6 +39,10 @@ class CustomerController extends Controller
         return view('welcome');
     }
 
+    public function privacy(){
+        return view('privacy');
+    }
+
     // Deposit Check 
     public function merchantDeposit(Request $request){
 

@@ -24,6 +24,9 @@
                                     <a href="{{ route('home') }}#whyus">Why Us</a>
                                 </li>
                                 <li class="py-3">
+                                    <a href="{{ route('privacy') }}">Privacy Policy</a>
+                                </li>
+                                <li class="py-3">
                                     <a href="{{ route('home') }}#services">Services</a>
                                 </li>
                                 <li class="py-3">
@@ -78,6 +81,6 @@
                 </div>
             </div>
             <div class="green-bg py-8 text-center text-white text-xs">
-                A Product of <a target="_blank" href="https://teampiccolo.com" class="hover:text-white">Team Piccolo</a> &copy; 2023 <br> All Rights Reserved
+                A Product of <a target="_blank" href="https://teampiccolo.com" class="hover:text-white">Team Piccolo</a> &copy; 2023 - 2024 <br> All Rights Reserved
             </div>
         <!-- End of Footer  -->

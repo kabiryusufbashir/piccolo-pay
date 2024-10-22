@@ -19,6 +19,9 @@
                     <a href="{{ route('home') }}#services">Services</a>
                 </li>
                 <li class="px-4">
+                    <a href="{{ route('privacy') }}">Privay Policy</a>
+                </li>
+                <li class="px-4">
                     <a href="https://wa.me/+2347037645413" target="_blank">Support</a>
                 </li>
             </nav>
@@ -36,7 +39,7 @@
         </div>
     </div>
     <!-- Mobile View  -->
-    <div class="lg:hidden block flex justify-between px-4 py-6 items-center w-full">
+    <div class="lg:hidden flex justify-between px-4 py-6 items-center w-full">
         <!-- Slogan  -->
         <a href="{{ route('home') }}">
             <div class="slogan text-lg">
@@ -80,6 +83,9 @@
                 </li>
                 <li class="py-4">
                     <a href="{{ route('home') }}#whyus">Why Us</a>
+                </li>
+                <li class="py-4">
+                    <a href="{{ route('privacy') }}">Privacy Policy</a>
                 </li>
                 <li class="py-4">
                     <a href="{{ route('home') }}#services">Services</a>
