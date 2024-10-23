@@ -85,8 +85,8 @@
                             <div class="my-4">
                                 <input class="input_box" type="password" placeholder="Password" name="password" required>
                             </div>
-                            <div class="my-4 submit_box">
-                                <input class="" type="submit" value="Login" name="submit">
+                            <div class="my-4 flex justify-center">
+                                <input style="background-color: #05976A;" class="px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="Login" name="submit">
                             </div>
                             <div class="my-4 flex justify-between text-xs">
                                 <div class="items-center">

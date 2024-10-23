@@ -480,8 +480,8 @@
                     </div>
                 </div>
                 <div id="dataBuy" class="px-10 pb-5 hidden">
-                    <div class="my-2 submit_box">
-                        <input class="" type="submit" value="BUY" name="submit">
+                    <div class="my-2 flex justify-center">
+                        <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="BUY" name="submit">
                     </div>
                 </div>
 
@@ -576,8 +576,8 @@
                     </div>
                 </div>
                 <div id="gloDataBuy" class="px-10 pb-5 hidden">
-                    <div class="my-2 submit_box">
-                        <input class="" type="submit" value="BUY" name="submit">
+                    <div class="my-2 flex justify-center">
+                        <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="BUY" name="submit">
                     </div>
                 </div>
 
@@ -692,8 +692,8 @@
                     </div>
                 </div>
                 <div id="airtelDataBuy" class="px-10 pb-5 hidden">
-                    <div class="my-2 submit_box">
-                        <input class="" type="submit" value="BUY" name="submit">
+                    <div class="my-2 flex justify-center">
+                        <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="BUY" name="submit">
                     </div>
                 </div>
 
@@ -788,8 +788,8 @@
                     </div>
                 </div>
                 <div id="n9mobileDataBuy" class="px-10 pb-5 hidden">
-                    <div class="my-2 submit_box">
-                        <input class="" type="submit" value="BUY" name="submit">
+                    <div class="my-2 flex justify-center">
+                        <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="BUY" name="submit">
                     </div>
                 </div>
 
@@ -869,8 +869,8 @@
                     </div>
                 </div>
                 <div id="airtimeBuy" class="px-10 pb-5 hidden">
-                    <div class="my-2 submit_box">
-                        <input class="" type="submit" value="BUY" name="submit">
+                    <div class="my-2 flex justify-center">
+                        <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="BUY" name="submit">
                     </div>
                 </div>
 
@@ -947,7 +947,7 @@
                             <input id="meterNameBox" type="text" class="plan_input_box" disabled name="meter_name">
                         </div>
                         <div id="searchMeterBtn" class="my-2 submit_box">
-                            <input class="" type="submit" value="SEARCH METER" name="submit">
+                            <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="SEARCH METER" name="submit">
                         </div>
                     </div>
                 </form>
@@ -968,8 +968,8 @@
                         </div>
                     </div>
                     <div id="electricityBuy" class="px-10 pb-5 hidden">
-                        <div class="my-2 submit_box">
-                            <input class="" type="submit" value="BUY" name="submit">
+                        <div class="my-2 flex justify-center">
+                            <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="BUY" name="submit">
                         </div>
                     </div>
     

@@ -40,7 +40,7 @@
 
         @yield('pageTitle')
 
-        <link rel="stylesheet" href="{{ asset('build/assets/app-965d8c7c.css') }}">
+        <link rel="stylesheet" href="{{ asset('build/assets/app-122e6e33.css') }}">
         <link href="{{ asset('css/main.css?v=1.1') }}" rel="stylesheet">
         @vite('resources/css/app.css')
     

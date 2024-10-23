@@ -85,8 +85,8 @@
                             <div class="my-4">
                                 <input class="input_box" type="phone" placeholder="Phone" name="phone" required>
                             </div>
-                            <div class="my-4 submit_box">
-                                <input class="" type="submit" value="Reset Password" name="submit">
+                            <div class="my-4 flex justify-center">
+                                <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="Reset Password" name="submit">
                             </div>
                         </form>
                     </div>
