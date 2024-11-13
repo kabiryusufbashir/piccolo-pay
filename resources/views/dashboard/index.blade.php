@@ -15,7 +15,7 @@
         <!-- Services  -->
             <div class="mx-3 my-4 order-1 lg:order-2">
                 <div class="lg:grid grid-cols-3 gap-4">
-                    <div class="bg-white rounded-xl col-span-2 mb-4">
+                    <div class="bg-white rounded-xl col-span-2 mb-4 mt-16 lg:mt-0">
                         <!-- Data  -->
                         <div class="py-4 mb-2">
                             <div class="px-4 font-bold">VTU Services</div>
@@ -61,8 +61,8 @@
                                 </div>
     
                                 <!-- Airtime  -->
-                                <div id="airtimeModal" class="flex items-center flex-col cursor-pointer">
-                                    <!-- Airtime  -->
+                                <!-- <div id="airtimeModal" class="flex items-center flex-col cursor-pointer">
+                                    Airtime 
                                     <div>
                                         <svg style="margin: 0 auto;" width="33" height="33" viewBox="0 0 73 73" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="36.5" cy="36.5" r="36.5" fill="#FF0C37" fill-opacity="0.15"/>
@@ -71,13 +71,13 @@
                                     </div>
                                     <div class="lg:text-sm text-xs lg:py-4 py-2">
                                         Airtime
-                                    </div>
-                                </div>
+                                    </div> -->
+                                <!-- </div> -->
     
                                 <!-- Electricity  -->
-                                <div id="electricityModal" class="flex items-center flex-col cursor-pointer">
-                                    <!-- Electricity  -->
-                                    <div>
+                                <!-- <div id="electricityModal" class="flex items-center flex-col cursor-pointer">
+                                    Electricity  -->
+                                    <!-- <div>
                                         <svg style="margin: 0 auto;" width="33" height="33" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="37" cy="37" r="37" fill="#FF5C00" fill-opacity="0.15"/>
                                             <path d="M36.1666 50.333L44.2666 34.1163H38.6666V23.6663L30.3333 39.883H36.1666V50.333ZM37 20.333C41.5833 20.333 45.5 21.9997 48.75 25.2497C52 28.4997 53.6666 32.4163 53.6666 36.9997C53.6666 41.583 52 45.4997 48.75 48.7497C45.5 51.9997 41.5833 53.6663 37 53.6663C32.4166 53.6663 28.5 51.9997 25.25 48.7497C22 45.4997 20.3333 41.583 20.3333 36.9997C20.3333 32.4163 22 28.4997 25.25 25.2497C28.5 21.9997 32.4166 20.333 37 20.333Z" fill="#FF5C00"/>
@@ -85,8 +85,8 @@
                                     </div>
                                     <div class="lg:text-sm text-xs lg:py-4 py-2">
                                         Electricity
-                                    </div>
-                                </div>
+                                    </div> -->
+                                <!-- </div> --> 
     
                             </div>
                         </div>

@@ -83,7 +83,12 @@
                                 <input class="input_box" type="text" placeholder="Username" name="username" required>
                             </div>
                             <div class="my-4">
-                                <input class="input_box" type="password" placeholder="Password" name="password" required>
+                                <div class="relative">
+                                    <input class="input_box" type="password" placeholder="Password" name="password" required id="passwordField">
+                                    <span id="togglePassword" class="toggle-icon absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </span>
+                                </div>
                             </div>
                             <div class="my-4 flex justify-center">
                                 <input style="background-color: #05976A;" class="px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="Login" name="submit">
@@ -167,6 +172,21 @@
                     return false;
                 });
             // End of SignUp
+
+            // Show Password 
+                $(".toggle-icon").click(function(){
+                    var passwordField = $("#passwordField");
+                    var fieldType = passwordField.attr('type');
+                    
+                    if(fieldType === 'password'){
+                        passwordField.attr('type', 'text');
+                        $(".toggle-icon").html('<i class="fa-solid fa-eye-slash"></i>');
+                    }else{
+                        passwordField.attr('type', 'password');
+                        $(".toggle-icon").html('<i class="fa-regular fa-eye"></i>');
+                    }
+
+                });
         </script>
     <!-- End of Page Contents  -->
 @endsection

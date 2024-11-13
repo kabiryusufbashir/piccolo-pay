@@ -40,7 +40,7 @@
 
         @yield('pageTitle')
 
-        <link rel="stylesheet" href="{{ asset('build/assets/app-122e6e33.css') }}">
+        <link rel="stylesheet" href="{{ asset('build/assets/app-6d39f42f.css') }}">
         <link href="{{ asset('css/main.css?v=1.1') }}" rel="stylesheet">
         @vite('resources/css/app.css')
     
@@ -199,7 +199,7 @@
                     </div>
                     
                     <!-- Mobile View  -->
-                    <div class="lg:hidden flex justify-between items-center p-3">
+                    <div class="lg:hidden flex justify-between items-center p-3 fixed bg-white w-full -top-0 border-b-2">
                         <div class="flex">
                             <div class="mr-4">
                                 <svg id="toggleBtn" width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">

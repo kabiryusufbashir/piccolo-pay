@@ -683,17 +683,19 @@ class CustomerController extends Controller
                         }
                     }else{
                         // Handle the case when the request was not successful
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Please try again later! ('.$response->status().')'
-                        ]);
+                        // return response()->json([
+                        //     'status' => false,
+                        //     'message' => 'Please try again later! ('.$response->status().')'
+                        // ]);
+                        return abort(500, 'Please try again later!');
                     }
 
                 }catch(Exception $e){
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'Please try again later! ('.$e.')'
-                    ]);
+                    // return response()->json([
+                    //     'status' => false,
+                    //     'message' => 'Please try again later! ('.$e.')'
+                    // ]);
+                    return abort(500, 'Please try again later!');
                 } 
             // End of Getting User Details from HUSMO
         }else{
