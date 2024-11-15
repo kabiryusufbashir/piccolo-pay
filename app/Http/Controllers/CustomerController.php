@@ -724,6 +724,7 @@ class CustomerController extends Controller
         $cust_account = CustomerBankDetails::select('acct_no')->where('cust_id', $customer->id)->pluck('acct_no')->first();
         $cust_count = Customer::count();
         $cust_active = Customer::where('acct_balance', '>', 0)->count();
+        $cust_verify_account_count = Customer::where('verification_status', 1)->count();
         $cust_balance = Customer::select('acct_balance')->sum('acct_balance');
 
         $transaction_count = CustomerTransactionHistory::where('cust_id', $customer->username)->where('status', 1)->whereMonth('created_at', $currentMonth)->count();
@@ -835,7 +836,7 @@ class CustomerController extends Controller
                                     'customer', 'transaction_count', 'amount_spent', 
                                     'account_info', 'notification', 'exams', 'dataPlansMtnCorporate', 'dataPlansMtnSme', 
                                     'dataPlansGloAll', 'dataPlansAirtelAll', 'dataPlans9MobileAll', 'cablePlanGotv', 'cablePlanDstv', 
-                                    'cablePlanStartime', 'rechargePinMtn', 'rechargePinGlo', 'rechargePinAirtel', 'rechargePin9Mobile', 'cust_balance', 'profit_made', 'cust_count', 'cust_active'
+                                    'cablePlanStartime', 'rechargePinMtn', 'rechargePinGlo', 'rechargePinAirtel', 'rechargePin9Mobile', 'cust_balance', 'profit_made', 'cust_count', 'cust_active', 'cust_verify_account_count'
                                 )
                             );
                         }else{
