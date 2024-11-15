@@ -865,6 +865,7 @@ class CustomerController extends Controller
 
     // Buy Data 
     public function dataPurchase(Request $request){
+        $cust_verification_status = Auth::guard('web')->user()->verification_status;
         $cust_id = Auth::guard('web')->user()->username;
         $cust_pin = Auth::guard('web')->user()->pin;
         $cust_acct_balance = Auth::guard('web')->user()->acct_balance;
@@ -941,23 +942,25 @@ class CustomerController extends Controller
                                     'message' => 'Data sent. Mun gode sosai.',
                                 ]);
                             }else{
-                                // If Transaction Failed 
-                                // $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
-                                // $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
-                                // $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
-                                
-                                // $new_transaction = CustomerTransactionHistory::create([
-                                //     'cust_id' => $cust_id,
-                                //     'network_id' => $network_id,
-                                //     'data_unit' => $data_unit,
-                                //     'transaction_type' => 'Refund',
-                                //     'transaction_no' => $transaction_no,
-                                //     'transaction_amount' => $transaction_buying,
-                                //     'transaction_paid' => $transaction_amount,
-                                //     'profit' => 0,
-                                //     'reference' => 'Data-Refund-'.$transaction_reference,
-                                //     'status' => 1,
-                                // ]);
+                                // If Transaction Failed
+                                if($cust_verification_status == 1){
+                                    $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
+                                    $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
+                                    $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
+                                    
+                                    $new_transaction = CustomerTransactionHistory::create([
+                                        'cust_id' => $cust_id,
+                                        'network_id' => $network_id,
+                                        'data_unit' => $data_unit,
+                                        'transaction_type' => 'Refund',
+                                        'transaction_no' => $transaction_no,
+                                        'transaction_amount' => $transaction_buying,
+                                        'transaction_paid' => $transaction_amount,
+                                        'profit' => 0,
+                                        'reference' => 'Data-Refund-'.$transaction_reference,
+                                        'status' => 1,
+                                    ]);
+                                } 
                                 
                                 return response()->json([
                                     'status' => true,
@@ -966,22 +969,24 @@ class CustomerController extends Controller
                             }
                         }else{
                             // If Transaction Failed 
-                            // $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
-                            // $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
-                            // $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
-                            
-                            // $new_transaction = CustomerTransactionHistory::create([
-                            //     'cust_id' => $cust_id,
-                            //     'network_id' => $network_id,
-                            //     'data_unit' => $data_unit,
-                            //     'transaction_type' => 'Refund',
-                            //     'transaction_no' => $transaction_no,
-                            //     'transaction_amount' => $transaction_buying,
-                            //     'transaction_paid' => $transaction_amount,
-                            //     'profit' => 0,
-                            //     'reference' => 'Data-Refund-'.$transaction_reference,
-                            //     'status' => 1,
-                            // ]);
+                            if($cust_verification_status == 1){
+                                $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
+                                $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
+                                $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
+                                
+                                $new_transaction = CustomerTransactionHistory::create([
+                                    'cust_id' => $cust_id,
+                                    'network_id' => $network_id,
+                                    'data_unit' => $data_unit,
+                                    'transaction_type' => 'Refund',
+                                    'transaction_no' => $transaction_no,
+                                    'transaction_amount' => $transaction_buying,
+                                    'transaction_paid' => $transaction_amount,
+                                    'profit' => 0,
+                                    'reference' => 'Data-Refund-'.$transaction_reference,
+                                    'status' => 1,
+                                ]);
+                            }
 
                             // Handle unsuccessful request
                             return response()->json([
@@ -991,22 +996,24 @@ class CustomerController extends Controller
                         }
                     }catch(RequestException $e) {
                         // If Transaction Failed 
-                        // $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
-                        // $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
-                        // $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
-                        
-                        // $new_transaction = CustomerTransactionHistory::create([
-                        //     'cust_id' => $cust_id,
-                        //     'network_id' => $network_id,
-                        //     'data_unit' => $data_unit,
-                        //     'transaction_type' => 'Refund',
-                        //     'transaction_no' => $transaction_no,
-                        //     'transaction_amount' => $transaction_buying,
-                        //     'transaction_paid' => $transaction_amount,
-                        //     'profit' => 0,
-                        //     'reference' => 'Data-Refund-'.$transaction_reference,
-                        //     'status' => 1,
-                        // ]);
+                        if($cust_verification_status == 1){
+                            $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
+                            $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
+                            $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
+                            
+                            $new_transaction = CustomerTransactionHistory::create([
+                                'cust_id' => $cust_id,
+                                'network_id' => $network_id,
+                                'data_unit' => $data_unit,
+                                'transaction_type' => 'Refund',
+                                'transaction_no' => $transaction_no,
+                                'transaction_amount' => $transaction_buying,
+                                'transaction_paid' => $transaction_amount,
+                                'profit' => 0,
+                                'reference' => 'Data-Refund-'.$transaction_reference,
+                                'status' => 1,
+                            ]);
+                        }
 
                         // Log the error
                         \Log::error('HTTP Request Error: ' . $e->getMessage());

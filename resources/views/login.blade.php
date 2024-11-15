@@ -12,7 +12,7 @@
 
 @section('pageContents')
     <!-- Page Contents  -->
-        <div id="pageContents" class="py-12 my-2">
+        <main id="pageContents" class="py-12 my-2">
             <div class="lg:mx-24 lg:grid grid-cols-2 items-center gap-4">
                 <div class="mx-auto">
                     <div class="px-4">
@@ -111,7 +111,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
         <script>
             // Login 
                 $(document).on('submit', '#loginForm', function() {
