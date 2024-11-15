@@ -93,13 +93,13 @@
                             <div class="my-4 flex justify-center">
                                 <input style="background-color: #05976A;" class="px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="Login" name="submit">
                             </div>
-                            <div class="my-4 flex justify-between text-xs">
-                                <div class="items-center">
+                            <div class="my-4 flex justify-end text-xs">
+                                <!-- <div class="items-center">
                                     <span>
                                         <input type="checkbox" name="remember"> 
                                     </span>
                                     <span class="relative -top-1">Remember me</span> 
-                                </div>
+                                </div> -->
                                 <div class="green-text">
                                     <a href="{{ route('forgot-password') }}" class="green-text hover:green-text">Forgot Password</a>
                                 </div>
