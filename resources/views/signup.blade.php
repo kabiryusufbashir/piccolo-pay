@@ -127,7 +127,7 @@
                                 
                                 $('#feedbackContainer').fadeIn().delay(5000).fadeOut()
                                 
-                                $("#feedbackContainer").append('<div class="alert alert-success text-xs">Welcome to PiccoloPay!</div>')
+                                $("#feedbackContainer").append('<div class="alert alert-success text-xs">Check your email for your verification code!</div>')
                                 // Redirect 
                                 setTimeout(function(){
                                     window.location = data.redirect
@@ -158,7 +158,6 @@
                                     location.reload()
                                 }, 7000)
                             }
-                        
                         }
                     });
 

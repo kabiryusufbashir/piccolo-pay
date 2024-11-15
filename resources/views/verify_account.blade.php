@@ -1,7 +1,7 @@
 @extends('layout.template')
 
 @section('pageTitle')
-    <title>Piccolo Pay - Login</title>        
+    <title>Piccolo Pay - Verify Account</title>        
 @endsection
 
 @section('pageMeta')
@@ -63,13 +63,13 @@
                         PiccoloPay
                     </div>
                     <div class="slogan my-2 text-black text-lg">
-                        Welcome back
+                        Verify your account
                     </div>
                     <div class="text-xs">
-                        Get back into your account and continue transactions
+                        Enter the verification code sent to your email
                     </div>
                     <div>
-                        <form action="{{ route('loginform') }}" id="loginForm" method="POST">
+                        <form action="{{ route('confirm-account-confirm') }}" id="verifyCodeForm" method="POST">
                             @csrf
                             <!-- Loading -->
                             <div class="loader hidden">
@@ -80,29 +80,12 @@
                             <div id="feedbackContainer" class="my-2">@include('includes.messages')</div>
 
                             <div class="my-4">
-                                <input class="input_box" type="text" placeholder="Username" name="username" required>
-                            </div>
-                            <div class="my-4">
-                                <div class="relative">
-                                    <input class="input_box" type="password" placeholder="Password" name="password" required id="passwordField">
-                                    <span id="togglePassword" class="toggle-icon absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer">
-                                        <i class="fa-regular fa-eye"></i>
-                                    </span>
-                                </div>
+                                <input name="email" value="{{ $email }}" hidden>
+                                <input name="username" value="{{ $username }}" hidden>
+                                <input class="input_box" type="text" placeholder="Verification Code" name="verification_code" required>
                             </div>
                             <div class="my-4 flex justify-center">
-                                <input style="background-color: #05976A;" class="px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="Login" name="submit">
-                            </div>
-                            <div class="my-4 flex justify-between text-xs">
-                                <div class="items-center">
-                                    <span>
-                                        <input type="checkbox" name="remember"> 
-                                    </span>
-                                    <span class="relative -top-1">Remember me</span> 
-                                </div>
-                                <div class="green-text">
-                                    <a href="{{ route('forgot-password') }}" class="green-text hover:green-text">Forgot Password</a>
-                                </div>
+                                <input style="background-color: #05976A;" class="px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="Verify" name="submit">
                             </div>
                         </form>
                     </div>
@@ -113,8 +96,8 @@
             </div>
         </div>
         <script>
-            // Login 
-                $(document).on('submit', '#loginForm', function() {
+            // Verify Code
+                $(document).on('submit', '#verifyCodeForm', function() {
                     var e = this
 
                     // display Loader 
@@ -133,7 +116,7 @@
                                 
                                 $('#feedbackContainer').fadeIn().delay(5000).fadeOut()
                                 
-                                $("#feedbackContainer").append('<div class="alert alert-success text-xs text-center">'+data.message+'</div>')
+                                $("#feedbackContainer").append('<div class="alert alert-success text-xs text-center">Welcome to PiccoloPay!</div>')
                                 // Redirect 
                                 setTimeout(function(){
                                     window.location = data.redirect
@@ -171,22 +154,7 @@
 
                     return false;
                 });
-            // End of SignUp
-
-            // Show Password 
-                $(".toggle-icon").click(function(){
-                    var passwordField = $("#passwordField");
-                    var fieldType = passwordField.attr('type');
-                    
-                    if(fieldType === 'password'){
-                        passwordField.attr('type', 'text');
-                        $(".toggle-icon").html('<i class="fa-solid fa-eye-slash"></i>');
-                    }else{
-                        passwordField.attr('type', 'password');
-                        $(".toggle-icon").html('<i class="fa-regular fa-eye"></i>');
-                    }
-
-                });
+            // End of Verify Code
         </script>
     <!-- End of Page Contents  -->
 @endsection

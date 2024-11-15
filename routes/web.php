@@ -39,6 +39,8 @@ Route::get('/create_fcmb_account', [CustomerController::class, 'createFCMBAccoun
 // SignUp 
 Route::get('/signup', [CustomerController::class, 'signUpPage'])->name('signup');
 Route::post('/signup/submit', [CustomerController::class, 'signUpForm'])->name('signupform');
+Route::get('/confirm/account', [CustomerController::class, 'confirmAccount'])->name('confirm-account');
+Route::post('/confirm/account/submit', [CustomerController::class, 'confirmAccountConfirm'])->name('confirm-account-confirm');
 
 // Login 
 Route::get('/login', [CustomerController::class, 'loginPage'])->name('login');

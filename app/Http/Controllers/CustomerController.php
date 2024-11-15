@@ -30,6 +30,7 @@ use Exception;
 use Carbon\Carbon;
 
 use App\Mail\ForgotPasswordMail;
+use App\Mail\VerifyEmail;
 
 require base_path('vendor/autoload.php');
 
@@ -219,6 +220,7 @@ class CustomerController extends Controller
             $email = $request->email;
             $phone = $request->phone;
             $password = Hash::make($request->password);
+            $verification_code = Str::random(6);
 
             try{
                 // Add Customer 
@@ -226,86 +228,173 @@ class CustomerController extends Controller
                     'fullname' => $fullname,
                     'username' => $username,
                     'email' => $email,
+                    'verification_code' => $verification_code,
                     'phone' => $phone,
                     'password' => $password,
                 ]);
 
-                // Create Customer Virtual Wallet Using ZainPay API 
+                try{       
+                    $email = Customer::select('email')->where('cust_status', 1)->where('username', $request->username)->where('email', $request->email)->where('phone', $request->phone)->pluck('email')->first();
+
+                    $cust = Customer::where('email', $email)->firstOrFail();
                     
-                    require base_path('vendor/autoload.php');
+                    $username = $request->username;
+                    
+                    Session::put('verification_code', $verification_code);
+                    Session::put('email', $email);
+                    Session::put('username', $username);
+                    
+                    if($cust){
+                        Mail::to($email)->send(new VerifyEmail($email));
+                        return response()->json([
+                            "status" => true, 
+                            "redirect" => url('/confirm/account')
+                        ]);
+                    }else{
+                        return response()->json([
+                            "status" => true, 
+                            'message' => 'Email was not sent, please try again...',
+                        ]);
+                    }   
+                }catch(Expection $e){
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Please try again later! ('.$e.')'
+                    ]);
+                }
+            }catch(Expection $e){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Please try again later! ('.$e.')'
+                ]);
+            }
+        }
+    }
 
-                    Engine::setMode(Engine::MODE_PRODUCTION);
-                    Engine::setToken(env('ZAINPAY_BEARER_TOKEN'));
+    public function confirmAccount(){
+        $email = Session::get('email'); 
+        $username = Session::get('username');
+        return view('verify_account', compact('email', 'username'));
+    }
 
-                    $response = VirtualAccount::instantiate()->createVirtualAccount(
-                        'wemaBank',            
-                        '22175618554',         
-                        '-PiccoloPay',         
-                        $username,             
-                        $email,                
-                        '08068593127',                   
-                        '27-07-1993',                    
-                        'M',                             
-                        'Farawa Layout Kano',   
-                        'Mr',                            
-                        'Kano',                          
-                        env('ZAINPAY_BOX')                   
-                    );
+    public function confirmAccountConfirm(Request $request){
 
-                    if($response->hasSucceeded()){
+        $validator = Validator::make($request->all(), [
+            'verification_code' => 'required',
+        ]);
 
-                        $data = $response->getData();
-                        
-                        $cust_id = $new_customer->id;
+        if($validator->fails()){
+            return response()->json([
+                "status" => false,
+                "errors" => $validator->errors()
+            ]);
+        }else{
+            $username = $request->username;
+            $email = $request->email;
 
-                        if(!empty($data)){
-                            // Handle the API response as needed
-                            $acct_no = $data['accountNumber'];
-                            $acct_name = $data['accountName'];
-                            $bank_name = $data['bankName'];
+            $cust = Customer::where('verification_code', $request->verification_code)->where('cust_status', 1)->where('username', $request->username)->where('email', $request->email)->first();
 
-                            // Store Customer Bank Details
-                            try{
-                                $cust_bank_details = CustomerBankDetails::create([
-                                    'cust_id' => $cust_id,
-                                    'bank_name' => $bank_name,
-                                    'acct_name' => $acct_name,
-                                    'acct_no' => $acct_no,
-                                    'gateway' => 'Zainpay',
-                                ]);
-                                
-                                if(Auth::guard('web')->attempt($request->only(["username", "password"]))) {
+            $username = $cust->username;
+            $password = $cust->password;
+            
+            $input['verification_status'] = 1;
+                            
+            if($cust->update($input)){
+
+                $cust_id = $cust->id;
+                // Check if Customer has an account 
+                $check_if_user_has_an_account = CustomerBankDetails::where('cust_id', $cust_id)->where('bank_name', 'wemaBank')->count();
+
+                if($check_if_user_has_an_account == 0){
+                    // Create Customer Virtual Wallet Using ZainPay API     
+                        require base_path('vendor/autoload.php');
+    
+                        Engine::setMode(Engine::MODE_PRODUCTION);
+                        Engine::setToken(env('ZAINPAY_BEARER_TOKEN'));
+    
+                        $response = VirtualAccount::instantiate()->createVirtualAccount(
+                            'wemaBank',            
+                            '22175618554',         
+                            '-PiccoloPay',         
+                            $username,             
+                            $email,                
+                            '08068593127',                   
+                            '27-07-1993',                    
+                            'M',                             
+                            'Farawa Layout Kano',   
+                            'Mr',                            
+                            'Kano',                          
+                            env('ZAINPAY_BOX')                   
+                        );
+    
+                        if($response->hasSucceeded()){
+    
+                            $data = $response->getData();
+    
+                            if(!empty($data)){
+                                // Handle the API response as needed
+                                $acct_no = $data['accountNumber'];
+                                $acct_name = $data['accountName'];
+                                $bank_name = $data['bankName'];
+    
+                                // Store Customer Bank Details
+                                try{
+                                    $cust_bank_details = CustomerBankDetails::create([
+                                        'cust_id' => $cust_id,
+                                        'bank_name' => $bank_name,
+                                        'acct_name' => $acct_name,
+                                        'acct_no' => $acct_no,
+                                        'gateway' => 'Zainpay',
+                                    ]);
+                                    
+                                    // Log In Customer 
                                     try{
-                                        $cust_status = Customer::where('username', $request->username)->where('cust_status', '1')->count();
-                                            if($cust_status == 1){
+                                        if($cust){
+                                            // Optionally, check if the account is active
+                                            if($cust->cust_status == '1') {
+                                                
+                                                // Log the user in using their ID
+                                                Auth::loginUsingId($cust->id);
+                                
+                                                // Regenerate session to prevent session fixation attacks
                                                 $request->session()->regenerate();
+                                
                                                 return response()->json([
-                                                    "status" => true, 
-                                                    "redirect" => url('/dashboard/index')
+                                                    "status" => true,
+                                                    "redirect" => url('/dashboard/index'),
+                                                    "message" => 'Welcome to PiccoloPay!'
                                                 ]);
                                             }else{
                                                 return response()->json([
                                                     'status' => false,
-                                                    'message' => 'Account not active!'
+                                                    'message' => 'Account is not active!'
                                                 ]);
                                             }
+                                        }else{
+                                            return response()->json([
+                                                'status' => false,
+                                                'message' => 'Invalid Account!'
+                                            ]);
+                                        }
                                     }catch(Exception $e){
                                         return response()->json([
                                             'status' => false,
-                                            'message' => $e->getMessage()
-                                        ]);            
+                                            'message' => 'Error: Login. Please try again!'
+                                        ]);
                                     }
-                                }else{
+                                }catch(Exception $e){
                                     return response()->json([
-                                        "status" => false,
-                                        "errors" => 'Wrong email & password combination!'
+                                        'status' => false,
+                                        'message' => 'Error: Can\'t add bank details. Please try again!'
                                     ]);
                                 }
+                            }else{
+                                // If the Customer Acct No is not generated 
+                                $delete_cust = Customer::where('id', $cust_id)->delete();
                                 
-                            }catch(Exception $e){
                                 return response()->json([
                                     'status' => false,
-                                    'message' => 'Error: Can\'t add bank details. Please try again!'
+                                    'message' => 'Error Creating Virutal Account, Please try again!'
                                 ]);
                             }
                         }else{
@@ -317,25 +406,51 @@ class CustomerController extends Controller
                                 'message' => 'Error Creating Virutal Account, Please try again!'
                             ]);
                         }
-                    }else{
-                        // If the Customer Acct No is not generated 
-                        $delete_cust = Customer::where('id', $cust_id)->delete();
-                        
+                    // End of Create Customer Virtual Wallet Using ZainPay API
+                }else{
+                    // Log in Customer 
+                    try{
+                        if($cust){
+                            // Optionally, check if the account is active
+                            if($cust->cust_status == '1') {
+                                
+                                // Log the user in using their ID
+                                Auth::loginUsingId($cust->id);
+                
+                                // Regenerate session to prevent session fixation attacks
+                                $request->session()->regenerate();
+                
+                                return response()->json([
+                                    "status" => true,
+                                    "redirect" => url('/dashboard/index'),
+                                    "message" => 'Welcome to PiccoloPay!'
+                                ]);
+                            }else{
+                                return response()->json([
+                                    'status' => false,
+                                    'message' => 'Account is not active!'
+                                ]);
+                            }
+                        }else{
+                            return response()->json([
+                                'status' => false,
+                                'message' => 'Invalid Account!'
+                            ]);
+                        }
+                    }catch(Exception $e){
                         return response()->json([
                             'status' => false,
-                            'message' => 'Error Creating Virutal Account, Please try again!'
+                            'message' => 'Error: Login. Please try again!'
                         ]);
                     }
-                    
-                
-                // End of Create Customer Virtual Wallet Using ZainPay API
-
-            }catch(Expection $e){
+                }
+            }else{
                 return response()->json([
-                    'status' => false,
-                    'message' => 'Please try again later! ('.$e.')'
+                    'status' => true,
+                    'message' => 'Invalid Verification Code'
                 ]);
             }
+
         }
     }
 
@@ -443,34 +558,79 @@ class CustomerController extends Controller
 
             $username = $request->username;
             $password = $request->password;
+            $verification_code = Str::random(6);
 
             try{
-                if(Auth::guard('web')->attempt($request->only(["username", "password"]))) {
-                    try{
-                        $cust_status = Customer::where('username', $request->username)->where('cust_status', '1')->count();
+                $cust_account_status = Customer::where('username', $request->username)->where('verification_status', '1')->count();
+                // Check if Customer has verify account 
+                if($cust_account_status == 1){
+                    if(Auth::guard('web')->attempt($request->only(["username", "password"]))) {
+                        try{
+                            $cust_status = Customer::where('username', $request->username)->where('cust_status', '1')->count();
+                            
                             if($cust_status == 1){
                                 $request->session()->regenerate();
                                 return response()->json([
                                     "status" => true, 
-                                    "redirect" => url('/dashboard/index')
+                                    "redirect" => url('/dashboard/index'),
+                                    "message" => 'Welcome to PiccoloPay!'
                                 ]);
                             }else{
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Account not active!'
                                 ]);
-                            }
-                    }catch(Exception $e){
+                            }       
+                        }catch(Exception $e){
+                            return response()->json([
+                                'status' => false,
+                                'message' => $e->getMessage()
+                            ]);            
+                        }
+                    }else{
                         return response()->json([
-                            'status' => false,
-                            'message' => $e->getMessage()
-                        ]);            
+                            "status" => false,
+                            "errors" => 'Wrong email & password combination!'
+                        ]);
                     }
                 }else{
-                    return response()->json([
-                        "status" => false,
-                        "errors" => 'Wrong email & password combination!'
-                    ]);
+                    
+                    $input['verification_code'] = $verification_code;
+
+                    $cust = Customer::where('cust_status', 1)->where('username', $request->username)->first();
+                    
+                    $cust->update($input);
+                    
+                    try{       
+                        $email = Customer::select('email')->where('cust_status', 1)->where('username', $request->username)->where('email', $cust->email)->pluck('email')->first();
+    
+                        $cust = Customer::where('email', $email)->firstOrFail();
+                        
+                        $username = $request->username;
+                        
+                        Session::put('verification_code', $verification_code);
+                        Session::put('email', $email);
+                        Session::put('username', $username);
+                        
+                        if($cust){
+                            Mail::to($email)->send(new VerifyEmail($email));
+                            return response()->json([
+                                "status" => true, 
+                                "redirect" => url('/confirm/account'),
+                                "message" => 'Check your email for your verification code!',
+                            ]);
+                        }else{
+                            return response()->json([
+                                "status" => true, 
+                                'message' => 'Email was not sent, please try again...',
+                            ]);
+                        }   
+                    }catch(Expection $e){
+                        return response()->json([
+                            'status' => true,
+                            'message' => 'Please try again later! ('.$e.')'
+                        ]);
+                    }
                 }
             }catch(Expection $e){
                 return response()->json([
