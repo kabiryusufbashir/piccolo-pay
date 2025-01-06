@@ -24,6 +24,7 @@ use App\Models\CustomerTransactionHistory;
 use Zainpay\SDK\Engine;
 use Zainpay\SDK\ZainBox;
 use Zainpay\SDK\VirtualAccount;
+use Zainpay\SDK\Bank;
 
 use Session;
 use Exception;
@@ -731,19 +732,33 @@ class CustomerController extends Controller
         $amount_spent = CustomerTransactionHistory::where('cust_id', $customer->username)->where('status', 1)->whereMonth('created_at', $currentMonth)->sum('transaction_paid');
         $profit_made = CustomerTransactionHistory::where('status', 1)->whereMonth('created_at', $currentMonth)->sum('profit');
 
-        // Getting Zainbox Balance 
-        // Engine::setMode(Engine::MODE_PRODUCTION);
-        // Engine::setToken(env('ZAINPAY_BEARER_TOKEN'));
+        require base_path('vendor/autoload.php');
 
-        // $response = VirtualAccount::instantiate()->allVirtualAccountsBalanceOfZainBox(
-        //     'picco_soh1NzjlrnwaOdJi9OOy' //zainboxCode - required (string)
-        // );
+        Engine::setMode(Engine::MODE_PRODUCTION);
+        Engine::setToken(env('ZAINPAY_BEARER_TOKEN'));
+
+        $response = VirtualAccount::instantiate()->balance(
+            '7962133827' //virtualAccoutNumber - required (string)
+        );
+
+        if($response->hasSucceeded()){
+            $data = $response->getData();
     
-        // if($response->hasSucceeded()){
-        //     var_dump($response->getData());
-        // }else{
-        //     var_dump($response->getErrorMessage());
-        // }
+            if(!empty($data)){
+                // Handle the API response as needed
+                $isa_acct_name = $data['accountName'];
+                $isa_acct_no = $data['accountNumber'];
+                $isa_balance_amount = $data['balanceAmount'];
+                $isa_bank_code = $data['bankCode'];
+                $isa_bank_type = $data['bankType'];
+            }
+        }else{
+            $isa_acct_name = '';
+            $isa_acct_no = '';
+            $isa_balance_amount = '';
+            $isa_bank_code = '';
+            $isa_bank_type = '';
+        }
 
         if(!empty($customer->pin)){
             // Getting User Details from TOMSUB
@@ -833,6 +848,7 @@ class CustomerController extends Controller
                         if($customer){
                             return view('dashboard.index', 
                                 compact(
+                                    'isa_acct_name', 'isa_acct_no', 'isa_balance_amount', 'isa_bank_code', 'isa_bank_type', 
                                     'customer', 'transaction_count', 'amount_spent', 
                                     'account_info', 'notification', 'exams', 'dataPlansMtnCorporate', 'dataPlansMtnSme', 
                                     'dataPlansGloAll', 'dataPlansAirtelAll', 'dataPlans9MobileAll', 'cablePlanGotv', 'cablePlanDstv', 
