@@ -748,7 +748,7 @@ class CustomerController extends Controller
                 // Handle the API response as needed
                 $isa_acct_name = $data['accountName'];
                 $isa_acct_no = $data['accountNumber'];
-                $isa_balance_amount = $data['balanceAmount'];
+                $isa_balance_amount = $data['balanceAmount'] / 100;
                 $isa_bank_code = $data['bankCode'];
                 $isa_bank_type = $data['bankType'];
             }
