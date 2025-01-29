@@ -72,7 +72,7 @@ Route::prefix('dashboard')->group(function(){
     Route::post('/electricity/purchase', [CustomerController::class, 'electricityPurchase'])->name('cust-electricity-purchase')->middleware('auth:web');
     
     // Transfer Funds 
-    Route::post('/auto/internal/transfer', [CustomerController::class, 'autoInternalTransfer'])->name('auto-internal-transfer')->middleware('auth:web');
+    Route::patch('/auto/internal/transfer', [CustomerController::class, 'autoInternalTransfer'])->name('auto-internal-transfer')->middleware('auth:web');
     Route::post('/fund/transfer/verify/account/number', [CustomerController::class, 'verfiyAccountNumber'])->name('fund-transfer-verify-account')->middleware('auth:web');
     Route::post('/fund/transfer/confirm', [CustomerController::class, 'fundTransfer'])->name('fund-transfer-confirm')->middleware('auth:web');
     
