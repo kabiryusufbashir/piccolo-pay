@@ -112,17 +112,52 @@ class CustomerController extends Controller
                         return response()->json(['message' => 'Account No not found'], 400);
                     }
                     break;
-                case 'withdrawal.success':
-                    // Handle withdrawal success event
-                    return response()->json(['message' => 'Received. Will Work on the module'], 200);
-                    break;
                 case 'transfer.success':
-                    // Handle transfer success event
-                    return response()->json(['message' => 'Received. Will Work on the module'], 200);
+                    $acct_transfer = $data['beneficiaryAccountNumber'];
+                    $payment_reference = $data['txnRef'];
+                    
+                    // Check whether Transaction has been processed 
+                    $check_transaction = CustomerTransactionHistory::where('transaction_no', $acct_transfer)->where('reference', $payment_reference)->count();
+
+                    if($check_transaction == 0){
+                        
+                        // Update Transaction History 
+                        $update_transaction_status = CustomerTransactionHistory::where('transaction_no', $acct_transfer)->where('reference', $payment_reference)
+                        ->update(
+                            [
+                              'status' => 1, 
+                            ]
+                        );
+                        
+                        return response()->json(['message' => 'Transaction processed successfully'], 200);
+                    }else{
+                        return response()->json(['message' => 'Transaction already processed'], 200);
+                    }
+
                     break;
                 case 'transfer.failed':
                     // Handle Transfer fail event
-                    return response()->json(['message' => 'Received. Will Work on the module'], 200);
+                    $acct_transfer = $data['beneficiaryAccountNumber'];
+                    $payment_reference = $data['txnRef'];
+                    
+                    // Check whether Transaction has been processed 
+                    $check_transaction = CustomerTransactionHistory::where('transaction_no', $acct_transfer)->where('reference', $payment_reference)->count();
+
+                    if($check_transaction == 0){
+                        
+                        // Update Transaction History 
+                        $update_transaction_status = CustomerTransactionHistory::where('transaction_no', $acct_transfer)->where('reference', $payment_reference)
+                        ->update(
+                            [
+                              'status' => 0, 
+                            ]
+                        );
+                        
+                        return response()->json(['message' => 'Transaction processed successfully'], 200);
+                    }else{
+                        return response()->json(['message' => 'Transaction already processed'], 200);
+                    }
+
                     break;
                 default:
                     return response()->json(['error' => 'Invalid event'], 400);
@@ -140,6 +175,53 @@ class CustomerController extends Controller
 
         // Compare the expected and actual signatures
         return hash_equals($expectedSignature, $signature);
+    }
+
+    // Auto Internal Transfer 
+    public function autoInternalTransfer(){
+
+        // JSON payload for the request
+        $payload = [
+            "codeName" => env('ZAINPAY_BOX'),
+            "name" => 'Piccolo Pay Live',
+            "allowAutoInternalTransfer" => true
+        ];
+
+        try{
+            $apiEndpoint = 'https://api.zainpay.ng/zainbox/update';
+
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'Authorization' => env('ZAINPAY_BEARER_TOKEN'),
+            ])->patch($apiEndpoint, $payload);
+
+            // Check if the request was successful
+            if($response->successful()) {
+                // Get the response body as an array
+                $data = $response->json();
+                
+                return response()->json([
+                    'status' => true,
+                    'message' => $data,
+                ]);
+                
+            }else{
+                // Handle unsuccessful request
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Please try again later!: ',
+                ]);
+            }
+        }catch(RequestException $e) {
+            // Log the error
+            \Log::error('HTTP Request Error: ' . $e->getMessage());
+
+            // Handle HTTP request-specific errors
+            return response()->json([
+                'status' => false,
+                'message' => 'Please try again later! (' .$e->getMessage(). ')',
+            ]);
+        }
     }
 
     public function signUpPage(){
@@ -723,42 +805,59 @@ class CustomerController extends Controller
         $currentMonth = Carbon::now()->format('m');
 
         $cust_account = CustomerBankDetails::select('acct_no')->where('cust_id', $customer->id)->pluck('acct_no')->first();
-        $cust_count = Customer::count();
+        
+        $cust_count = Customer::where('cust_status', 1)->count();
+        
         $cust_active = Customer::where('acct_balance', '>', 0)->count();
+        
         $cust_verify_account_count = Customer::where('verification_status', 1)->count();
+        
         $cust_balance = Customer::select('acct_balance')->sum('acct_balance');
 
         $transaction_count = CustomerTransactionHistory::where('cust_id', $customer->username)->where('status', 1)->whereMonth('created_at', $currentMonth)->count();
-        $amount_spent = CustomerTransactionHistory::where('cust_id', $customer->username)->where('status', 1)->whereMonth('created_at', $currentMonth)->sum('transaction_paid');
-        $profit_made = CustomerTransactionHistory::where('status', 1)->whereMonth('created_at', $currentMonth)->sum('profit');
+        
+        $amount_spent = CustomerTransactionHistory::where('cust_id', $customer->username)->where('transaction_type', 'Data')->where('status', 1)->whereMonth('created_at', $currentMonth)->sum('transaction_paid');
+        
+        $profit_made = CustomerTransactionHistory::where('status', 1)->where('transaction_type', 'Data')->whereMonth('created_at', $currentMonth)->sum('profit');
 
         require base_path('vendor/autoload.php');
 
         Engine::setMode(Engine::MODE_PRODUCTION);
         Engine::setToken(env('ZAINPAY_BEARER_TOKEN'));
 
-        $response = VirtualAccount::instantiate()->balance(
-            '7962133827' //virtualAccoutNumber - required (string)
-        );
+        // Getting ISA Balance 
+            $response = VirtualAccount::instantiate()->balance(
+                '7966155227' //virtualAccoutNumber - required (string)
+            );
 
-        if($response->hasSucceeded()){
-            $data = $response->getData();
-    
-            if(!empty($data)){
-                // Handle the API response as needed
-                $isa_acct_name = $data['accountName'];
-                $isa_acct_no = $data['accountNumber'];
-                $isa_balance_amount = $data['balanceAmount'] / 100;
-                $isa_bank_code = $data['bankCode'];
-                $isa_bank_type = $data['bankType'];
+            if($response->hasSucceeded()){
+                $data = $response->getData();
+        
+                if(!empty($data)){
+                    // Handle the API response as needed
+                    $isa_acct_name = $data['accountName'];
+                    $isa_acct_no = $data['accountNumber'];
+                    $isa_balance_amount = $data['balanceAmount'] / 100;
+                    $isa_bank_code = $data['bankCode'];
+                    $isa_bank_type = $data['bankType'];
+                }
+            }else{
+                $isa_acct_name = '';
+                $isa_acct_no = '';
+                $isa_balance_amount = '';
+                $isa_bank_code = '';
+                $isa_bank_type = '';
             }
-        }else{
-            $isa_acct_name = '';
-            $isa_acct_no = '';
-            $isa_balance_amount = '';
-            $isa_bank_code = '';
-            $isa_bank_type = '';
-        }
+        // End of Getting ISA Balance
+
+        // Getting Bank List 
+            $response = Bank::instantiate()->list();
+            if($response->hasSucceeded()){
+                $bank_lists = $response->getData();
+            }else{
+                $bank_lists = [];
+            }
+        // End of Getting Bank List 
 
         if(!empty($customer->pin)){
             // Getting User Details from TOMSUB
@@ -848,7 +947,7 @@ class CustomerController extends Controller
                         if($customer){
                             return view('dashboard.index', 
                                 compact(
-                                    'isa_acct_name', 'isa_acct_no', 'isa_balance_amount', 'isa_bank_code', 'isa_bank_type', 
+                                    'isa_acct_name', 'isa_acct_no', 'isa_balance_amount', 'isa_bank_code', 'isa_bank_type', 'bank_lists', 
                                     'customer', 'transaction_count', 'amount_spent', 
                                     'account_info', 'notification', 'exams', 'dataPlansMtnCorporate', 'dataPlansMtnSme', 
                                     'dataPlansGloAll', 'dataPlansAirtelAll', 'dataPlans9MobileAll', 'cablePlanGotv', 'cablePlanDstv', 
@@ -961,9 +1060,7 @@ class CustomerController extends Controller
                             }else{
                                 // If Transaction Failed
                                 if($cust_verification_status == 1){
-                                    $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
-                                    $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
-                                    $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
+                                    $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance]);
                                     
                                     $new_transaction = CustomerTransactionHistory::create([
                                         'cust_id' => $cust_id,
@@ -987,9 +1084,7 @@ class CustomerController extends Controller
                         }else{
                             // If Transaction Failed 
                             if($cust_verification_status == 1){
-                                $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
-                                $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
-                                $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
+                                $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance]);
                                 
                                 $new_transaction = CustomerTransactionHistory::create([
                                     'cust_id' => $cust_id,
@@ -1014,9 +1109,7 @@ class CustomerController extends Controller
                     }catch(RequestException $e) {
                         // If Transaction Failed 
                         if($cust_verification_status == 1){
-                            $cust_acct_balance_current = Customer::select('acct_balance')->where('username', $cust_id)->pluck('acct_balance')->first();
-                            $cust_acct_balance_refund = $cust_acct_balance_current + $transaction_amount;
-                            $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance_refund]);
+                            $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $cust_acct_balance]);
                             
                             $new_transaction = CustomerTransactionHistory::create([
                                 'cust_id' => $cust_id,
@@ -1225,6 +1318,190 @@ class CustomerController extends Controller
                 'message' => "Incorrect Pin"
             ]);
         }
+    }
+
+    // Verify Account Number 
+    public function verfiyAccountNumber(Request $request){
+        
+        $bank_code = $request->bank_code;
+        $account_number = $request->account_number;
+
+        // Search Account Name Using ZainPay API 
+        try{
+            require base_path('vendor/autoload.php');
+
+            Engine::setMode(Engine::MODE_PRODUCTION);
+            Engine::setToken(env('ZAINPAY_BEARER_TOKEN'));
+
+            // Getting Account Name 
+                $response = Bank::instantiate()->accountNameEnquiry(
+                    $bank_code,   //bankCode       - required (string)
+                    $account_number //accountNumber  - required (string)
+                );
+
+                // Check if the request was successful
+                if($response->hasSucceeded()) {
+                    // Return the response data
+                    $data = $response->getData();
+                    
+                    return response()->json([
+                        'status' => true,
+                        'message' => $data['accountName'],
+                    ]);
+    
+                }else{
+                    // Handle unsuccessful request
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Name not found. Try again',
+                    ]);
+                }
+            // End of Getting Account Name
+
+        }catch(RequestException $e) {
+            // Log the error
+            \Log::error('HTTP Request Error: ' . $e->getMessage());
+
+            // Handle HTTP request-specific errors
+            return response()->json([
+                'status' => false,
+                'message' => 'Please try again later! (' . $e->getMessage() . ')',
+            ]);
+        }
+    }
+
+    // Fund Transfer 
+    public function fundTransfer(Request $request){
+        
+        $destinationBankCode = $request->bankCode;
+        $destinationAccountNumber =  $request->accountNumber;
+        $amount =  $request->amountTransfer;
+        $transaction_pin =  $request->custPin;
+
+        $cust_id = Auth::guard('web')->user()->username;
+        $cust_pin = Auth::guard('web')->user()->pin;
+        $cust_acct_balance = Auth::guard('web')->user()->acct_balance;
+
+        $network_id = 001;
+        $transaction_amount = $amount;
+        $transaction_no = $destinationAccountNumber;
+        $txnRef = $destinationBankCode.'-'.$amount.'-'.date('dmY-His');
+        $sourceAccountNumber = 7966155227;
+        $sourceBankCode = 000017;
+        $amount_transfer = $amount * 100;
+        $narration = 'Total Collections';
+
+        require base_path('vendor/autoload.php');
+
+        Engine::setMode(Engine::MODE_PRODUCTION);
+        Engine::setToken(env('ZAINPAY_BEARER_TOKEN'));
+
+        // Getting ISA Balance 
+            $response = VirtualAccount::instantiate()->balance(
+                '7966155227' //virtualAccoutNumber - required (string)
+            );
+
+            if($response->hasSucceeded()){
+                $data = $response->getData();
+        
+                if(!empty($data)){
+                    // Handle the API response as needed
+                    $isa_acct_name = $data['accountName'];
+                    $isa_acct_no = $data['accountNumber'];
+                    $isa_balance_amount = $data['balanceAmount'] / 100;
+                    $isa_bank_code = $data['bankCode'];
+                    $isa_bank_type = $data['bankType'];
+                }
+            }else{
+                $isa_acct_name = '';
+                $isa_acct_no = '';
+                $isa_balance_amount = '';
+                $isa_bank_code = '';
+                $isa_bank_type = '';
+            }
+        // End of Getting ISA Balance
+
+        // Check if PIN is correct 
+        if(Hash::check($transaction_pin, $cust_pin)){
+            
+            // Check ISA balance is sufficient 
+            if($isa_balance_amount >= $amount_transfer){
+                $new_transaction = CustomerTransactionHistory::create([
+                    'cust_id' => $cust_id,
+                    'network_id' => 001,
+                    'transaction_type' => 'Fund Transfer',
+                    'transaction_no' => $destinationAccountNumber,
+                    'transaction_amount' => $transaction_amount,
+                    'transaction_paid' => $transaction_amount,
+                    'reference' => $txnRef,
+                    'status' => 3,
+                ]);
+        
+                // Fund Transfer Using ZainPay API 
+                try{
+                    // Fund Transfer
+                        $response = Bank::instantiate()->transfer(
+                            $destinationAccountNumber,                           
+                            $destinationBankCode,                              
+                            $amount_transfer,                                            
+                            $sourceAccountNumber,                          
+                            $sourceBankCode,                              
+                            env('ZAINPAY_BOX'),                         
+                            $txnRef,                       
+                            $narration,                          
+                            "https://piccolopay.com.ng/zainbox_live" 
+                        );
+        
+                        // Check if the request was successful
+                        if($response->hasSucceeded()) {
+                            // Return the response data
+                            $data = $response->getData();
+                            
+                            $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)
+                                ->update(
+                                    [
+                                      'status' => 2, 
+                                        'reference' => $txnRef
+                                    ]
+                                );
+                            
+                            return response()->json([
+                                'status' => true,
+                                'message' => $data['description'],
+                            ]);
+            
+                        }else{
+                            // Handle unsuccessful request
+                            return response()->json([
+                                'status' => false,
+                                'message' => 'An Error occurred, please try again later',
+                            ]);
+                        } 
+                    // End of Fund Transfer 
+        
+                }catch(RequestException $e) {
+                    // Log the error
+                    \Log::error('HTTP Request Error: ' . $e->getMessage());
+        
+                    // Handle HTTP request-specific errors
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Please try again later! (' . $e->getMessage() . ')',
+                    ]);
+                }
+            }else{
+                return response()->json([
+                    "status" => true, 
+                    'message' => "Oops, Insufficient Balance"
+                ]);
+            }
+        }else{
+            return response()->json([
+                "status" => true, 
+                'message' => "Incorrect Pin"
+            ]);
+        }
+
     }
 
     // Search Meter 
@@ -1598,7 +1875,7 @@ class CustomerController extends Controller
     public function customers(){
         $customer = Auth::guard('web')->user();
 
-        $customers_list = Customer::orderby('id', 'desc')->get();
+        $customers_list = Customer::where('cust_status', 1)->orderby('id', 'desc')->get();
 
         // If Admin Auth  
         if($customer->cust_type == 1){

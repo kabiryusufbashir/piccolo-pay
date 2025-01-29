@@ -29,6 +29,8 @@ class CustomerTransactionHistory extends Model
             $status = '<div class="green-text">Success</div>';
         }else if($status == 2){
             $status = '<div class="yellow-text">Pending</div>';
+        }else if($status == 3){
+            $status = '<div class="gray-text">Processing</div>';
         }else if($status == 0){
             $status = '<div class="red-text">Failed</div>';
         }else{

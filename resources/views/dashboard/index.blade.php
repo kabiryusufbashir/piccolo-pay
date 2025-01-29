@@ -16,6 +16,23 @@
             <div class="mx-3 my-4 order-1 lg:order-2">
                 <div class="lg:grid grid-cols-3 gap-4">
                     <div class="bg-white rounded-xl col-span-2 mb-4 mt-16 lg:mt-0">
+                        @if($customer->cust_type == 1)
+                        <!-- Fund Transfer -->
+                        <div class="py-4 mb-2">
+                            <div class="px-4 font-bold">Fund Transfer</div>
+                            <div class="grid lg:grid-cols-4 grid-cols-2 gap-4 px-10 pt-4">
+                                <!-- Bank Transfer  -->
+                                <div id="bankTransferModal" class="flex items-center flex-col cursor-pointer">
+                                    <div>                            
+                                        <img class="w-10" src="{{ asset('images/bank-transfer.png') }}" alt="">
+                                    </div>
+                                    <div class="lg:text-sm text-xs lg:py-4 py-2">
+                                        Bank Transfer
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif 
                         <!-- Data  -->
                         <div class="py-4 mb-2">
                             <div class="px-4 font-bold">VTU Services</div>
@@ -130,7 +147,7 @@
                         <!-- Data Balance Codes   -->
                         <div class="bg-white rounded-xl hidden lg:block col-span-1">
                             <div class="px-4 font-bold py-4">Data Balance Codes</div>
-                                <div class="px-10 pb-10">
+                                <div class="px-10 pb-10 grid grid-cols-4 gap-4">
                                     <!-- MTN  -->
                                     <div class="flex items-center">
                                         <div>                            
@@ -354,6 +371,99 @@
     </div>
 
     <!-- Modal  -->
+        <!-- Fund Transfer Modal  -->
+        <div id="bankTransferModalContents" class="yus_modal">
+            <div class="yus_modal-content text-xs lg:text-sm">
+                <div class="px-4 font-bold pt-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            Fund Transfer
+                        </div>
+                        <div>
+                            <div id="closebankTransferModal" class="cursor-pointer">
+                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g filter="url(#filter0_d_73_1706)">
+                                        <circle cx="45" cy="45" r="29" fill="white"/>
+                                    </g>
+                                    <path d="M40.4419 50.4369L45.4398 45.439L50.4377 50.4369M50.4377 40.4411L45.4388 45.439L40.4419 40.4411" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <defs>
+                                        <filter id="filter0_d_73_1706" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                            <feMorphology radius="2" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_73_1706"/>
+                                            <feOffset/>
+                                            <feGaussianBlur stdDeviation="7"/>
+                                            <feComposite in2="hardAlpha" operator="out"/>
+                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_73_1706"/>
+                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_73_1706" result="shape"/>
+                                        </filter>
+                                    </defs>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Validate Account Number  -->
+                <form action="{{ route('fund-transfer-verify-account') }}" id="verfiyAccountNumber" method="POST">
+                    @csrf
+                    <div class="px-10 pb-2 lg:flex justify-between">
+                        <div class="my-3 w-full">
+                            <label for="bank_code">Select Bank</label><br>
+                            <select id="bankCode" class="plan_input_box" name="bank_code">
+                                <option value=""></option>
+                                @foreach($bank_lists as $bank)
+                                    <option value="{{ $bank['code'] }}">{{ $bank['name'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="my-3 w-full">
+                            <label for="account_number">Account No</label><br>
+                            <input id="accountNumber" type="number" required class="plan_input_box" name="account_number">
+                        </div>
+                        <div class="my-3 w-full hidden" id="accountName">
+                            <label for="account_name">Account Name</label><br>
+                            <input id="accountNameBox" type="text" class="plan_input_box" disabled name="account_name">
+                        </div>
+                        <div id="searchAccountBtn" class="my-3">
+                            <br>
+                            <input style="background-color: #05976A;" class="px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="SEARCH ACCOUNT" name="submit">
+                        </div>
+                    </div>
+                </form>
+                <form action="{{ route('fund-transfer-confirm') }}" id="transferFunds" method="POST">
+                    @csrf 
+                    
+                    <!-- Amount  -->
+                    <div id="fundTransferAmount" class="hidden">
+                        <div class="px-10 pb-2 lg:flex justify-between">
+                            <div class="my-3 w-full">
+                                <label for="amount">Amount</label><br>
+                                <input id="amountTransfer" type="number" required class="plan_input_box" name="amount" placeholder="500">
+                            </div>
+                            <div class="my-3 w-full">
+                                <label for="pin">Transaction PIN</label><br>
+                                <input id="fundTransferCustPin" type="password" required class="plan_input_box" name="pin">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="fundTransferSend" class="px-10 pb-5 hidden">
+                        <div class="my-2 flex justify-center">
+                            <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="CONFIRM" name="submit">
+                        </div>
+                    </div>
+    
+                    <!-- Loading -->
+                    <div class="loader hidden">
+                        @include('includes.loader')
+                    </div>
+                                                
+                    <!-- Feedback Container  -->
+                    <div id="feedbackContainerFundTransfer" class="my-2">@include('includes.messages')</div>
+                </form>
+            </div>
+        </div>
+
         <!-- MTN Modal  -->
         <div id="mtnModalContent" class="yus_modal">
             <form action="{{ route('cust-data-purchase') }}" id="purchaseDataMtn" method="POST" class="yus_modal-content text-xs lg:text-sm">
@@ -1018,6 +1128,27 @@
         <script>
             // Wait for the document to be ready
             $(document).ready(function() {
+                
+                // Fund Transfer Modal
+                $(document).on('click', '#bankTransferModal', function(){
+                    $('#bankTransferModalContents').toggle();
+                })
+
+                // Close Fund Transfer Modal 
+                $(document).on('click', '#closebankTransferModal', function() {
+                    $('#bankTransferModalContents').toggle();
+                })
+
+                // Fund Transfer Cust PIN 
+                $(document).on('keyup', '#fundTransferCustPin', function(){
+                    let custPin = $(this).val()
+
+                    if(custPin.length > 3){
+                        $('#fundTransferSend').show()
+                    }else{
+                        $('#fundTransferSend').hide()
+                    }
+                })
 
                 // Close MTN Modal 
                 $(document).on('click', '#closeMtnModal', function() {

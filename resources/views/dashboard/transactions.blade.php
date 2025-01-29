@@ -28,7 +28,23 @@
                         <!-- Transaction Type and Info  -->
                         <div class="flex">
                             <!-- Transaction Type  -->
-                            @if($record->transaction_type == 'Deposit')
+                            @if($record->transaction_type == 'Fund Transfer')
+                                <div>
+                                    <span>
+                                        <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="18.5" cy="18.5" r="18.5" fill="#239E21"/>
+                                            <path d="M18.1043 9.79199L10.5835 13.7503V15.3337H25.6252V13.7503M21.6668 16.917V22.4587H24.0418V16.917M10.5835 26.417H25.6252V24.042H10.5835M16.9168 16.917V22.4587H19.2918V16.917M12.1668 16.917V22.4587H14.5418V16.917H12.1668Z" fill="white"/>
+                                        </svg>
+                                    </span>
+                                </div>
+                                <div class="px-2 lg:px-4">
+                                    <span><b>Fund Transfer</b></span> <br>
+                                    <span class="gray-text">{{ $record->transactionDate($record->created_at) }}</span><br>
+                                    @if($customer->cust_type == 1)
+                                        <span class="gray-text">{{ $record->cust_id }}</span><br>
+                                    @endif
+                                </div>
+                            @elseif($record->transaction_type == 'Deposit')
                                 <div>
                                     <span>
                                         <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -152,11 +168,11 @@
                 </a>
             @endforeach
         @else
-            <div class="lg:mx-1 mx-3 yus-text-red text-sm px-2 lg:text-sm text-xs">
+            <div class="lg:mx-1 mx-3 yus-text-red text-sm px-2 lg:text-sm">
                 No Transaction Found
             </div>
         @endif
-        <div class="lg:mx-1 mx-3 yus-text-red text-sm px-2 lg:text-sm text-xs text-center py-2" id="notFoundMessage" style="display: none;">No Transaction Found</div>
+        <div class="lg:mx-1 mx-3 yus-text-red text-sm px-2 lg:text-sm text-center py-2" id="notFoundMessage" style="display: none;">No Transaction Found</div>
 
     </div>
 
