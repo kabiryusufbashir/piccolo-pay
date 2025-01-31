@@ -1755,7 +1755,12 @@ class CustomerController extends Controller
         $customer = Auth::guard('web')->user();
 
         if($customer->cust_type == 1){
-            $transactions = CustomerTransactionHistory::orderby('id', 'desc')->get();
+            $transactions = CustomerTransactionHistory::whereBetween('created_at', [
+                Carbon::now()->subWeek(), // 7 days ago
+                Carbon::now() // Today
+            ])
+            ->orderBy('id', 'desc')
+            ->get();
         }else{
             $transactions = CustomerTransactionHistory::where('cust_id', $customer->username)->orderby('id', 'desc')->get();
         }
