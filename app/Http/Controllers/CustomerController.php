@@ -177,53 +177,6 @@ class CustomerController extends Controller
         return hash_equals($expectedSignature, $signature);
     }
 
-    // Auto Internal Transfer 
-    public function autoInternalTransfer(){
-
-        // JSON payload for the request
-        $payload = [
-            "codeName" => env('ZAINPAY_BOX'),
-            "name" => 'Piccolo Pay Live',
-            "allowAutoInternalTransfer" => true
-        ];
-
-        try{
-            $apiEndpoint = 'https://api.zainpay.ng/zainbox/update';
-
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-                'Authorization' => env('ZAINPAY_BEARER_TOKEN'),
-            ])->patch($apiEndpoint, $payload);
-
-            // Check if the request was successful
-            if($response->successful()) {
-                // Get the response body as an array
-                $data = $response->json();
-                
-                return response()->json([
-                    'status' => true,
-                    'message' => $data,
-                ]);
-                
-            }else{
-                // Handle unsuccessful request
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Please try again later!: ',
-                ]);
-            }
-        }catch(RequestException $e) {
-            // Log the error
-            \Log::error('HTTP Request Error: ' . $e->getMessage());
-
-            // Handle HTTP request-specific errors
-            return response()->json([
-                'status' => false,
-                'message' => 'Please try again later! (' .$e->getMessage(). ')',
-            ]);
-        }
-    }
-
     public function signUpPage(){
         return view('signup');
     }
@@ -942,12 +895,14 @@ class CustomerController extends Controller
                         $rechargePinGlo = $responseData['recharge']['glo_pin'];
                         $rechargePinAirtel = $responseData['recharge']['airtel_pin'];
                         $rechargePin9Mobile = $responseData['recharge']['9mobile_pin'];
+
+                        $total_profit = ($isa_balance_amount + $account_info['wallet_balance']) - $cust_balance;
                         
                         // If Admin Auth  
                         if($customer){
                             return view('dashboard.index', 
                                 compact(
-                                    'isa_acct_name', 'isa_acct_no', 'isa_balance_amount', 'isa_bank_code', 'isa_bank_type', 'bank_lists', 
+                                    'total_profit', 'isa_acct_name', 'isa_acct_no', 'isa_balance_amount', 'isa_bank_code', 'isa_bank_type', 'bank_lists', 
                                     'customer', 'transaction_count', 'amount_spent', 
                                     'account_info', 'notification', 'exams', 'dataPlansMtnCorporate', 'dataPlansMtnSme', 
                                     'dataPlansGloAll', 'dataPlansAirtelAll', 'dataPlans9MobileAll', 'cablePlanGotv', 'cablePlanDstv', 
@@ -1389,7 +1344,7 @@ class CustomerController extends Controller
         $sourceAccountNumber = 7966155227;
         $sourceBankCode = 000017;
         $amount_transfer = $amount * 100;
-        $narration = 'Total Collections';
+        $narration = 'payment-made';
 
         require base_path('vendor/autoload.php');
 
@@ -1434,33 +1389,41 @@ class CustomerController extends Controller
                     'transaction_amount' => $transaction_amount,
                     'transaction_paid' => $transaction_amount,
                     'reference' => $txnRef,
-                    'status' => 3,
+                    'status' => 0,
                 ]);
-        
+
                 // Fund Transfer Using ZainPay API 
-                try{
-                    // Fund Transfer
-                        $response = Bank::instantiate()->transfer(
-                            $destinationAccountNumber,                           
-                            $destinationBankCode,                              
-                            $amount_transfer,                                            
-                            $sourceAccountNumber,                          
-                            $sourceBankCode,                              
-                            env('ZAINPAY_BOX'),                         
-                            $txnRef,                       
-                            $narration,                          
-                            "https://piccolopay.com.ng/zainbox_live" 
-                        );
-        
+    
+                    // JSON payload for the request
+                    $payload = [
+                        "destinationAccountNumber" => $destinationAccountNumber,
+                        "destinationBankCode" => $destinationBankCode,
+                        "amount" => $amount_transfer,
+                        "sourceAccountNumber" => $sourceAccountNumber,
+                        "sourceBankCode" => $sourceBankCode,
+                        "zainboxCode" => env('ZAINPAY_BOX'), 
+                        "txnRef" => $txnRef,
+                        "narration" => $narration,
+                        "callbackUrl" => "https://piccolopay.com.ng/zainbox_live"
+                    ];
+    
+                    try{
+                        $apiEndpoint = 'https://api.zainpay.ng/bank/transfer/v2';
+            
+                        $response = Http::withHeaders([
+                            'Content-Type' => 'application/json',
+                            'Authorization' => env('ZAINPAY_BEARER_TOKEN'),
+                        ])->post($apiEndpoint, $payload);
+            
                         // Check if the request was successful
-                        if($response->hasSucceeded()) {
+                        if($response->successful()) {
                             // Return the response data
                             $data = $response->getData();
                             
                             $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)
                                 ->update(
                                     [
-                                      'status' => 2, 
+                                        'status' => 1, 
                                         'reference' => $txnRef
                                     ]
                                 );
@@ -1469,26 +1432,26 @@ class CustomerController extends Controller
                                 'status' => true,
                                 'message' => $data['description'],
                             ]);
-            
+                
                         }else{
                             // Handle unsuccessful request
                             return response()->json([
                                 'status' => false,
                                 'message' => 'An Error occurred, please try again later',
                             ]);
-                        } 
-                    // End of Fund Transfer 
-        
-                }catch(RequestException $e) {
-                    // Log the error
-                    \Log::error('HTTP Request Error: ' . $e->getMessage());
-        
-                    // Handle HTTP request-specific errors
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'Please try again later! (' . $e->getMessage() . ')',
-                    ]);
-                }
+                        }
+                    }catch(RequestException $e) {
+                        // Log the error
+                        \Log::error('HTTP Request Error: ' . $e->getMessage());
+            
+                        // Handle HTTP request-specific errors
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Please try again later! (' .$e->getMessage(). ')',
+                        ]);
+                    }
+            
+                // Fund Transfer Using ZainPay API
             }else{
                 return response()->json([
                     "status" => true, 
