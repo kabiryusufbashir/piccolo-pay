@@ -15,7 +15,7 @@
         <!-- Services  -->
             <div class="mx-3 my-4 order-1 lg:order-2">
                 <div class="lg:grid grid-cols-3 gap-4">
-                    <div class="bg-white rounded-xl col-span-1 mb-4 mt-16 lg:mt-0">
+                    <div class="bg-white rounded-xl col-span-1 mb-2 mt-16 lg:mt-0">
                         @if($customer->cust_type == 1)
                         <!-- Fund Transfer -->
                         <div class="py-4 mb-2">
@@ -188,10 +188,10 @@
                         </div>
                     </div>
                     <div class="col-span-2 mb-24">
-                        <div class="lg:grid grid-cols-2 gap-4">
+                        <div class="lg:grid grid-cols-3 gap-4">
                             @if($customer->cust_type == 1)
                                 <!-- Zainpay Balance  -->
-                                <div class="green-bg text-white p-4 rounded-xl mb-4">
+                                <div class="green-bg text-white p-4 rounded-xl mb-2">
                                     <div class="flex justify-between pb-1">
                                         <svg width="44" height="44" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="27" cy="27" r="27" fill="#FFDBE1"/>
@@ -213,7 +213,7 @@
                                     </div>
                                 </div>
                                 <!-- Account Balance  -->
-                                <div class="bg-white p-4 rounded-xl mb-4">
+                                <div class="bg-white p-4 rounded-xl mb-2">
                                     <div class="flex justify-between pb-1">
                                         <svg width="44" height="44" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="27" cy="27" r="27" fill="#FFDBE1"/>
@@ -236,7 +236,7 @@
                                 </div>
                                 <!-- Customer Balance  -->
                                 <a href="{{ route('cust-page') }}" class="hover:text-white">
-                                    <div class="green-bg text-white p-4 rounded-xl mb-4">
+                                    <div class="green-bg text-white p-4 rounded-xl mb-2">
                                         <div class="flex justify-between pb-1">
                                             <div>
                                                 <svg width="44" height="44" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -259,7 +259,7 @@
                                     </div>
                                 </a>
                                 <!-- Profit  -->
-                                <div class="bg-white p-4 rounded-xl mb-4">
+                                <div class="bg-white p-4 rounded-xl mb-2">
                                     <div class="flex justify-between pb-1">
                                         <svg width="44" height="44" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="27" cy="27" r="27" fill="#FFDBE1"/>
@@ -284,7 +284,7 @@
                             @endif 
                             <!-- Wallet  -->
                             <a class="hover:text-white" href="{{ route('cust-wallet') }}">
-                                <div class="green-bg p-4 rounded-xl text-white mb-4">
+                                <div class="green-bg p-4 rounded-xl text-white mb-2">
                                     <div class="flex justify-between pb-1">
                                         <div>
                                             <svg width="44" height="44" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -320,7 +320,7 @@
                             </a>
                             <!-- Transaction  -->
                             <a class="hover:text-black" href="{{ route('cust-transactions') }}">
-                                <div class="bg-white p-4 rounded-xl mb-4">
+                                <div class="bg-white p-4 rounded-xl mb-2">
                                     <div class="flex justify-between pb-1">
                                         <svg width="44" height="44" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="27" cy="27" r="27" fill="#C6FFED"/>
@@ -345,7 +345,7 @@
                                 </div>
                             </a>
                             <!-- Amount Spent  -->
-                            <div class="bg-white p-4 rounded-xl mb-4">
+                            <div class="bg-white p-4 rounded-xl mb-2">
                                 <div class="flex justify-between pb-1">
                                     <svg width="44" height="44" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="27" cy="27" r="27" fill="#FFDBE1"/>

@@ -194,9 +194,9 @@ body{
 }
 
 .balance{
-    font-size: 32px;
+    font-size: 20px;
     font-weight: 600;
-    line-height: 48px;
+    line-height: 18px;
     letter-spacing: 0.02em;
     text-align: left;
 }
