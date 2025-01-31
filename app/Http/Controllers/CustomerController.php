@@ -1393,74 +1393,127 @@ class CustomerController extends Controller
                 ]);
 
                 // Fund Transfer Using ZainPay API 
-    
                     // JSON payload for the request
-                    $payload = [
-                        "destinationAccountNumber" => $destinationAccountNumber,
-                        "destinationBankCode" => $destinationBankCode,
-                        "amount" => $amount_transfer,
-                        "sourceAccountNumber" => $sourceAccountNumber,
-                        "sourceBankCode" => $sourceBankCode,
-                        "zainboxCode" => env('ZAINPAY_BOX'), 
-                        "txnRef" => $txnRef,
-                        "narration" => $narration,
-                        "callbackUrl" => "https://piccolopay.com.ng/zainbox_live"
-                    ];
-    
+                        // $payload = [
+                        //     "destinationAccountNumber" => $destinationAccountNumber,
+                        //     "destinationBankCode" => $destinationBankCode,
+                        //     "amount" => $amount_transfer,
+                        //     "sourceAccountNumber" => $sourceAccountNumber,
+                        //     "sourceBankCode" => $sourceBankCode,
+                        //     "zainboxCode" => env('ZAINPAY_BOX'),
+                        //     "txnRef" => $txnRef,
+                        //     "narration" => $narration,
+                        //     "callbackUrl" => "https://piccolopay.com.ng/zainbox_live"
+                        // ];
+                        // try {
+                        //     $apiEndpoint = 'https://api.zainpay.ng/bank/transfer/v2';
+
+                        //     $response = Http::withHeaders([
+                        //         'Content-Type' => 'application/json',
+                        //         'Authorization' => env('ZAINPAY_BEARER_TOKEN'),
+                        //     ])->post($apiEndpoint, $payload);
+
+                        //     // Ensure we have a valid JSON response
+                        //     if(!$response->ok()){
+                        //         Log::error('API Request Failed', [
+                        //             'status_code' => $response->status(),
+                        //             'body' => $response->body(),
+                        //         ]);
+
+                        //         return response()->json([
+                        //             'status' => false,
+                        //             'message' => 'An error occurred, please try again later',
+                        //         ]);
+                        //     }
+
+                        //     // Get response data safely
+                        //     $data = $response->json('data', []);
+                        //     $description = $response->json('description', 'No description provided');
+                        //     $status = $data['status'] ?? null;
+
+                        //     // Validate required fields
+                        //     if (empty($data) || !isset($data['txnRef'])) {
+                        //         return response()->json([
+                        //             'status' => false,
+                        //             'message' => 'Invalid response format from API',
+                        //         ]);
+                        //     }
+
+                        //     // Process successful transaction
+                        //     if ($status === 'success') {
+                        //         $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)
+                        //             ->update([
+                        //                 'status' => 1,
+                        //                 'reference' => $data['txnRef']
+                        //             ]);
+
+                        //         return response()->json([
+                        //             'status' => true,
+                        //             'message' => $update_transaction_status ? $description : $description . ' (Transaction status update failed)',
+                        //         ]);
+                        //     }
+
+                        //     // Handle failed transactions with failure reason
+                        //     return response()->json([
+                        //         'status' => false,
+                        //         'message' => $description . ' - Reason: ' . ($data['failureReason'] ?? 'Unknown error'),
+                        //     ]);
+
+                        // } catch (Throwable $e) {
+                        //     // Log the full error details
+                        //     Log::error('HTTP Request Error', [
+                        //         'error' => $e->getMessage(),
+                        //         'trace' => $e->getTraceAsString(),
+                        //     ]);
+
+                        //     return response()->json([
+                        //         'status' => false,
+                        //         'message' => 'Please try again later! (' . $e->getMessage() . ')',
+                        //     ]);
+                        // }
+                // Fund Transfer Using ZainPay API
+
+                // Fund Transfer Using ZainPay API 
                     try{
-                        $apiEndpoint = 'https://api.zainpay.ng/bank/transfer/v2';
+                        // Fund Transfer
+                            $response = Bank::instantiate()->transfer(
+                                $destinationAccountNumber,                           
+                                $destinationBankCode,                              
+                                $amount_transfer,                                            
+                                $sourceAccountNumber,                          
+                                $sourceBankCode,                              
+                                env('ZAINPAY_BOX'),                         
+                                $txnRef,                       
+                                $narration,                          
+                                "https://piccolopay.com.ng/zainbox_live" 
+                            );
             
-                        $response = Http::withHeaders([
-                            'Content-Type' => 'application/json',
-                            'Authorization' => env('ZAINPAY_BEARER_TOKEN'),
-                        ])->post($apiEndpoint, $payload);
-            
-                        // Check if the request was successful
-                        if($response->successful()){
-                            // Get response data
-                            $data = $response->json('data');
-                            $description = $response->json('description'); // "Funds Transfer Successful" or "Funds Transfer Failed!"
-                            $status = $data['status'] ?? null; // Check transaction status
-                        
-                            if(!$data || !isset($data['txnRef'])){
-                                return response()->json([
-                                    'status' => false,
-                                    'message' => 'Invalid response format from API',
-                                ]);
-                            }
-                        
-                            // Check if transaction was successful
-                            if($status === 'success'){
-                                // Update transaction status in the database
+                            // Check if the request was successful
+                            if($response->hasSucceeded()) {
+                                // Return the response data
+                                $data = $response->getData();
+                                
                                 $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)
-                                    ->update([
-                                        'status' => 1,
-                                        'reference' => $data['txnRef']
-                                    ]);
-                        
+                                    ->update(
+                                        [
+                                        'status' => 1, 
+                                            'reference' => $txnRef
+                                        ]
+                                    );
+                                
                                 return response()->json([
                                     'status' => true,
-                                    'message' => $update_transaction_status ? $description : $description . ' (Transaction status update failed)',
+                                    'message' => 'Funds Transfer Successful',
+                                ]);
+                
+                            }else{
+                                // Handle unsuccessful request
+                                return response()->json([
+                                    'status' => false,
+                                    'message' => 'An Error occurred, please try again later',
                                 ]);
                             } 
-                        
-                            // Handle failed transactions
-                            return response()->json([
-                                'status' => false,
-                                'message' => $description . ' - Reason: ' . ($data['failureReason'] ?? 'Unknown error'),
-                            ]);
-                        }
-                        
-                        // Log the failed API response
-                        Log::error('API Request Failed', [
-                            'status_code' => $response->status(),
-                            'body' => $response->body(),
-                        ]);
-                        
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'An error occurred, please try again later',
-                        ]);                                                                        
+                        // End of Fund Transfer 
                     }catch(RequestException $e) {
                         // Log the error
                         \Log::error('HTTP Request Error: ' . $e->getMessage());
@@ -1468,7 +1521,7 @@ class CustomerController extends Controller
                         // Handle HTTP request-specific errors
                         return response()->json([
                             'status' => false,
-                            'message' => 'Please try again later! (' .$e->getMessage(). ')',
+                            'message' => 'Please try again later! (' . $e->getMessage() . ')',
                         ]);
                     }
                 // Fund Transfer Using ZainPay API
