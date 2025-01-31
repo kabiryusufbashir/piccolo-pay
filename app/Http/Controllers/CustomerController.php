@@ -1416,30 +1416,51 @@ class CustomerController extends Controller
                         ])->post($apiEndpoint, $payload);
             
                         // Check if the request was successful
-                        if($response->successful()) {
-                            // Return the response data
-                            $data = $response->getData();
-                            
-                            $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)
-                                ->update(
-                                    [
-                                        'status' => 1, 
-                                        'reference' => $txnRef
-                                    ]
-                                );
-                            
-                            return response()->json([
-                                'status' => true,
-                                'message' => $data['description'],
-                            ]);
-                
-                        }else{
-                            // Handle unsuccessful request
+                        if($response->successful()){
+                            // Get response data
+                            $data = $response->json('data');
+                            $description = $response->json('description'); // "Funds Transfer Successful" or "Funds Transfer Failed!"
+                            $status = $data['status'] ?? null; // Check transaction status
+                        
+                            if(!$data || !isset($data['txnRef'])){
+                                return response()->json([
+                                    'status' => false,
+                                    'message' => 'Invalid response format from API',
+                                ]);
+                            }
+                        
+                            // Check if transaction was successful
+                            if($status === 'success'){
+                                // Update transaction status in the database
+                                $update_transaction_status = CustomerTransactionHistory::where('id', $new_transaction->id)
+                                    ->update([
+                                        'status' => 1,
+                                        'reference' => $data['txnRef']
+                                    ]);
+                        
+                                return response()->json([
+                                    'status' => true,
+                                    'message' => $update_transaction_status ? $description : $description . ' (Transaction status update failed)',
+                                ]);
+                            } 
+                        
+                            // Handle failed transactions
                             return response()->json([
                                 'status' => false,
-                                'message' => 'An Error occurred, please try again later',
+                                'message' => $description . ' - Reason: ' . ($data['failureReason'] ?? 'Unknown error'),
                             ]);
                         }
+                        
+                        // Log the failed API response
+                        Log::error('API Request Failed', [
+                            'status_code' => $response->status(),
+                            'body' => $response->body(),
+                        ]);
+                        
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'An error occurred, please try again later',
+                        ]);                                                                        
                     }catch(RequestException $e) {
                         // Log the error
                         \Log::error('HTTP Request Error: ' . $e->getMessage());
@@ -1450,7 +1471,6 @@ class CustomerController extends Controller
                             'message' => 'Please try again later! (' .$e->getMessage(). ')',
                         ]);
                     }
-            
                 // Fund Transfer Using ZainPay API
             }else{
                 return response()->json([
