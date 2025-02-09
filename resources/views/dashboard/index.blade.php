@@ -445,6 +445,10 @@
                                 <input id="amountTransfer" type="number" required class="plan_input_box" name="amount" placeholder="500">
                             </div>
                             <div class="my-3 w-full">
+                                <label for="narration">Narration</label><br>
+                                <input id="amountNarration" type="text" required class="plan_input_box" name="Narration" placeholder="School Fees">
+                            </div>
+                            <div class="my-3 w-full">
                                 <label for="pin">Transaction PIN</label><br>
                                 <input id="fundTransferCustPin" type="password" required class="plan_input_box" name="pin">
                             </div>
@@ -1140,6 +1144,144 @@
                 // Close Fund Transfer Modal 
                 $(document).on('click', '#closebankTransferModal', function() {
                     $('#bankTransferModalContents').toggle();
+                })
+
+                // Verfiy Account Number
+                $(document).on('submit', '#verfiyAccountNumber', function() {
+                    var e = this
+                    let searchAccountBtn = $('#searchAccountBtn')
+                    let accountName = $('#accountName')
+                    let accountNameBox = $('#accountNameBox')
+                    let container = $('#feedbackContainerFundTransfer')
+
+                    // display Loader 
+                    $('.loader').show()
+                    searchAccountBtn.hide()
+
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        data: $(this).serialize(),
+                        type: "POST",
+                        dataType: 'json',
+                        success: function(data) {
+
+                            if(data.status === true) {
+                                // Loader Hide 
+                                $('.loader').hide()
+                                accountName.show()
+
+                                // Add Value to Meter Box 
+                                accountNameBox.val(data.message)
+
+                                // Show Amount Container 
+                                $('#fundTransferAmount').show()    
+
+                            }else{
+                                $(".alert").remove();
+                                
+                                // Loader Hide 
+                                $('.loader').hide()
+
+                                // Display Search Btn Back 
+                                searchAccountBtn.show()
+                                
+                                if(data.status === false) {
+                                    // Check if the errors property is a string
+                                    if(typeof data.errors === 'string') {
+                                        container.append('<div class="alert alert-danger text-xs text-center">' + data.errors + '</div>');
+                                    }else if(typeof data.errors === 'object') {
+                                        // If errors is an object (possibly from server validation)
+                                        $.each(data.errors, function (key, val) {
+                                            container.append('<div class="alert alert-danger text-xs text-center">' +val+ '</div>');
+                                        });
+                                    }else{
+                                        // Handle other cases or provide a default message
+                                        container.append('<div class="alert alert-danger text-xs text-center">'+data.message+'</div>');
+                                    }
+                                }
+                            }
+                        
+                        }
+                    });
+
+                    return false;
+                })
+
+                // Transfer Funds
+                $(document).on('submit', '#transferFunds', function() {
+                    var e = this
+                    let csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    let container = $('#feedbackContainerFundTransfer')
+                    let bankCode = $('#bankCode').val()
+                    let accountNumber = $('#accountNumber').val()
+                    let amountTransfer = $('#amountTransfer').val()
+                    let amountNarration = $('#amountNarration').val()
+                    let custPin = $('#fundTransferCustPin').val()
+
+                    // display Loader 
+                    $('.loader').show()
+
+                    $('#electricityBuy').hide()
+
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        data: {
+                            _token: csrfToken,
+                            bankCode: bankCode,
+                            accountNumber: accountNumber,
+                            amountTransfer: amountTransfer,
+                            amountNarration: amountNarration,
+                            custPin: custPin,
+                        },
+                        type: "POST",
+                        dataType: 'json',
+                        success: function(data) {
+
+                            if(data.status) {
+                                // Loader Hide 
+                                $('.loader').hide()
+                                
+                                container.fadeIn().delay(5000).fadeOut()
+                                
+                                container.append('<div class="alert alert-success text-xs text-center">'+data.message+'</div>')
+                                
+                                // Redirect 
+                                setTimeout(function(){
+                                    location.reload()
+                                }, 5000)
+
+                            }else{
+                                $(".alert").remove();
+                                
+                                // Loader Hide 
+                                $('.loader').hide()
+
+                                if(data.status === false) {
+                                    // Check if the errors property is a string
+                                    if(typeof data.errors === 'string') {
+                                        container.append('<div class="alert alert-danger text-xs text-center">' + data.errors + '</div>');
+                                    }else if(typeof data.errors === 'object') {
+                                        // If errors is an object (possibly from server validation)
+                                        $.each(data.errors, function (key, val) {
+                                            container.append('<div class="alert alert-danger text-xs text-center">' + val + '</div>');
+                                        });
+                                    }else{
+                                        // Handle other cases or provide a default message
+                                        container.append('<div class="alert alert-danger text-xs text-center">'+data.message+'</div>');
+                                    }
+                                }
+
+                                // Redirect 
+                                setTimeout(function(){
+                                    location.reload()
+                                }, 5000)
+
+                            }
+                        
+                        }
+                    });
+
+                    return false;
                 })
 
                 // Fund Transfer Cust PIN 

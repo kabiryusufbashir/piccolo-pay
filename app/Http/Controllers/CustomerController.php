@@ -1331,6 +1331,7 @@ class CustomerController extends Controller
         $destinationBankCode = $request->bankCode;
         $destinationAccountNumber =  $request->accountNumber;
         $amount =  $request->amountTransfer;
+        $narration =  $request->amountNarration;
         $transaction_pin =  $request->custPin;
 
         $cust_id = Auth::guard('web')->user()->username;
@@ -1344,7 +1345,7 @@ class CustomerController extends Controller
         $sourceAccountNumber = 7966155227;
         $sourceBankCode = 000017;
         $amount_transfer = $amount * 100;
-        $narration = 'payment-made';
+        $narration = (!empty($narration)) ? $narration : 'Payment Settlement';
 
         require base_path('vendor/autoload.php');
 
