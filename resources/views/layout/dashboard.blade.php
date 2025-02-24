@@ -40,7 +40,7 @@
 
         @yield('pageTitle')
 
-        <link rel="stylesheet" href="{{ asset('build/assets/app-00977d07.css') }}">
+        <link rel="stylesheet" href="{{ asset('build/assets/app-5399eaf7.css') }}">
         <link href="{{ asset('css/main.css?v=1.1') }}" rel="stylesheet">
         @vite('resources/css/app.css')
     
@@ -286,22 +286,7 @@
 
             <!-- Bottom Nav  -->
             <div id="nav-bottom" class="lg:hidden">
-                <div class="grid grid-cols-5 gap-4 text-center py-3 px-2">
-                    <!-- Transaction -->
-                    <div class="mx-auto cursor-pointer flex">
-                        <a class="hover:text-black" href="{{ route('cust-transactions') }}">
-                            <div>
-                                <svg class="yus_icons_center" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M21 9.5C21.8284 9.5 22.5 8.82843 22.5 8C22.5 7.17157 21.8284 6.5 21 6.5C20.1716 6.5 19.5 7.17157 19.5 8C19.5 8.82843 20.1716 9.5 21 9.5Z" fill="#FFFFFF"/>
-                                    <path d="M13.5 22.25H8.25V20.75H13.5C17.2222 20.75 20.25 17.7222 20.25 14V11H21.75V14C21.75 18.5487 18.0487 22.25 13.5 22.25Z" fill="#FFFFFF"/>
-                                    <path d="M12 16.25C9.93225 16.25 8.25 14.5677 8.25 12.5C8.25 10.4323 9.93225 8.75 12 8.75C14.0677 8.75 15.75 10.4323 15.75 12.5C15.75 14.5677 14.0677 16.25 12 16.25ZM12 10.25C10.7595 10.25 9.75 11.2595 9.75 12.5C9.75 13.7405 10.7595 14.75 12 14.75C13.2405 14.75 14.25 13.7405 14.25 12.5C14.25 11.2595 13.2405 10.25 12 10.25Z" fill="#FFFFFF"/>
-                                    <path d="M3 18.5C3.82843 18.5 4.5 17.8284 4.5 17C4.5 16.1716 3.82843 15.5 3 15.5C2.17157 15.5 1.5 16.1716 1.5 17C1.5 17.8284 2.17157 18.5 3 18.5Z" fill="#FFFFFF"/>
-                                    <path d="M3.75 14H2.25V11C2.25 6.45125 5.95125 2.75 10.5 2.75H15.75V4.25H10.5C6.77775 4.25 3.75 7.27775 3.75 11V14Z" fill="#FFFFFF"/>
-                                </svg>
-                            </div>
-                            <!-- <div class="text-xs">Transaction</div> -->
-                        </a>
-                    </div>
+                <div class="flex justify-between text-center py-2 px-2">
                     <!-- Wallet -->
                     <div class="mx-auto cursor-pointer flex">
                         <a class="hover:text-black" href="{{ route('cust-wallet') }}">
@@ -314,7 +299,22 @@
                                     <path d="M19 14.5C19 14.7652 18.8946 15.0196 18.7071 15.2071C18.5196 15.3946 18.2652 15.5 18 15.5C17.7348 15.5 17.4804 15.3946 17.2929 15.2071C17.1054 15.0196 17 14.7652 17 14.5C17 14.2348 17.1054 13.9804 17.2929 13.7929C17.4804 13.6054 17.7348 13.5 18 13.5C18.2652 13.5 18.5196 13.6054 18.7071 13.7929C18.8946 13.9804 19 14.2348 19 14.5Z" fill="#FFFFFF"/>
                                 </svg>
                             </div>
-                            <!-- <div class="text-xs">Wallet</div> -->
+                            <div style="font-size:10px;" class="text-white text-center">Wallet</div>
+                        </a>
+                    </div>
+                    <!-- Transaction -->
+                    <div class="mx-auto cursor-pointer flex">
+                        <a class="hover:text-black" href="{{ route('cust-transactions') }}">
+                            <div>
+                                <svg class="yus_icons_center" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 9.5C21.8284 9.5 22.5 8.82843 22.5 8C22.5 7.17157 21.8284 6.5 21 6.5C20.1716 6.5 19.5 7.17157 19.5 8C19.5 8.82843 20.1716 9.5 21 9.5Z" fill="#FFFFFF"/>
+                                    <path d="M13.5 22.25H8.25V20.75H13.5C17.2222 20.75 20.25 17.7222 20.25 14V11H21.75V14C21.75 18.5487 18.0487 22.25 13.5 22.25Z" fill="#FFFFFF"/>
+                                    <path d="M12 16.25C9.93225 16.25 8.25 14.5677 8.25 12.5C8.25 10.4323 9.93225 8.75 12 8.75C14.0677 8.75 15.75 10.4323 15.75 12.5C15.75 14.5677 14.0677 16.25 12 16.25ZM12 10.25C10.7595 10.25 9.75 11.2595 9.75 12.5C9.75 13.7405 10.7595 14.75 12 14.75C13.2405 14.75 14.25 13.7405 14.25 12.5C14.25 11.2595 13.2405 10.25 12 10.25Z" fill="#FFFFFF"/>
+                                    <path d="M3 18.5C3.82843 18.5 4.5 17.8284 4.5 17C4.5 16.1716 3.82843 15.5 3 15.5C2.17157 15.5 1.5 16.1716 1.5 17C1.5 17.8284 2.17157 18.5 3 18.5Z" fill="#FFFFFF"/>
+                                    <path d="M3.75 14H2.25V11C2.25 6.45125 5.95125 2.75 10.5 2.75H15.75V4.25H10.5C6.77775 4.25 3.75 7.27775 3.75 11V14Z" fill="#FFFFFF"/>
+                                </svg>
+                            </div>
+                            <div style="font-size:10px;" class="text-white text-center">Transactions</div>
                         </a>
                     </div>
                     <!-- Dashboard  -->
@@ -335,7 +335,7 @@
                                     </defs>
                                 </svg>
                             </div>
-                            <!-- <div class="text-xs">Dashboard</div> -->
+                            <div style="font-size:10px;" class="text-white text-center">Dashboard</div>
                         </a>
                     </div>
                     <!-- Support -->
@@ -354,7 +354,7 @@
                                     </defs>
                                 </svg>
                             </div>
-                            <!-- <div class="text-xs">Support</div> -->
+                            <div style="font-size:10px;" class="text-white text-center">Support</div>
                         </a>
                     </div>
                     <!-- Account -->
@@ -366,7 +366,7 @@
                                     <path d="M12 10.75C13.864 10.75 15.375 9.23896 15.375 7.375C15.375 5.51104 13.864 4 12 4C10.136 4 8.625 5.51104 8.625 7.375C8.625 9.23896 10.136 10.75 12 10.75Z" stroke="#FFFFFF" stroke-width="1.5"/>
                                 </svg>
                             </div>
-                            <!-- <div class="text-xs">Account</div> -->
+                            <div style="font-size:10px;" class="text-white text-center">Account</div>
                         </a>
                     </div>
                 </div>    

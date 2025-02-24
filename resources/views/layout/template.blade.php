@@ -52,7 +52,7 @@
 
         @yield('pageMeta')
 
-        <link rel="stylesheet" href="{{ asset('build/assets/app-00977d07.css') }}">
+        <link rel="stylesheet" href="{{ asset('build/assets/app-5399eaf7.css') }}">
         <link href="{{ asset('css/main.css?v=1.1') }}" rel="stylesheet">
         @vite('resources/css/app.css')
     
