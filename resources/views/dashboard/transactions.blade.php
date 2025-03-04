@@ -10,12 +10,12 @@
         Transactions 
     </div>
 
-    <div class="bg-white rounded-xl mb-4 my-4 p-6 lg:mx-1 mx-3 lg:text-sm">
-        <div class="my-4 lg:flex justify-between items-center py-2">
-            <div class="my-4 font-bold">
+    <div class="bg-white rounded-xl mb-24 lg:mb-2 mt-12 lg:mt-0 p-6 lg:mx-1 mx-3 lg:text-sm">
+        <div class="my-2 lg:flex justify-between items-center py-2">
+            <div class="my-1 font-bold">
                 History
             </div>
-            <div class="my-4">
+            <div class="my-1">
                 <input id="searchInput" style="width:250px;" class="input_box" type="text" placeholder="Search Transaction" name="search_transaction">
             </div>
         </div>

@@ -24,9 +24,9 @@ $(document).on('submit', '#purchaseDataMtn', function() {
                 container.append('<div class="alert alert-success text-xs text-center">'+data.message+'</div>')
                 
                 // Redirect 
-                setTimeout(function(){
-                    location.reload()
-                }, 5000)
+                setTimeout(function() {
+                    window.location.href = '/dashboard/transactions/';
+                }, 5000);                
 
             }else{
                 $(".alert").remove();

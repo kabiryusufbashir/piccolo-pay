@@ -782,167 +782,201 @@ class CustomerController extends Controller
             ->where('transaction_type', 'Data')
             ->whereMonth('created_at', date('m'))  
             ->whereYear('created_at', date('Y'))
-            ->sum('profit');
-
-        require base_path('vendor/autoload.php');
-
-        Engine::setMode(Engine::MODE_PRODUCTION);
-        Engine::setToken(env('ZAINPAY_BEARER_TOKEN'));
-
-        // Getting ISA Balance 
-            $response = VirtualAccount::instantiate()->balance(
-                '7966155227' //virtualAccoutNumber - required (string)
-            );
-
-            if($response->hasSucceeded()){
-                $data = $response->getData();
-        
-                if(!empty($data)){
-                    // Handle the API response as needed
-                    $isa_acct_name = $data['accountName'];
-                    $isa_acct_no = $data['accountNumber'];
-                    $isa_balance_amount = $data['balanceAmount'] / 100;
-                    $isa_bank_code = $data['bankCode'];
-                    $isa_bank_type = $data['bankType'];
-                }
-            }else{
-                $isa_acct_name = '';
-                $isa_acct_no = '';
-                $isa_balance_amount = '';
-                $isa_bank_code = '';
-                $isa_bank_type = '';
-            }
-        // End of Getting ISA Balance
-
-        // Getting Bank List 
-            $response = Bank::instantiate()->list();
-            if($response->hasSucceeded()){
-                $bank_lists = $response->getData();
-            }else{
-                $bank_lists = [];
-            }
-        // End of Getting Bank List 
+            ->sum('profit'); 
 
         if(!empty($customer->pin)){
-            // Getting User Details from TOMSUB
-                // try{
 
-                //     $apiEndpoint = 'https://tomsub.com/api/user/';
+            // Function to fetch user data from API
+                function fetchUserData($url, $tokenKey) {
+                    try {
+                        $response = Http::withHeaders([
+                            'Content-Type' => 'application/json',
+                            'Authorization' => env($tokenKey),
+                        ])->get($url);
 
-                //     $response = Http::withHeaders([
-                //         'Content-Type' => 'application/json',
-                //         'Authorization' => env('TOMSUB_BEARER_TOKEN'),
+                        return $response->successful() ? $response->json() : null;
+                    } catch (Exception $e) {
+                        return null;
+                    }
+                }
+            // End of Function to fetch user data from API
 
-                //     ])->get($apiEndpoint);
+            // Check if customer is authenticated
+            if (!$customer) {
+                return redirect()->route('login');
+            }
 
-                //         // Get the response body as an array
-                //         $data = $response->json();
-                //         $account_info = $data['user'];
-                //         $notification = $data['notification'];
-                //         $exams = $data['Exam'];
-                //         $dataPlansMtnCorporate = $data['Dataplans']['MTN_PLAN']['CORPORATE'];
-                //         $dataPlansMtnSme = $data['Dataplans']['MTN_PLAN']['SME'];
-                //         $dataPlansGloAll = $data['Dataplans']['GLO_PLAN']['ALL'];
-                //         $dataPlansAirtelAll = $data['Dataplans']['AIRTEL_PLAN']['ALL'];
-                //         $dataPlans9MobileAll = $data['Dataplans']['9MOBILE_PLAN']['ALL'];
-                //         $cablePlanGotv = $data['Cableplan']['GOTVPLAN'];
-                //         $cablePlanDstv = $data['Cableplan']['DSTVPLAN'];
-                //         $cablePlanStartime = $data['Cableplan']['STARTIMEPLAN'];
-                //         $rechargePinMtn = $data['recharge']['mtn_pin'];
-                //         $rechargePinGlo = $data['recharge']['glo_pin'];
-                //         $rechargePinAirtel = $data['recharge']['airtel_pin'];
-                //         $rechargePin9Mobile = $data['recharge']['9mobile_pin'];
+            // Default variables for the view
+            $viewData = [
+                'transaction_count', 'amount_spent', 'cust_balance', 'customer'
+            ];
 
-                //         // If Admin Auth  
-                //         if($customer){
-                //             return view('dashboard.index', 
-                //                 compact(
-                //                     'customer', 'transaction_count', 'amount_spent', 
-                //                     'account_info', 'notification', 'exams', 'dataPlansMtnCorporate', 'dataPlansMtnSme', 
-                //                     'dataPlansGloAll', 'dataPlansAirtelAll', 'dataPlans9MobileAll', 'cablePlanGotv', 'cablePlanDstv', 
-                //                     'cablePlanStartime', 'rechargePinMtn', 'rechargePinGlo', 'rechargePinAirtel', 'rechargePin9Mobile', 'cust_balance'
-                //                 )
-                //             );
-                //         }else{
-                //             return redirect()->route('login');
-                //         }
+            // Fetch additional data only if the customer type is 1
+            if ($customer->cust_type == 1) {
 
-                // }catch(Exception $e){
-                //     return response()->json([
-                //         'status' => false,
-                //         'message' => 'Please try again later! ('.$e.')'
-                //     ]);
-                // } 
-            // End of Getting User Details from TOMSUB
+                require base_path('vendor/autoload.php');
 
-            // Getting User Details from HUSMO
-                try{
+                Engine::setMode(Engine::MODE_PRODUCTION);
+                Engine::setToken(env('ZAINPAY_BEARER_TOKEN'));
 
-                    $apiEndpoint = 'https://www.husmodata.com/api/user/';
+                // Getting ISA Balance 
+                    $response = VirtualAccount::instantiate()->balance(
+                        '7966155227' //virtualAccoutNumber - required (string)
+                    );
 
-                    $response = Http::withHeaders([
-                        'Content-Type' => 'application/json',
-                        'Authorization' => env('HUSMO_BEARER_TOKEN'),
-
-                    ])->get($apiEndpoint);
-
-                    // Check if the request was successful (status code 200)
-                    if($response->successful()) {
-                        // Get the response body as an array
-                        $responseData = $response->json();
-
-                        $account_info = $responseData['user'];
-                        $notification = $responseData['notification'];
-                        $exams = $responseData['Exam'];
-                        $dataPlansMtnCorporate = $responseData['Dataplans']['MTN_PLAN']['ALL'];
-                        $dataPlansMtnSme = $responseData['Dataplans']['MTN_PLAN']['SME'];
-                        $dataPlansGloAll = $responseData['Dataplans']['GLO_PLAN']['ALL'];
-                        $dataPlansAirtelAll = $responseData['Dataplans']['AIRTEL_PLAN']['ALL'];
-                        $dataPlans9MobileAll = $responseData['Dataplans']['9MOBILE_PLAN']['ALL'];
-                        $cablePlanGotv = $responseData['Cableplan']['GOTVPLAN'];
-                        $cablePlanDstv = $responseData['Cableplan']['DSTVPLAN'];
-                        $cablePlanStartime = $responseData['Cableplan']['STARTIME'];
-                        $rechargePinMtn = $responseData['recharge']['mtn_pin'];
-                        $rechargePinGlo = $responseData['recharge']['glo_pin'];
-                        $rechargePinAirtel = $responseData['recharge']['airtel_pin'];
-                        $rechargePin9Mobile = $responseData['recharge']['9mobile_pin'];
-
-                        $total_profit = ($isa_balance_amount + $account_info['wallet_balance']) - $cust_balance;
-                        
-                        // If Admin Auth  
-                        if($customer){
-                            return view('dashboard.index', 
-                                compact(
-                                    'total_profit', 'isa_acct_name', 'isa_acct_no', 'isa_balance_amount', 'isa_bank_code', 'isa_bank_type', 'bank_lists', 
-                                    'customer', 'transaction_count', 'amount_spent', 
-                                    'account_info', 'notification', 'exams', 'dataPlansMtnCorporate', 'dataPlansMtnSme', 
-                                    'dataPlansGloAll', 'dataPlansAirtelAll', 'dataPlans9MobileAll', 'cablePlanGotv', 'cablePlanDstv', 
-                                    'cablePlanStartime', 'rechargePinMtn', 'rechargePinGlo', 'rechargePinAirtel', 'rechargePin9Mobile', 'cust_balance', 'profit_made', 'cust_count', 'cust_active', 'cust_verify_account_count'
-                                )
-                            );
-                        }else{
-                            return redirect()->route('login');
+                    if($response->hasSucceeded()){
+                        $data = $response->getData();
+                
+                        if(!empty($data)){
+                            // Handle the API response as needed
+                            $isa_acct_name = $data['accountName'];
+                            $isa_acct_no = $data['accountNumber'];
+                            $isa_balance_amount = $data['balanceAmount'] / 100;
+                            $isa_bank_code = $data['bankCode'];
+                            $isa_bank_type = $data['bankType'];
                         }
                     }else{
-                        // Handle the case when the request was not successful
-                        // return response()->json([
-                        //     'status' => false,
-                        //     'message' => 'Please try again later! ('.$response->status().')'
-                        // ]);
-                        return abort(500, 'Please try again later!');
+                        $isa_acct_name = '';
+                        $isa_acct_no = '';
+                        $isa_balance_amount = '';
+                        $isa_bank_code = '';
+                        $isa_bank_type = '';
                     }
+                // End of Getting ISA Balance
 
-                }catch(Exception $e){
-                    // return response()->json([
-                    //     'status' => false,
-                    //     'message' => 'Please try again later! ('.$e.')'
-                    // ]);
+                // Getting Bank List 
+                    $response = Bank::instantiate()->list();
+                    if($response->hasSucceeded()){
+                        $bank_lists = $response->getData();
+                        $bank_lists = $bank_lists ?? [];
+                    }else{
+                        $bank_lists = [];
+                    }
+                // End of Getting Bank List
+
+                $asbdataResponse = fetchUserData('https://asbdata.com/api/user/', 'ASB_DATA_BEARER_TOKEN');
+                $husmoResponse = fetchUserData('https://www.husmodata.com/api/user/', 'HUSMO_BEARER_TOKEN');
+
+                if (!$asbdataResponse || !$husmoResponse) {
                     return abort(500, 'Please try again later!');
-                } 
-            // End of Getting User Details from HUSMO
+                }
+
+                // Extract relevant details
+                $asbdata_account_info = $asbdataResponse['user'];
+                $account_info = $husmoResponse['user'];
+
+                $total_profit = ($isa_balance_amount + $account_info['wallet_balance'] + $asbdata_account_info['wallet_balance']) - $cust_balance;
+
+                // Additional variables for compact()
+                $viewData = array_merge($viewData, [
+                    'total_profit', 'isa_acct_name', 'isa_acct_no', 'isa_balance_amount', 'isa_bank_code', 'isa_bank_type', 'bank_lists',
+                    'asbdata_account_info', 'asbdata_dataPlansMtnSme', 'asbdata_dataPlansGloAll', 'asbdata_dataPlansAirtelAll',
+                    'asbdata_dataPlans9MobileAll', 'account_info', 'notification', 'exams', 'dataPlansMtnCorporate',
+                    'dataPlansMtnSme', 'dataPlansGloAll', 'dataPlansAirtelAll', 'dataPlans9MobileAll', 'cablePlanGotv',
+                    'cablePlanDstv', 'cablePlanStartime', 'rechargePinMtn', 'rechargePinGlo', 'rechargePinAirtel',
+                    'rechargePin9Mobile', 'profit_made', 'cust_count', 'cust_active', 'cust_verify_account_count'
+                ]);
+
+                // Assign extracted data to variables
+                extract([
+                    'notification' => $husmoResponse['notification'],
+                    'exams' => $husmoResponse['Exam'],
+                    'asbdata_dataPlansMtnSme' => $asbdataResponse['Dataplans']['MTN_PLAN']['SME'],
+                    'asbdata_dataPlansGloAll' => $asbdataResponse['Dataplans']['GLO_PLAN']['ALL'],
+                    'asbdata_dataPlansAirtelAll' => $asbdataResponse['Dataplans']['AIRTEL_PLAN']['ALL'],
+                    'asbdata_dataPlans9MobileAll' => $asbdataResponse['Dataplans']['9MOBILE_PLAN']['ALL'],
+                    'dataPlansMtnCorporate' => $husmoResponse['Dataplans']['MTN_PLAN']['ALL'],
+                    'dataPlansMtnSme' => $husmoResponse['Dataplans']['MTN_PLAN']['SME'],
+                    'dataPlansGloAll' => $husmoResponse['Dataplans']['GLO_PLAN']['ALL'],
+                    'dataPlansAirtelAll' => $husmoResponse['Dataplans']['AIRTEL_PLAN']['ALL'],
+                    'dataPlans9MobileAll' => $husmoResponse['Dataplans']['9MOBILE_PLAN']['ALL'],
+                    'cablePlanGotv' => $husmoResponse['Cableplan']['GOTVPLAN'],
+                    'cablePlanDstv' => $husmoResponse['Cableplan']['DSTVPLAN'],
+                    'cablePlanStartime' => $husmoResponse['Cableplan']['STARTIME'],
+                    'rechargePinMtn' => $husmoResponse['recharge']['mtn_pin'],
+                    'rechargePinGlo' => $husmoResponse['recharge']['glo_pin'],
+                    'rechargePinAirtel' => $husmoResponse['recharge']['airtel_pin'],
+                    'rechargePin9Mobile' => $husmoResponse['recharge']['9mobile_pin'],
+                ]);
+            }
+
+            // Render the view with extracted data
+            return view('dashboard.index', compact(...$viewData));
+
         }else{
             return redirect()->route('cust-account');
         }
+    }
+
+    // Data View 
+    public function dataView(){
+        $customer = Auth::guard('web')->user();
+
+        // Redirect if customer is not authenticated
+        if (!$customer) {
+            return redirect()->route('login');
+        }
+
+        // Redirect if PIN is not set
+        if (empty($customer->pin)) {
+            return redirect()->route('cust-account');
+        }
+
+        // Fetch user data from API
+        function fetchUserData($url, $tokenKey){
+            try {
+                $response = Http::withHeaders([
+                    'Content-Type' => 'application/json',
+                    'Authorization' => env($tokenKey),
+                ])->get($url);
+
+                return $response->successful() ? $response->json() : null;
+            } catch (Exception $e) {
+                return null;
+            }
+        }
+
+        // Default variables for the view
+        $viewData = [];
+
+        $asbdataResponse = fetchUserData('https://asbdata.com/api/user/', 'ASB_DATA_BEARER_TOKEN');
+        $husmoResponse = fetchUserData('https://www.husmodata.com/api/user/', 'HUSMO_BEARER_TOKEN');
+
+        if(!$asbdataResponse || !$husmoResponse) {
+            return abort(500, 'Please try again later!');
+        }
+
+        // Extract user information
+        $asbdata_account_info = $asbdataResponse['user'];
+        $account_info = $husmoResponse['user'];
+
+        // Check if required data exists before accessing array keys
+        $viewData = [
+            'customer' => $customer,
+            'asbdata_account_info' => $asbdata_account_info,
+            'account_info' => $account_info,
+            'notification' => $husmoResponse['notification'] ?? [],
+            'exams' => $husmoResponse['Exam'] ?? [],
+            'asbdata_dataPlansMtnSme' => $asbdataResponse['Dataplans']['MTN_PLAN']['SME'] ?? [],
+            'asbdata_dataPlansAirtelAll' => $asbdataResponse['Dataplans']['AIRTEL_PLAN']['ALL'] ?? [],
+            'asbdata_dataPlansGloAll' => $asbdataResponse['Dataplans']['GLO_PLAN']['ALL'] ?? [],
+            'asbdata_dataPlans9MobileAll' => $asbdataResponse['Dataplans']['9MOBILE_PLAN']['ALL'] ?? [],
+            'dataPlansMtnCorporate' => $husmoResponse['Dataplans']['MTN_PLAN']['ALL'] ?? [],
+            'dataPlansMtnSme' => $husmoResponse['Dataplans']['MTN_PLAN']['SME'] ?? [],
+            'dataPlansGloAll' => $husmoResponse['Dataplans']['GLO_PLAN']['ALL'] ?? [],
+            'dataPlansAirtelAll' => $husmoResponse['Dataplans']['AIRTEL_PLAN']['ALL'] ?? [],
+            'dataPlans9MobileAll' => $husmoResponse['Dataplans']['9MOBILE_PLAN']['ALL'] ?? [],
+            'cablePlanGotv' => $husmoResponse['Cableplan']['GOTVPLAN'] ?? [],
+            'cablePlanDstv' => $husmoResponse['Cableplan']['DSTVPLAN'] ?? [],
+            'cablePlanStartime' => $husmoResponse['Cableplan']['STARTIME'] ?? [],
+            'rechargePinMtn' => $husmoResponse['recharge']['mtn_pin'] ?? '',
+            'rechargePinGlo' => $husmoResponse['recharge']['glo_pin'] ?? '',
+            'rechargePinAirtel' => $husmoResponse['recharge']['airtel_pin'] ?? '',
+            'rechargePin9Mobile' => $husmoResponse['recharge']['9mobile_pin'] ?? '',
+        ];
+
+        // Return view with data
+        return view('dashboard.data_page', $viewData);
     }
 
     // Buy Data 
@@ -991,7 +1025,7 @@ class CustomerController extends Controller
                 // Update Cust Acct Balance 
                 $update_cust_acct_bal = Customer::where('username', $cust_id)->update(['acct_balance' => $new_cust_acct_balance]);
                 
-                // Purchase DATA Using HUMSO API 
+                // Purchase DATA Using ASBDATA API 
     
                     // JSON payload for the request
                     $payload = [
@@ -1002,12 +1036,12 @@ class CustomerController extends Controller
                     ];
     
                     try{
-                        $apiEndpoint = 'https://www.husmodata.com/api/data/';
+                        $apiEndpoint = 'https://asbdata.com/api/data/';
             
                         $response = Http::withHeaders([
                             'Content-Type' => 'application/json',
-                            'Authorization' => env('HUSMO_BEARER_TOKEN'),
-                        ])->post($apiEndpoint, $payload);
+                            'Authorization' => env('ASB_DATA_BEARER_TOKEN'),
+                        ])->timeout(30)->post($apiEndpoint, $payload);
             
                         // Check if the request was successful
                         if($response->successful()) {
@@ -1101,7 +1135,7 @@ class CustomerController extends Controller
                         ]);
                     }
             
-                // End of Purchase DATA Using HUMSO API
+                // End of Purchase DATA Using ASBDATA API
             }else{
                 return response()->json([
                     "status" => true, 

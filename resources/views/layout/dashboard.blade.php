@@ -42,7 +42,7 @@
         <!-- Alphine Link  -->
         <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-        <link rel="stylesheet" href="{{ asset('build/assets/app-2c6793dd.css') }}">
+        <link rel="stylesheet" href="{{ asset('build/assets/app-d1c4d18a.css') }}">
         <link href="{{ asset('css/main.css?v=1.1') }}" rel="stylesheet">
         @vite('resources/css/app.css')
     

@@ -1,17 +1,11 @@
 @extends('layout.dashboard')
 
 @section('pageTitle')
-    <title>Piccolo Pay - Dashboard</title>        
+    <title>Dashboard - Piccolo Pay</title>        
 @endsection
 
 @section('pageContents')
     <div class="grid grid-cols-1">
-        <!-- Cards  -->
-            <!-- <div class="lg:grid grid-cols-3 gap-4 px-3 order-2 lg:order-1 lg:mt-6">
-                
-            </div> -->
-        <!-- End of Cards  -->
-    
         <!-- Services  -->
             <div class="mx-3 my-4 order-1 lg:order-2">
                 <div class="lg:grid grid-cols-3 gap-4">
@@ -42,7 +36,7 @@
                                         ₦{{ number_format($isa_balance_amount, 2, '.', ',') }}
                                     </div>
                                 </div>
-                                <!-- Data Balance  -->
+                                <!-- Data Balance (H)  -->
                                 <div x-data="{ showHusmoDataBalance: false }" class="bg-white p-4 rounded-xl mb-2 min-w-[230px]">
                                     <div class="flex justify-between pb-1">
                                         <svg width="44" height="44" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,7 +47,7 @@
                                         </svg>
                                     </div>
                                     <div class="flex py-2 text-sm items-center">
-                                        <span>Data Balance</span>
+                                        <span>Data (Husmo)</span>
                                         <button @click="showHusmoDataBalance = !showHusmoDataBalance" class="ml-3 cursor-pointer">
                                             <span x-show="!showHusmoDataBalance" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <i class="fa-solid fa-eye"></i>
@@ -67,8 +61,33 @@
                                         ₦{{ number_format($account_info['wallet_balance'], 2, '.', ',') }}
                                     </div>
                                 </div>
+                                <!-- Data Balance (ASB)  -->
+                                <div x-data="{ showASBDataBalance: false }" class="green-bg text-white p-4 rounded-xl mb-2 min-w-[230px]">
+                                    <div class="flex justify-between pb-1">
+                                        <svg width="44" height="44" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="27" cy="27" r="27" fill="#FFDBE1"/>
+                                            <path d="M28 17.5V20C28 22.357 28 23.536 28.732 24.268C29.464 25 30.643 25 33 25H37" stroke="#FF0C37" stroke-width="1.5"/>
+                                            <path d="M23.5 33.5V28.5M23.5 28.5L21.5 30.375M23.5 28.5L25.5 30.375" stroke="#FF0C37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M17.75 25.0001C17.75 24.8011 17.671 24.6104 17.5303 24.4697C17.3897 24.3291 17.1989 24.2501 17 24.2501C16.8011 24.2501 16.6103 24.3291 16.4697 24.4697C16.329 24.6104 16.25 24.8011 16.25 25.0001H17.75ZM36.25 29.0001C36.25 29.199 36.329 29.3897 36.4697 29.5304C36.6103 29.671 36.8011 29.7501 37 29.7501C37.1989 29.7501 37.3897 29.671 37.5303 29.5304C37.671 29.3897 37.75 29.199 37.75 29.0001H36.25ZM16.355 20.9271C16.3356 21.125 16.3957 21.3226 16.522 21.4763C16.6483 21.63 16.8305 21.7272 17.0285 21.7466C17.2265 21.7659 17.4241 21.7058 17.5777 21.5795C17.7314 21.4532 17.8286 21.271 17.848 21.0731L16.355 20.9271ZM37.645 33.0731C37.6546 32.975 37.6448 32.8761 37.6161 32.7818C37.5875 32.6876 37.5405 32.5999 37.478 32.5238C37.4154 32.4477 37.3385 32.3847 37.2516 32.3383C37.1647 32.2919 37.0695 32.2631 36.9715 32.2536C36.8735 32.244 36.7745 32.2538 36.6803 32.2824C36.586 32.3111 36.4984 32.358 36.4223 32.4206C36.2686 32.5469 36.1714 32.7291 36.152 32.9271L37.645 33.0731ZM29 36.2501H25V37.7501H29V36.2501ZM17.75 29.0001V25.0001H16.25V29.0001H17.75ZM36.25 28.5631V29.0001H37.75V28.5631H36.25ZM29.891 19.6111L33.85 23.1741L34.853 22.0581L30.895 18.4951L29.891 19.6111ZM37.75 28.5631C37.75 26.8741 37.765 25.8041 37.34 24.8481L35.969 25.4591C36.235 26.0571 36.25 26.7421 36.25 28.5631H37.75ZM33.85 23.1741C35.203 24.3921 35.703 24.8621 35.969 25.4591L37.34 24.8481C36.914 23.8911 36.109 23.1881 34.853 22.0581L33.85 23.1741ZM25.03 17.7501C26.612 17.7501 27.209 17.7621 27.74 17.9661L28.278 16.5661C27.426 16.2381 26.498 16.2501 25.03 16.2501V17.7501ZM30.895 18.4961C29.809 17.5191 29.13 16.8921 28.278 16.5661L27.741 17.9661C28.273 18.1701 28.721 18.5581 29.891 19.6111L30.895 18.4961ZM25 36.2501C23.093 36.2501 21.739 36.2481 20.71 36.1101C19.705 35.9751 19.125 35.7211 18.702 35.2981L17.642 36.3581C18.39 37.1081 19.339 37.4391 20.511 37.5971C21.661 37.7521 23.136 37.7501 25 37.7501V36.2501ZM16.25 29.0001C16.25 30.8641 16.248 32.3381 16.403 33.4891C16.561 34.6611 16.893 35.6101 17.641 36.3591L18.701 35.2991C18.279 34.8751 18.025 34.2951 17.89 33.2891C17.752 32.2621 17.75 30.9071 17.75 29.0001H16.25ZM29 37.7501C30.864 37.7501 32.338 37.7521 33.489 37.5971C34.661 37.4391 35.61 37.1071 36.359 36.3591L35.299 35.2991C34.875 35.7211 34.295 35.9751 33.289 36.1101C32.262 36.2481 30.907 36.2501 29 36.2501V37.7501ZM25.03 16.2501C23.155 16.2501 21.674 16.2481 20.519 16.4031C19.342 16.5611 18.39 16.8931 17.641 17.6411L18.701 18.7011C19.125 18.2791 19.706 18.0251 20.718 17.8901C21.751 17.7521 23.113 17.7501 25.03 17.7501V16.2501ZM17.848 21.0731C17.969 19.8391 18.23 19.1731 18.702 18.7021L17.642 17.6421C16.806 18.4761 16.489 19.5611 16.355 20.9271L17.848 21.0731ZM36.152 32.9271C36.031 34.1611 35.769 34.8271 35.298 35.2981L36.358 36.3581C37.194 35.5241 37.511 34.4391 37.645 33.0731L36.152 32.9271Z" fill="#FF0C37"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex py-2 text-sm items-center">
+                                        <span>Data (ASB)</span>
+                                        <button @click="showASBDataBalance = !showASBDataBalance" class="ml-3 cursor-pointer">
+                                            <span x-show="!showASBDataBalance" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </span>
+                                            <span x-show="showASBDataBalance" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <i class="fa-solid fa-eye-slash"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <div x-show="showASBDataBalance" class="text-white balance">
+                                        ₦{{ number_format($asbdata_account_info['wallet_balance'], 2, '.', ',') }}
+                                    </div>
+                                </div>
                                 <!-- Customer Balance  -->
-                                <div x-data="{ showCustBalance: false }" class="hover:text-white min-w-[230px] green-bg text-white p-4 rounded-xl mb-2">
+                                <div x-data="{ showCustBalance: false }" class="min-w-[230px] bg-white p-4 rounded-xl mb-2">
                                     <div class="flex justify-between pb-1">
                                         <div>
                                             <svg width="44" height="44" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,7 +102,7 @@
                                         </div>
                                     </div>
                                     <div class="flex py-2 text-sm items-center">
-                                        <a class="hover:text-white" href="{{ route('cust-page') }}">
+                                        <a class="hover:text-black" href="{{ route('cust-page') }}">
                                             <span>Customer's Balance</span>
                                         </a>
                                         <button @click="showCustBalance = !showCustBalance" class="ml-3 cursor-pointer">
@@ -95,12 +114,12 @@
                                             </span>
                                         </button>
                                     </div>
-                                    <div x-show="showCustBalance" class="text-white balance">
+                                    <div x-show="showCustBalance" class="text-black balance">
                                         ₦{{ number_format($cust_balance, 2, '.', ',') }}
                                     </div>
                                 </div>
                                 <!-- Profit  -->
-                                <div x-data="{ showProfitBalance: false }" class="bg-white p-4 rounded-xl mb-2 min-w-[230px]">
+                                <div x-data="{ showProfitBalance: false }" class="green-bg text-white p-4 rounded-xl mb-2 min-w-[230px]">
                                     <div class="flex justify-between pb-1">
                                         <svg width="44" height="44" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="27" cy="27" r="27" fill="#FFDBE1"/>
@@ -120,14 +139,14 @@
                                             </span>
                                         </button>
                                     </div>
-                                    <div x-show="showProfitBalance" class="text-black balance">
+                                    <div x-show="showProfitBalance" class="text-white balance">
                                         <!-- ₦{{ number_format($profit_made, 2, '.', ',') }} -->
                                         ₦{{ number_format($total_profit, 2, '.', ',') }}
                                     </div>
                                 </div>
                             @endif 
                             <!-- Wallet  -->
-                            <div x-data="{ showWalletBalance: false }" class="green-bg p-4 rounded-xl text-white mb-2 min-w-[230px]">
+                            <div x-data="{ showWalletBalance: false }" class="bg-white p-4 rounded-xl text-black mb-2 min-w-[230px]">
                                 <div class="flex justify-between pb-1">
                                     <div>
                                         <svg width="44" height="44" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -161,12 +180,12 @@
                                         </span>
                                     </button>
                                 </div>
-                                <div x-show="showWalletBalance" class="text-white balance">
+                                <div x-show="showWalletBalance" class="text-black balance">
                                     ₦{{ number_format($customer->acct_balance, 2, '.', ',') }}
                                 </div>
                             </div>
                             <!-- Transaction  -->
-                            <div x-data="{ showTransactionBalance: false }" class="bg-white p-4 rounded-xl mb-2 min-w-[230px]">
+                            <div x-data="{ showTransactionBalance: false }" class="green-bg text-white p-4 rounded-xl mb-2 min-w-[230px]">
                                 <div class="flex justify-between pb-1">
                                     <svg width="44" height="44" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="27" cy="27" r="27" fill="#C6FFED"/>
@@ -178,7 +197,7 @@
                                     </svg>
                                 </div>
                                 <div class="flex py-2 text-sm items-center">
-                                    <a class="hover:text-black" href="{{ route('cust-transactions') }}">
+                                    <a class="hover:text-white" href="{{ route('cust-transactions') }}">
                                         <span>Total Transactions</span>
                                     </a>
                                     <button @click="showTransactionBalance = !showTransactionBalance" class="ml-3 cursor-pointer">
@@ -190,12 +209,12 @@
                                         </span>
                                     </button>
                                 </div>
-                                <div x-show="showTransactionBalance" class="text-black balance">
+                                <div x-show="showTransactionBalance" class="text-white balance">
                                     {{ number_format($transaction_count, 2, '.', ',') }}
                                 </div>
                             </div>
                             <!-- Amount Spent  -->
-                            <div x-data="{ showAmount: false }" class="green-bg p-4 rounded-xl mb-2 min-w-[230px]">
+                            <div x-data="{ showAmount: false }" class="bg-white p-4 rounded-xl mb-2 min-w-[230px]">
                                 <div class="flex justify-between pb-1">
                                     <svg width="44" height="44" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="27" cy="27" r="27" fill="#FFDBE1"/>
@@ -203,7 +222,7 @@
                                         <path d="M23.5 33.5V28.5M23.5 28.5L21.5 30.375M23.5 28.5L25.5 30.375" stroke="#FF0C37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
                                 </div>
-                                <div class="flex py-2 text-sm items-center text-white">
+                                <div class="flex py-2 text-sm items-center text-black">
                                     <span>Total Amount Spent</span>
                                     <button @click="showAmount = !showAmount" class="ml-3 focus:outline-none">
                                         <span x-show="!showAmount" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -214,7 +233,7 @@
                                         </span>
                                     </button>
                                 </div>
-                                <div x-show="showAmount" class="text-white balance">
+                                <div x-show="showAmount" class="text-black balance">
                                     ₦{{ number_format($amount_spent, 2, '.', ',') }}
                                 </div>
                             </div>
@@ -239,50 +258,52 @@
                         </div>
                         @endif 
                         <!-- Data  -->
-                        <div class="py-4 mb-4 bg-white rounded-xl ">
-                            <div class="px-4 font-bold">Buy Data</div>
-                            <div class="lg:grid-cols-4 grid-cols-2 gap-4 px-10 pt-4 flex space-x-4 overflow-x-auto lg:space-x-0 lg:gap-4">
-                                <!-- MTN  -->
-                                <div id="mtnModal" class="flex items-center flex-col cursor-pointer min-w-[40px]">
-                                    <div>                            
-                                        <img class="w-8" src="{{ asset('images/mtn_2.png') }}" alt="">
+                        <a class="hover:text-black" href="{{ route('data-view') }}">
+                            <div class="py-4 mb-4 bg-white rounded-xl ">
+                                <div class="px-4 font-bold">Buy Data</div>
+                                <div class="lg:grid-cols-4 grid-cols-2 gap-4 px-10 pt-4 flex space-x-4 overflow-x-auto lg:space-x-0 lg:gap-4">
+                                    <!-- MTN  -->
+                                    <div id="mtnModal" class="flex items-center flex-col cursor-pointer min-w-[40px]">
+                                        <div>                            
+                                            <img class="w-8" src="{{ asset('images/mtn_2.png') }}" alt="">
+                                        </div>
+                                        <div class="lg:text-xs text-xs lg:py-4 py-2">
+                                            MTN
+                                        </div>
                                     </div>
-                                    <div class="lg:text-xs text-xs lg:py-4 py-2">
-                                        MTN
+            
+                                    <!-- Airtel -->
+                                    <div id="airtelModal" class="flex items-center flex-col cursor-pointer min-w-[40px]">
+                                        <div>
+                                            <img class="w-8" src="{{ asset('images/airtel.png') }}" alt="">
+                                        </div>
+                                        <div class="lg:text-xs text-xs lg:py-4 py-2">
+                                            Airtel
+                                        </div>
                                     </div>
-                                </div>
         
-                                <!-- Airtel -->
-                                <div id="airtelModal" class="flex items-center flex-col cursor-pointer min-w-[40px]">
-                                    <div>
-                                        <img class="w-8" src="{{ asset('images/airtel.png') }}" alt="">
+                                    <!-- Glo  -->
+                                    <div id="gloModal" class="flex items-center flex-col cursor-pointer min-w-[40px]">
+                                        <div>
+                                            <img class="w-8" src="{{ asset('images/glo_2.png') }}" alt="">
+                                        </div>
+                                        <div class="lg:text-xs text-xs lg:py-4 py-2">
+                                            Glo
+                                        </div>
                                     </div>
-                                    <div class="lg:text-xs text-xs lg:py-4 py-2">
-                                        Airtel
-                                    </div>
-                                </div>
-    
-                                <!-- Glo  -->
-                                <div id="gloModal" class="flex items-center flex-col cursor-pointer min-w-[40px]">
-                                    <div>
-                                        <img class="w-8" src="{{ asset('images/glo_2.png') }}" alt="">
-                                    </div>
-                                    <div class="lg:text-xs text-xs lg:py-4 py-2">
-                                        Glo
-                                    </div>
-                                </div>
-        
-                                <!-- 9mobile  -->
-                                <div id="n9mobileModal" class="flex items-center flex-col cursor-pointer min-w-[40px]">
-                                    <div>
-                                        <img class="w-8" src="{{ asset('images/9mobile.png') }}" alt="">
-                                    </div>
-                                    <div class="lg:text-xs text-xs lg:py-4 py-2">
-                                        9mobile
+            
+                                    <!-- 9mobile  -->
+                                    <div id="n9mobileModal" class="flex items-center flex-col cursor-pointer min-w-[40px]">
+                                        <div>
+                                            <img class="w-8" src="{{ asset('images/9mobile.png') }}" alt="">
+                                        </div>
+                                        <div class="lg:text-xs text-xs lg:py-4 py-2">
+                                            9mobile
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                         <!-- Airtime  -->
                         <div class="py-4 mb-4 bg-white rounded-xl ">
                             <div class="px-4 font-bold">Other Services <span class="text-red-600 text-xs font-normal">(Coming soon)</span></div>
@@ -339,1266 +360,9 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Data Balance Codes   -->
-                        <div class="bg-white rounded-xl hidden lg:block col-span-1">
-                            <div class="px-4 font-bold py-4">Data Balance Codes</div>
-                                <div class="px-10 pb-10">
-                                    <!-- MTN  -->
-                                    <div class="flex items-center">
-                                        <div>                            
-                                            <img class="w-8" src="{{ asset('images/mtn_2.png') }}" alt="">
-                                        </div>
-                                        <div class="lg:text-xs text-xs p-3 border-b w-full">
-                                            MTN <br> *460*260#
-                                        </div>
-                                    </div>
-                                    <!-- Glo  -->
-                                    <div class="flex items-center">
-                                        <div>
-                                            <img class="w-8" src="{{ asset('images/glo_2.png') }}" alt="">
-                                        </div>
-                                        <div class="lg:text-xs text-xs p-3 border-b w-full">
-                                            GLO <br> *127*0#
-                                        </div>
-                                    </div>
-                                    <!-- Airtel -->
-                                    <div class="flex items-center">
-                                        <div>
-                                            <img class="w-8" src="{{ asset('images/airtel.png') }}" alt="">
-                                        </div>
-                                        <div class="lg:text-xs text-xs p-3 border-b w-full">
-                                            Airtel <br> *140#
-                                        </div>
-                                    </div>
-                                    <!-- 9mobile  -->
-                                    <div class="flex items-center">
-                                        <div>
-                                            <img class="w-8" src="{{ asset('images/9mobile.png') }}" alt="">
-                                        </div>
-                                        <div class="lg:text-xs text-xs p-3 border-b w-full">
-                                            9mobile <br> *228#
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
                     </div>
                 </div>
             </div>
         <!-- End of Services  -->
     </div>
-
-    <!-- Modal  -->
-        <!-- Fund Transfer Modal  -->
-        <div id="bankTransferModalContents" class="yus_modal">
-            <div class="yus_modal-content text-xs lg:text-sm">
-                <div class="px-4 font-bold pt-4">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            Fund Transfer
-                        </div>
-                        <div>
-                            <div id="closebankTransferModal" class="cursor-pointer">
-                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g filter="url(#filter0_d_73_1706)">
-                                        <circle cx="45" cy="45" r="29" fill="white"/>
-                                    </g>
-                                    <path d="M40.4419 50.4369L45.4398 45.439L50.4377 50.4369M50.4377 40.4411L45.4388 45.439L40.4419 40.4411" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <defs>
-                                        <filter id="filter0_d_73_1706" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                            <feMorphology radius="2" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_73_1706"/>
-                                            <feOffset/>
-                                            <feGaussianBlur stdDeviation="7"/>
-                                            <feComposite in2="hardAlpha" operator="out"/>
-                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
-                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_73_1706"/>
-                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_73_1706" result="shape"/>
-                                        </filter>
-                                    </defs>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Validate Account Number  -->
-                <form action="{{ route('fund-transfer-verify-account') }}" id="verfiyAccountNumber" method="POST">
-                    @csrf
-                    <div class="px-10 pb-2 lg:flex justify-between">
-                        <div class="my-3 w-full">
-                            <label for="bank_code">Select Bank</label><br>
-                            <select id="bankCode" class="plan_input_box" name="bank_code">
-                                <option value=""></option>
-                                @foreach($bank_lists as $bank)
-                                    <option value="{{ $bank['code'] }}">{{ $bank['name'] }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="my-3 w-full">
-                            <label for="account_number">Account No</label><br>
-                            <input id="accountNumber" type="number" required class="plan_input_box" name="account_number">
-                        </div>
-                        <div class="my-3 w-full hidden" id="accountName">
-                            <label for="account_name">Account Name</label><br>
-                            <input id="accountNameBox" type="text" class="plan_input_box" disabled name="account_name">
-                        </div>
-                        <div id="searchAccountBtn" class="my-3">
-                            <br>
-                            <input style="background-color: #05976A;" class="px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="SEARCH ACCOUNT" name="submit">
-                        </div>
-                    </div>
-                </form>
-                <form action="{{ route('fund-transfer-confirm') }}" id="transferFunds" method="POST">
-                    @csrf 
-                    
-                    <!-- Amount  -->
-                    <div id="fundTransferAmount" class="hidden">
-                        <div class="px-10 pb-2 lg:flex justify-between">
-                            <div class="my-3 w-full">
-                                <label for="amount">Amount</label><br>
-                                <input id="amountTransfer" type="number" required class="plan_input_box" name="amount" placeholder="500">
-                            </div>
-                            <div class="my-3 w-full">
-                                <label for="narration">Narration</label><br>
-                                <input id="amountNarration" type="text" required class="plan_input_box" name="Narration" placeholder="School Fees">
-                            </div>
-                            <div class="my-3 w-full">
-                                <label for="pin">Transaction PIN</label><br>
-                                <input id="fundTransferCustPin" type="password" required class="plan_input_box" name="pin">
-                            </div>
-                        </div>
-                    </div>
-                    <div id="fundTransferSend" class="px-10 pb-5 hidden">
-                        <div class="my-2 flex justify-center">
-                            <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="CONFIRM" name="submit">
-                        </div>
-                    </div>
-    
-                    <!-- Loading -->
-                    <div class="loader hidden">
-                        @include('includes.loader')
-                    </div>
-                                                
-                    <!-- Feedback Container  -->
-                    <div id="feedbackContainerFundTransfer" class="my-2">@include('includes.messages')</div>
-                </form>
-            </div>
-        </div>
-
-        <!-- MTN Modal  -->
-        <div id="mtnModalContent" class="yus_modal">
-            <form action="{{ route('cust-data-purchase') }}" id="purchaseDataMtn" method="POST" class="yus_modal-content text-xs lg:text-sm">
-                @csrf 
-                <div class="px-4 font-bold pt-4">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            MTN Data Plans
-                        </div>
-                        <div>
-                            <div id="closeMtnModal" class="cursor-pointer">
-                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g filter="url(#filter0_d_73_1706)">
-                                        <circle cx="45" cy="45" r="29" fill="white"/>
-                                    </g>
-                                    <path d="M40.4419 50.4369L45.4398 45.439L50.4377 50.4369M50.4377 40.4411L45.4388 45.439L40.4419 40.4411" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <defs>
-                                        <filter id="filter0_d_73_1706" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                            <feMorphology radius="2" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_73_1706"/>
-                                            <feOffset/>
-                                            <feGaussianBlur stdDeviation="7"/>
-                                            <feComposite in2="hardAlpha" operator="out"/>
-                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
-                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_73_1706"/>
-                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_73_1706" result="shape"/>
-                                        </filter>
-                                    </defs>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-10 pb-2 lg:flex justify-between">
-                    <div class="my-3 w-full">
-                        <label for="data_type">Data Type</label><br>
-                        <!-- <select id="dataType" class="plan_input_box">
-                            <option value=""></option>
-                            <option value="SME">SME</option>
-                            <option value="CORPORATE GIFTING">ALL</option>
-                        </select> -->
-                        <select id="planTypeSme" class="plan_input_box" name="plan_type">
-                            <option value=""></option>
-                                @php
-                                    $specialIds = [60, 99];
-                                    $corporate_data = [99, 100, 101, 226, 116, 146, 149, 60, 51, 50, 230, 44, 150];
-                                    
-                                    $corporate_data_map = array_flip($corporate_data);
-                                    
-                                    $filteredDataPlans = array_filter($dataPlansMtnCorporate, function($data) use ($corporate_data_map) {
-                                        return isset($corporate_data_map[$data['dataplan_id']]);
-                                    });
-                                    
-                                    usort($filteredDataPlans, function($a, $b) use ($corporate_data_map) {
-                                        return $corporate_data_map[$a['dataplan_id']] <=> $corporate_data_map[$b['dataplan_id']];
-                                    });
-                                @endphp
-
-                                @foreach($filteredDataPlans as $data)
-                                    @if(in_array($data['dataplan_id'], $specialIds))
-                                        <option value="{{ $data['dataplan_id'] }}"
-                                                data-unit="{{ $data['plan'] }}"
-                                                data-plan="{{ $data['dataplan_id'] }}"
-                                                data-buying="{{ $data['plan_amount'] }}"
-                                                data-amount="{{ $data['plan_amount'] + 10 }}"
-                                                data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">
-                                            {{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})
-                                        </option>
-                                    @else
-                                        @php
-                                            $parts = explode('.', $data['plan']);
-                                            $beforeDecimal = $parts[0];
-                                            $charges = $beforeDecimal * 10;
-                                        @endphp
-                                        <option value="{{ $data['dataplan_id'] }}"
-                                                data-unit="{{ $data['plan'] }}"
-                                                data-plan="{{ $data['dataplan_id'] }}"
-                                                data-buying="{{ $data['plan_amount'] }}"
-                                                data-amount="{{ $data['plan_amount'] + $charges }}"
-                                                data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">
-                                            {{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})
-                                        </option>
-                                    @endif 
-                                @endforeach
-
-                        </select>
-                    </div>
-                    <!-- <div id="dataPlanSme" class="my-3 w-full hidden">
-                        <label for="data_plan_sme">Plan Type</label><br>
-                        <select id="planTypeSme" class="plan_input_box" name="plan_type">
-                            <option value=""></option>
-                            @php
-                                $specialIds = [60];
-                            @endphp
-                            @foreach($dataPlansMtnSme as $data)
-                                @if(in_array($data['dataplan_id'], $specialIds))
-                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
-                                @else
-                                @php
-                                    $parts = explode('.', $data['plan']);
-                                    $beforeDecimal = $parts[0];
-                                    $charges = $beforeDecimal * 10;
-                                @endphp
-                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
-                                @endif 
-                            @endforeach
-                        </select>
-                    </div>
-                    <div id="dataPlanCor" class="my-3 w-full hidden">
-                        <label for="data_plan_cor">Plan Type</label><br>
-                        <select id="planTypeCor" class="plan_input_box" name="plan_type_cor">
-                            <option value=""></option>
-                            @php
-                                $specialIds = [60, 99, 111, 112, 234, 238, 253, 254, 255, 271, 294];
-                            @endphp
-                            @foreach($dataPlansMtnCorporate as $data)
-                                @if(in_array($data['dataplan_id'], $specialIds))
-                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
-                                @else
-                                @php
-                                    $parts = explode('.', $data['plan']);
-                                    $beforeDecimal = $parts[0];
-                                    $charges = $beforeDecimal * 10;
-                                @endphp
-                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div> -->
-                </div>
-                <!-- Amount  -->
-                <div id="dataAmount" class="hidden">
-                    <div class="px-10 pb-2 lg:flex justify-between">
-                        <div class="my-3 w-full">
-                            <label for="amount">Amount</label><br>
-                            <input class="plan_input_box" name="network_id" value="1" hidden>
-                            <input id="dataUnit" class="plan_input_box" name="data_unit" hidden>
-                            <input id="transactionBuying" class="plan_input_box" name="transaction_buying" hidden>
-                            <input id="transactionAmount" class="plan_input_box" name="transaction_amount" hidden>
-                            <input id="transactionReference" class="plan_input_box" name="transaction_reference" hidden>
-                            <input id="planAmount" class="plan_input_box" name="amount" disabled>
-                        </div>
-                        <div class="my-3 w-full">
-                            <label for="transaction_no">Mobile Phone</label><br>
-                            <input type="number" required class="plan_input_box" name="transaction_no">
-                        </div>
-                        <div class="my-3 w-full">
-                            <label for="pin">Transaction PIN</label><br>
-                            <input id="custPin" type="password" required class="plan_input_box" name="pin">
-                        </div>
-                    </div>
-                </div>
-                <div id="dataBuy" class="px-10 pb-5 hidden">
-                    <div class="my-2 flex justify-center">
-                        <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="BUY" name="submit">
-                    </div>
-                </div>
-
-                <!-- Loading -->
-                <div class="loader hidden">
-                    @include('includes.loader')
-                </div>
-                                            
-                <!-- Feedback Container  -->
-                <div id="feedbackContainerMtn" class="my-2">@include('includes.messages')</div>
-            </form>
-        </div>
-
-        <!-- GLO Modal  -->
-        <div id="gloModalContent" class="yus_modal">
-            <form action="{{ route('cust-data-purchase') }}" id="purchaseDataGlo" method="POST" class="yus_modal-content text-xs lg:text-sm">
-                @csrf 
-
-                <div class="px-4 font-bold pt-4">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            GLO Data Plans
-                        </div>
-                        <div>
-                            <div id="closeGloModal" class="cursor-pointer">
-                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g filter="url(#filter0_d_73_1706)">
-                                        <circle cx="45" cy="45" r="29" fill="white"/>
-                                    </g>
-                                    <path d="M40.4419 50.4369L45.4398 45.439L50.4377 50.4369M50.4377 40.4411L45.4388 45.439L40.4419 40.4411" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <defs>
-                                        <filter id="filter0_d_73_1706" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                            <feMorphology radius="2" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_73_1706"/>
-                                            <feOffset/>
-                                            <feGaussianBlur stdDeviation="7"/>
-                                            <feComposite in2="hardAlpha" operator="out"/>
-                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
-                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_73_1706"/>
-                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_73_1706" result="shape"/>
-                                        </filter>
-                                    </defs>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-10 pb-2 lg:flex justify-between">
-                    <div class="my-3 w-full">
-                        <label for="data_type">Data Type</label><br>
-                        <select id="gloDataType" class="plan_input_box" name="plan_type">
-                            <option value=""></option>
-                            @php
-                                $specialIds = [250, 296, 258, 251, 252];
-                            @endphp
-                            @foreach($dataPlansGloAll as $data)
-                                @if(in_array($data['dataplan_id'], $specialIds))
-                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
-                                @else
-                                @php
-                                    $parts = explode('.', $data['plan']);
-                                    $beforeDecimal = $parts[0];
-                                    $charges = $beforeDecimal * 10;
-                                @endphp
-                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <!-- Amount  -->
-                <div id="gloDataAmount" class="hidden">
-                    <div class="px-10 pb-2 lg:flex justify-between">
-                        <div class="my-3 w-full">
-                            <label for="amount">Amount</label><br>
-                            <input class="plan_input_box" name="network_id" value="2" hidden>
-                            <input id="gloDataUnit" class="plan_input_box" name="data_unit" hidden>
-                            <input id="gloTransactionAmount" class="plan_input_box" name="transaction_amount" hidden>
-                            <input id="gloTransactionBuying" class="plan_input_box" name="transaction_buying" hidden>
-                            <input id="gloTransactionReference" class="plan_input_box" name="transaction_reference" hidden>
-                            <input id="gloPlanAmount" class="plan_input_box" name="amount" disabled>
-                        </div>
-                        <div class="my-3 w-full">
-                            <label for="transaction_no">Mobile Phone</label><br>
-                            <input type="number" required class="plan_input_box" name="transaction_no">
-                        </div>
-                        <div class="my-3 w-full">
-                            <label for="pin">Transaction PIN</label><br>
-                            <input id="gloCustPin" type="password" required class="plan_input_box" name="pin">
-                        </div>
-                    </div>
-                </div>
-                <div id="gloDataBuy" class="px-10 pb-5 hidden">
-                    <div class="my-2 flex justify-center">
-                        <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="BUY" name="submit">
-                    </div>
-                </div>
-
-                <!-- Loading -->
-                <div class="loader hidden">
-                    @include('includes.loader')
-                </div>
-                                            
-                <!-- Feedback Container  -->
-                <div id="feedbackContainerGlo" class="my-2">@include('includes.messages')</div>
-
-            </form>
-        </div>
-
-        <!-- AIRTEL Modal  -->
-        <div id="airtelModalContent" class="yus_modal">
-            <form action="{{ route('cust-data-purchase') }}" id="purchaseDataAirtel" method="POST" class="yus_modal-content text-xs lg:text-sm">
-                @csrf 
-
-                <div class="px-4 font-bold pt-4">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            Airtel Data Plans
-                        </div>
-                        <div>
-                            <div id="closeAirtelModal" class="cursor-pointer">
-                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g filter="url(#filter0_d_73_1706)">
-                                        <circle cx="45" cy="45" r="29" fill="white"/>
-                                    </g>
-                                    <path d="M40.4419 50.4369L45.4398 45.439L50.4377 50.4369M50.4377 40.4411L45.4388 45.439L40.4419 40.4411" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <defs>
-                                        <filter id="filter0_d_73_1706" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                            <feMorphology radius="2" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_73_1706"/>
-                                            <feOffset/>
-                                            <feGaussianBlur stdDeviation="7"/>
-                                            <feComposite in2="hardAlpha" operator="out"/>
-                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
-                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_73_1706"/>
-                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_73_1706" result="shape"/>
-                                        </filter>
-                                    </defs>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-10 pb-2 lg:flex justify-between">
-                    <div class="my-3 w-full">
-                        <label for="data_type">Data Type</label><br>
-                        <select id="airtelDataType" class="plan_input_box" name="plan_type">
-                            <option value=""></option>
-                            @php
-                                $specialIds = [216, 217, 212, 130];
-                                $corporate_data = [212, 213, 214, 215, 216, 217, 231, 232, 233];
-                            @endphp
-                            
-                            @foreach($dataPlansAirtelAll as $data)
-                                @if(in_array($data['dataplan_id'], $corporate_data))
-                                    @if(in_array($data['dataplan_id'], $specialIds))
-                                        <option value="{{ $data['dataplan_id'] }}"
-                                                data-unit="{{ $data['plan'] }}"
-                                                data-plan="{{ $data['dataplan_id'] }}"
-                                                data-buying="{{ $data['plan_amount'] }}"
-                                                data-amount="{{ $data['plan_amount'] + 10 }}"
-                                                data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">
-                                            {{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})
-                                        </option>
-                                    @else
-                                        @php
-                                            $parts = explode('.', $data['plan']);
-                                            $beforeDecimal = $parts[0];
-                                            $charges = $beforeDecimal * 10;
-                                        @endphp
-                                        <option value="{{ $data['dataplan_id'] }}"
-                                                data-unit="{{ $data['plan'] }}"
-                                                data-plan="{{ $data['dataplan_id'] }}"
-                                                data-buying="{{ $data['plan_amount'] }}"
-                                                data-amount="{{ $data['plan_amount'] + $charges }}"
-                                                data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">
-                                            {{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})
-                                        </option>
-                                    @endif
-                                @endif
-                            @endforeach
-
-                        </select>
-                    </div>
-                </div>
-                <!-- Amount  -->
-                <div id="airtelDataAmount" class="hidden">
-                    <div class="px-10 pb-2 lg:flex justify-between">
-                        <div class="my-3 w-full">
-                            <label for="amount">Amount</label><br>
-                            <input class="plan_input_box" name="network_id" value="4" hidden>
-                            <input id="airtelDataUnit" class="plan_input_box" name="data_unit" hidden>
-                            <input id="airtelTransactionAmount" class="plan_input_box" name="transaction_amount" hidden>
-                            <input id="airtelTransactionBuying" class="plan_input_box" name="transaction_buying" hidden>
-                            <input id="airtelTransactionReference" class="plan_input_box" name="transaction_reference" hidden>
-                            <input id="airtelPlanAmount" class="plan_input_box" name="amount" disabled>
-                        </div>
-                        <div class="my-3 w-full">
-                            <label for="transaction_no">Mobile Phone</label><br>
-                            <input type="number" required class="plan_input_box" name="transaction_no">
-                        </div>
-                        <div class="my-3 w-full">
-                            <label for="pin">Transaction PIN</label><br>
-                            <input id="airtelCustPin" type="password" required class="plan_input_box" name="pin">
-                        </div>
-                    </div>
-                </div>
-                <div id="airtelDataBuy" class="px-10 pb-5 hidden">
-                    <div class="my-2 flex justify-center">
-                        <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="BUY" name="submit">
-                    </div>
-                </div>
-
-                <!-- Loading -->
-                <div class="loader hidden">
-                    @include('includes.loader')
-                </div>
-                                            
-                <!-- Feedback Container  -->
-                <div id="feedbackContainerAirtel" class="my-2">@include('includes.messages')</div>
-            </form>
-        </div>
-
-        <!-- 9Mobile Modal  -->
-        <div id="n9mobileModalContent" class="yus_modal">
-            <form action="{{ route('cust-data-purchase') }}" id="purchaseData9Mobile" method="POST" class="yus_modal-content text-xs lg:text-sm">
-                @csrf 
-
-                <div class="px-4 font-bold pt-4">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            9mobile Data Plans
-                        </div>
-                        <div>
-                            <div id="closen9mobileModal" class="cursor-pointer">
-                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g filter="url(#filter0_d_73_1706)">
-                                        <circle cx="45" cy="45" r="29" fill="white"/>
-                                    </g>
-                                    <path d="M40.4419 50.4369L45.4398 45.439L50.4377 50.4369M50.4377 40.4411L45.4388 45.439L40.4419 40.4411" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <defs>
-                                        <filter id="filter0_d_73_1706" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                            <feMorphology radius="2" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_73_1706"/>
-                                            <feOffset/>
-                                            <feGaussianBlur stdDeviation="7"/>
-                                            <feComposite in2="hardAlpha" operator="out"/>
-                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
-                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_73_1706"/>
-                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_73_1706" result="shape"/>
-                                        </filter>
-                                    </defs>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-10 pb-2 lg:flex justify-between">
-                    <div class="my-3 w-full">
-                        <label for="data_type">Data Type</label><br>
-                        <select id="n9mobileDataType" class="plan_input_box" name="plan_type">
-                            <option value=""></option>
-                            @php
-                                $specialIds = [117, 275, 118, 122, 119, 123];
-                            @endphp
-                            @foreach($dataPlans9MobileAll as $data)
-                                @if(in_array($data['dataplan_id'], $specialIds))
-                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + 10 }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + 10 }})</option>
-                                @else
-                                @php
-                                    $parts = explode('.', $data['plan']);
-                                    $beforeDecimal = $parts[0];
-                                    $charges = $beforeDecimal * 10;
-                                @endphp
-                                    <option value="{{ $data['dataplan_id'] }}" data-unit="{{ $data['plan'] }}" data-plan="{{ $data['dataplan_id'] }}" data-buying="{{ $data['plan_amount'] }}" data-amount="{{ $data['plan_amount'] + $charges }}" data-refer="{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }}">{{ $data['plan_network'] }} {{ $data['plan_type'] }} - {{ $data['plan'] }} (₦{{ $data['plan_amount'] + $charges }})</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <!-- Amount  -->
-                <div id="n9mobileDataAmount" class="hidden">
-                    <div class="px-10 pb-2 lg:flex justify-between">
-                        <div class="my-3 w-full">
-                            <label for="amount">Amount</label><br>
-                            <input class="plan_input_box" name="network_id" value="3" hidden>
-                            <input id="n9mobileDataUnit" class="plan_input_box" name="data_unit" hidden>
-                            <input id="n9mobileTransactionAmount" class="plan_input_box" name="transaction_amount" hidden>
-                            <input id="n9mobileTransactionBuying" class="plan_input_box" name="transaction_buying" hidden>
-                            <input id="n9mobileTransactionReference" class="plan_input_box" name="transaction_reference" hidden>
-                            <input id="n9mobilePlanAmount" class="plan_input_box" name="amount" disabled>
-                        </div>
-                        <div class="my-3 w-full">
-                            <label for="transaction_no">Mobile Phone</label><br>
-                            <input type="number" required class="plan_input_box" name="transaction_no">
-                        </div>
-                        <div class="my-3 w-full">
-                            <label for="pin">Transaction PIN</label><br>
-                            <input id="n9mobileCustPin" type="password" required class="plan_input_box" name="pin">
-                        </div>
-                    </div>
-                </div>
-                <div id="n9mobileDataBuy" class="px-10 pb-5 hidden">
-                    <div class="my-2 flex justify-center">
-                        <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="BUY" name="submit">
-                    </div>
-                </div>
-
-                <!-- Loading -->
-                <div class="loader hidden">
-                    @include('includes.loader')
-                </div>
-                                            
-                <!-- Feedback Container  -->
-                <div id="feedbackContainer9Mobile" class="my-2">@include('includes.messages')</div>
-            </form>
-        </div>
-
-        <!-- Airtime Modal  -->
-        <div id="airtimeModalContent" class="yus_modal">
-            <form action="{{ route('cust-airtime-purchase') }}" id="purchaseAirtime" method="POST" class="yus_modal-content text-xs lg:text-sm">
-                @csrf 
-
-                <div class="px-4 font-bold pt-4">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            Airtime Purchase
-                        </div>
-                        <div>
-                            <div id="closeAirtimeModal" class="cursor-pointer">
-                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g filter="url(#filter0_d_73_1706)">
-                                        <circle cx="45" cy="45" r="29" fill="white"/>
-                                    </g>
-                                    <path d="M40.4419 50.4369L45.4398 45.439L50.4377 50.4369M50.4377 40.4411L45.4388 45.439L40.4419 40.4411" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <defs>
-                                        <filter id="filter0_d_73_1706" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                            <feMorphology radius="2" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_73_1706"/>
-                                            <feOffset/>
-                                            <feGaussianBlur stdDeviation="7"/>
-                                            <feComposite in2="hardAlpha" operator="out"/>
-                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
-                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_73_1706"/>
-                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_73_1706" result="shape"/>
-                                        </filter>
-                                    </defs>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-10 pb-2 lg:flex justify-between">
-                    <div class="my-3 w-full">
-                        <label for="network_id">Network</label><br>
-                        <select id="networkId" class="plan_input_box" name="network">
-                            <option value=""></option>
-                            <option value="1">MTN</option>
-                            <option value="2">GLO</option>
-                            <option value="3">9Mobile</option>
-                            <option value="4">Airtel</option>
-                        </select>
-                    </div>
-                </div>
-                <!-- Amount  -->
-                <div id="airtimeAmount" class="hidden">
-                    <div class="px-10 pb-2 lg:flex justify-between">
-                        <div class="my-3 w-full">
-                            <label for="amount">Amount</label><br>
-                            <input type="number" required class="plan_input_box" name="amount">
-                        </div>
-                        <div class="my-3 w-full">
-                            <label for="mobile_number">Mobile Phone</label><br>
-                            <input type="number" required class="plan_input_box" name="mobile_number">
-                            <input type="text" value="VTU" class="plan_input_box hidden" name="airtime_type">
-                        </div>
-                        <div class="my-3 w-full">
-                            <label for="pin">Transaction PIN</label><br>
-                            <input id="airtimeCustPin" type="password" required class="plan_input_box" name="pin">
-                        </div>
-                    </div>
-                </div>
-                <div id="airtimeBuy" class="px-10 pb-5 hidden">
-                    <div class="my-2 flex justify-center">
-                        <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="BUY" name="submit">
-                    </div>
-                </div>
-
-                <!-- Loading -->
-                <div class="loader hidden">
-                    @include('includes.loader')
-                </div>
-                                            
-                <!-- Feedback Container  -->
-                <div id="feedbackContainerAirtime" class="my-2">@include('includes.messages')</div>
-            </form>
-        </div>
-
-        <!-- Electricity Modal  -->
-        <div id="electricityModalContent" class="yus_modal">
-            <div class="yus_modal-content text-xs lg:text-sm">
-                <div class="px-4 font-bold pt-4">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            Electricity Purchase
-                        </div>
-                        <div>
-                            <div id="closeElectricityModal" class="cursor-pointer">
-                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g filter="url(#filter0_d_73_1706)">
-                                        <circle cx="45" cy="45" r="29" fill="white"/>
-                                    </g>
-                                    <path d="M40.4419 50.4369L45.4398 45.439L50.4377 50.4369M50.4377 40.4411L45.4388 45.439L40.4419 40.4411" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <defs>
-                                        <filter id="filter0_d_73_1706" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                            <feMorphology radius="2" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_73_1706"/>
-                                            <feOffset/>
-                                            <feGaussianBlur stdDeviation="7"/>
-                                            <feComposite in2="hardAlpha" operator="out"/>
-                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
-                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_73_1706"/>
-                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_73_1706" result="shape"/>
-                                        </filter>
-                                    </defs>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Validate Meter  -->
-                <form action="{{ route('cust-electricity-search-meter') }}" id="searchMeterElectricity" method="POST">
-                    @csrf
-                    <div class="px-10 pb-2 lg:flex justify-between">
-                        <div class="my-3 w-full">
-                            <label for="disco_id">Disco</label><br>
-                            <select id="discoName" class="plan_input_box" name="disco_id">
-                                <option value=""></option>
-                                <option value="Ikeja Electric">Ikeja Electricity</option>
-                                <option value="Eko Electric">Eko Electricity</option>
-                                <option value="Abuja Electric">Abuja Electricity</option>
-                                <option value="Kano Electric">Kano Electricity</option>
-                                <option value="Enugu Electric">Enugu Electricity</option>
-                                <option value="Port Harcourt Electric">Port-harcourt Electricity</option>
-                                <option value="Ibadan Electric">Ibadan Electricity</option>
-                                <option value="Kaduna Electric">Kaduna Electricity</option>
-                                <option value="Jos Electric">Jos Electricity</option>
-                                <option value="Yola Electric">Yola Electricity</option>
-                                <option value="Benin Electric">Benin Electricity</option>
-                            </select>
-                        </div>
-                        <div class="my-3 w-full">
-                            <label for="meter_number">Meter No</label><br>
-                            <input id="meterNumber" type="number" required class="plan_input_box" name="meter_number">
-                        </div>
-                        <div class="my-3 w-full hidden" id="meterName">
-                            <label for="meter_name">Meter Name</label><br>
-                            <input id="meterNameBox" type="text" class="plan_input_box" disabled name="meter_name">
-                        </div>
-                        <div id="searchMeterBtn" class="my-2 submit_box">
-                            <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="SEARCH METER" name="submit">
-                        </div>
-                    </div>
-                </form>
-                <form action="{{ route('cust-electricity-purchase') }}" id="purchaseElectricity" method="POST">
-                    @csrf 
-                    
-                    <!-- Amount  -->
-                    <div id="electricityAmount" class="hidden">
-                        <div class="px-10 pb-2 lg:flex justify-between">
-                            <div class="my-3 w-full">
-                                <label for="amount">Amount</label><br>
-                                <input id="tokenAmount" type="number" required class="plan_input_box" name="amount" placeholder="Min:₦500">
-                            </div>
-                            <div class="my-3 w-full">
-                                <label for="pin">Transaction PIN</label><br>
-                                <input id="electricityCustPin" type="password" required class="plan_input_box" name="pin">
-                            </div>
-                        </div>
-                    </div>
-                    <div id="electricityBuy" class="px-10 pb-5 hidden">
-                        <div class="my-2 flex justify-center">
-                            <input style="background-color: #05976A;" class="bg-green-600 px-6 py-3 text-white rounded-md text-sm w-full" type="submit" value="BUY" name="submit">
-                        </div>
-                    </div>
-    
-                    <!-- Loading -->
-                    <div class="loader hidden">
-                        @include('includes.loader')
-                    </div>
-                                                
-                    <!-- Feedback Container  -->
-                    <div id="feedbackContainerElectricity" class="my-2">@include('includes.messages')</div>
-                </form>
-            </div>
-        </div>
-
-    <!-- End of Modal  -->
-
-    <!-- Script  -->
-        <script>
-            // Wait for the document to be ready
-            $(document).ready(function() {
-                
-                // Fund Transfer Modal
-                $(document).on('click', '#bankTransferModal', function(){
-                    $('#bankTransferModalContents').toggle();
-                })
-
-                // Close Fund Transfer Modal 
-                $(document).on('click', '#closebankTransferModal', function() {
-                    $('#bankTransferModalContents').toggle();
-                })
-
-                // Verfiy Account Number
-                $(document).on('submit', '#verfiyAccountNumber', function() {
-                    var e = this
-                    let searchAccountBtn = $('#searchAccountBtn')
-                    let accountName = $('#accountName')
-                    let accountNameBox = $('#accountNameBox')
-                    let container = $('#feedbackContainerFundTransfer')
-
-                    // display Loader 
-                    $('.loader').show()
-                    searchAccountBtn.hide()
-
-                    $.ajax({
-                        url: $(this).attr('action'),
-                        data: $(this).serialize(),
-                        type: "POST",
-                        dataType: 'json',
-                        success: function(data) {
-
-                            if(data.status === true) {
-                                // Loader Hide 
-                                $('.loader').hide()
-                                accountName.show()
-
-                                // Add Value to Meter Box 
-                                accountNameBox.val(data.message)
-
-                                // Show Amount Container 
-                                $('#fundTransferAmount').show()    
-
-                            }else{
-                                $(".alert").remove();
-                                
-                                // Loader Hide 
-                                $('.loader').hide()
-
-                                // Display Search Btn Back 
-                                searchAccountBtn.show()
-                                
-                                if(data.status === false) {
-                                    // Check if the errors property is a string
-                                    if(typeof data.errors === 'string') {
-                                        container.append('<div class="alert alert-danger text-xs text-center">' + data.errors + '</div>');
-                                    }else if(typeof data.errors === 'object') {
-                                        // If errors is an object (possibly from server validation)
-                                        $.each(data.errors, function (key, val) {
-                                            container.append('<div class="alert alert-danger text-xs text-center">' +val+ '</div>');
-                                        });
-                                    }else{
-                                        // Handle other cases or provide a default message
-                                        container.append('<div class="alert alert-danger text-xs text-center">'+data.message+'</div>');
-                                    }
-                                }
-                            }
-                        
-                        }
-                    });
-
-                    return false;
-                })
-
-                // Transfer Funds
-                $(document).on('submit', '#transferFunds', function() {
-                    var e = this
-                    let csrfToken = $('meta[name="csrf-token"]').attr('content');
-                    let container = $('#feedbackContainerFundTransfer')
-                    let bankCode = $('#bankCode').val()
-                    let accountNumber = $('#accountNumber').val()
-                    let amountTransfer = $('#amountTransfer').val()
-                    let amountNarration = $('#amountNarration').val()
-                    let custPin = $('#fundTransferCustPin').val()
-
-                    // display Loader 
-                    $('.loader').show()
-
-                    $('#electricityBuy').hide()
-
-                    $.ajax({
-                        url: $(this).attr('action'),
-                        data: {
-                            _token: csrfToken,
-                            bankCode: bankCode,
-                            accountNumber: accountNumber,
-                            amountTransfer: amountTransfer,
-                            amountNarration: amountNarration,
-                            custPin: custPin,
-                        },
-                        type: "POST",
-                        dataType: 'json',
-                        success: function(data) {
-
-                            if(data.status) {
-                                // Loader Hide 
-                                $('.loader').hide()
-                                
-                                container.fadeIn().delay(5000).fadeOut()
-                                
-                                container.append('<div class="alert alert-success text-xs text-center">'+data.message+'</div>')
-                                
-                                // Redirect 
-                                setTimeout(function(){
-                                    location.reload()
-                                }, 5000)
-
-                            }else{
-                                $(".alert").remove();
-                                
-                                // Loader Hide 
-                                $('.loader').hide()
-
-                                if(data.status === false) {
-                                    // Check if the errors property is a string
-                                    if(typeof data.errors === 'string') {
-                                        container.append('<div class="alert alert-danger text-xs text-center">' + data.errors + '</div>');
-                                    }else if(typeof data.errors === 'object') {
-                                        // If errors is an object (possibly from server validation)
-                                        $.each(data.errors, function (key, val) {
-                                            container.append('<div class="alert alert-danger text-xs text-center">' + val + '</div>');
-                                        });
-                                    }else{
-                                        // Handle other cases or provide a default message
-                                        container.append('<div class="alert alert-danger text-xs text-center">'+data.message+'</div>');
-                                    }
-                                }
-
-                                // Redirect 
-                                setTimeout(function(){
-                                    location.reload()
-                                }, 5000)
-
-                            }
-                        
-                        }
-                    });
-
-                    return false;
-                })
-
-                // Fund Transfer Cust PIN 
-                $(document).on('keyup', '#fundTransferCustPin', function(){
-                    let custPin = $(this).val()
-
-                    if(custPin.length > 3){
-                        $('#fundTransferSend').show()
-                    }else{
-                        $('#fundTransferSend').hide()
-                    }
-                })
-
-                // Close MTN Modal 
-                $(document).on('click', '#closeMtnModal', function() {
-                    $('#mtnModalContent').toggle();
-                })
-
-                // MTN Modal
-                $(document).on('click', '#mtnModal', function(){
-                    $('#mtnModalContent').toggle();
-                })
-
-                // Close GLO Modal 
-                $(document).on('click', '#closeGloModal', function() {
-                    $('#gloModalContent').toggle();
-                })
-
-                // GLO Modal
-                $(document).on('click', '#gloModal', function(){
-                    $('#gloModalContent').toggle();
-                })
-                
-                // Close AIRTEL Modal 
-                $(document).on('click', '#closeAirtelModal', function() {
-                    $('#airtelModalContent').toggle();
-                })
-
-                // AIRTEL Modal
-                $(document).on('click', '#airtelModal', function(){
-                    $('#airtelModalContent').toggle();
-                })
-                
-                // Close 9mobile Modal 
-                $(document).on('click', '#closen9mobileModal', function() {
-                    $('#n9mobileModalContent').toggle();
-                })
-
-                // 9mobile Modal
-                $(document).on('click', '#n9mobileModal', function(){
-                    $('#n9mobileModalContent').toggle();
-                })
-
-                // On Change data Type (MTN )
-                $(document).on('change', '#dataType', function(){
-                    let dataType = $(this).val()
-                    
-                    if(dataType == 'SME'){
-                        $('#dataPlanSme').show()
-                        $('#dataPlanCor').hide()
-                    }else{
-                        $('#dataPlanCor').show()
-                        $('#dataPlanSme').hide()
-                    }
-
-                    $('#dataAmount').hide()
-                })
-
-                // MTN SME 
-                $(document).on('change', '#planTypeSme', function(){
-                    let dataId = $(this).val()
-                    let dataUnit = $(this).find(':selected').data('unit')
-                    let dataPlanId = $(this).find(':selected').data('plan')
-                    let dataAmount = $(this).find(':selected').data('amount')
-                    let dataBuying = $(this).find(':selected').data('buying')
-                    let transactionReference = $(this).find(':selected').data('refer')
-
-                    if(dataId !== ''){
-                        $('#dataAmount').toggle(dataAmount !== 0); // Show/hide based on dataAmount value
-    
-                        let planAmountTotal = parseInt(dataAmount)
-                        let planBuyingTotal = parseInt(dataBuying)
-
-                        $('#planTypeSme').val(dataPlanId)
-                        $('#planTypeCor').val(null)
-                        $('#dataUnit').val(dataUnit)
-                        $('#planAmount').val(planAmountTotal)
-                        $('#transactionBuying').val(planBuyingTotal)
-                        $('#transactionAmount').val(planAmountTotal)
-                        $('#transactionReference').val(transactionReference)
-                        
-                    }else{
-                        $('#dataAmount').toggle()
-                    }
-                })
-
-                // MTN Corporate 
-                $(document).on('change', '#planTypeCor', function(){
-                    let dataId = $(this).val()
-                    let dataUnit = $(this).find(':selected').data('unit')
-                    let dataAmount = $(this).find(':selected').data('amount')
-                    let dataPlanId = $(this).find(':selected').data('plan')
-                    let dataBuying = $(this).find(':selected').data('buying')
-                    let transactionReference = $(this).find(':selected').data('refer')
-
-                    if(dataId !== ''){
-                        $('#dataAmount').toggle(dataAmount !== 0); // Show/hide based on dataAmount value
-    
-                        let planAmountTotal = parseInt(dataAmount)
-                        let planBuyingTotal = parseInt(dataBuying)
-
-                        $('#planTypeCor').val(dataPlanId)
-                        $('#planTypeSme').val(null)
-                        $('#dataUnit').val(dataUnit)
-                        $('#planAmount').val(planAmountTotal)
-                        $('#transactionBuying').val(planBuyingTotal)
-                        $('#transactionAmount').val(planAmountTotal)
-                        $('#transactionReference').val(transactionReference)
-                        
-                    }else{
-                        $('#dataAmount').toggle()
-                    }
-                })
-
-                // MTN Cust PIN 
-                $(document).on('keyup', '#custPin', function(){
-                    let custPin = $(this).val()
-
-                    if(custPin.length > 3){
-                        $('#dataBuy').show()
-                    }else{
-                        $('#dataBuy').hide()
-                    }
-
-                })
-
-                // GLO 
-                $(document).on('change', '#gloDataType', function(){
-                    let dataId = $(this).val()
-                    let dataUnit = $(this).find(':selected').data('unit')
-                    let dataAmount = $(this).find(':selected').data('amount')
-                    let dataBuying = $(this).find(':selected').data('buying')
-                    let transactionReference = $(this).find(':selected').data('refer')
-
-                    if(dataId !== ''){
-                        $('#gloDataAmount').toggle(dataAmount !== 0); // Show/hide based on dataAmount value
-    
-                        let planAmountTotal = parseInt(dataAmount)
-                        let planBuyingTotal = parseInt(dataBuying)
-
-                        $('#gloDataUnit').val(dataUnit)
-                        $('#gloPlanAmount').val(planAmountTotal)
-                        $('#gloTransactionAmount').val(planAmountTotal)
-                        $('#gloTransactionBuying').val(planBuyingTotal)
-                        $('#gloTransactionReference').val(transactionReference)
-                        
-                    }else{
-                        $('#gloDataAmount').toggle()
-                    }
-                })
-
-                // GLO Cust PIN 
-                $(document).on('keyup', '#gloCustPin', function(){
-                    let custPin = $(this).val()
-
-                    if(custPin.length > 3){
-                        $('#gloDataBuy').show()
-                    }else{
-                        $('#gloDataBuy').hide()
-                    }
-
-                })
-
-                // AIRTEL 
-                $(document).on('change', '#airtelDataType', function(){
-                    let dataId = $(this).val()
-                    let dataUnit = $(this).find(':selected').data('unit')
-                    let dataAmount = $(this).find(':selected').data('amount')
-                    let dataBuying = $(this).find(':selected').data('buying')
-                    let transactionReference = $(this).find(':selected').data('refer')
-
-                    if(dataId !== ''){
-                        $('#airtelDataAmount').toggle(dataAmount !== 0); // Show/hide based on dataAmount value
-    
-                        let planAmountTotal = parseInt(dataAmount)
-                        let planBuyingTotal = parseInt(dataBuying)
-
-                        $('#airtelDataUnit').val(dataUnit)
-                        $('#airtelPlanAmount').val(planAmountTotal)
-                        $('#airtelTransactionAmount').val(planAmountTotal)
-                        $('#airtelTransactionBuying').val(planBuyingTotal)
-                        $('#airtelTransactionReference').val(transactionReference)
-                        
-                    }else{
-                        $('#airtelDataAmount').toggle()
-                    }
-                })
-
-                // AIRTEL Cust PIN 
-                $(document).on('keyup', '#airtelCustPin', function(){
-                    let custPin = $(this).val()
-
-                    if(custPin.length > 3){
-                        $('#airtelDataBuy').show()
-                    }else{
-                        $('#airtelDataBuy').hide()
-                    }
-
-                })
-
-                // 9mobile 
-                $(document).on('change', '#n9mobileDataType', function(){
-                    let dataId = $(this).val()
-                    let dataUnit = $(this).find(':selected').data('unit')
-                    let dataAmount = $(this).find(':selected').data('amount')
-                    let dataBuying = $(this).find(':selected').data('buying')
-                    let transactionReference = $(this).find(':selected').data('refer')
-
-                    if(dataId !== ''){
-                        $('#n9mobileDataAmount').toggle(dataAmount !== 0); // Show/hide based on dataAmount value
-    
-                        let planAmountTotal = parseInt(dataAmount)
-                        let planBuyingTotal = parseInt(dataBuying)
-
-                        $('#n9mobileDataUnit').val(dataUnit)
-                        $('#n9mobilePlanAmount').val(planAmountTotal)
-                        $('#n9mobileTransactionAmount').val(planAmountTotal)
-                        $('#n9mobileTransactionBuying').val(planBuyingTotal)
-                        $('#n9mobileTransactionReference').val(transactionReference)
-                        
-                    }else{
-                        $('#n9mobileDataAmount').toggle()
-                    }
-                })
-
-                // 9mobile Cust PIN 
-                $(document).on('keyup', '#n9mobileCustPin', function(){
-                    let custPin = $(this).val()
-
-                    if(custPin.length > 3){
-                        $('#n9mobileDataBuy').show()
-                    }else{
-                        $('#n9mobileDataBuy').hide()
-                    }
-
-                })
-
-                // Airtime Modal
-                $(document).on('click', '#airtimeModal', function(){
-                    $('#airtimeModalContent').toggle();
-                })
-
-                // Close Airtime Modal 
-                $(document).on('click', '#closeAirtimeModal', function() {
-                    $('#airtimeModalContent').toggle();
-                })
-
-                // Airtime 
-                $(document).on('change', '#networkId', function(){
-                    let dataId = $(this).val()
-
-                    if(dataId !== ''){
-                        $('#airtimeAmount').show()    
-                    }else{
-                        $('#airtimeAmount').hide()
-                    }
-                })
-
-                // Airtime Cust PIN 
-                $(document).on('keyup', '#airtimeCustPin', function(){
-                    let custPin = $(this).val()
-
-                    if(custPin.length > 3){
-                        $('#airtimeBuy').show()
-                    }else{
-                        $('#airtimeBuy').hide()
-                    }
-
-                })
-
-                // Electricity Modal
-                $(document).on('click', '#electricityModal', function(){
-                    $('#electricityModalContent').toggle();
-                })
-
-                // Close Electricity Modal 
-                $(document).on('click', '#closeElectricityModal', function() {
-                    $('#electricityModalContent').toggle();
-                })
-
-                // Electricity Cust PIN 
-                $(document).on('keyup', '#electricityCustPin', function(){
-                    let custPin = $(this).val()
-
-                    if(custPin.length > 3){
-                        $('#electricityBuy').show()
-                    }else{
-                        $('#electricityBuy').hide()
-                    }
-
-                })
-
-            });
-        </script>
-    <!-- End of Script  -->
 @endsection
