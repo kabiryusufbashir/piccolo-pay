@@ -755,8 +755,6 @@ class CustomerController extends Controller
     public function dashboard(){
         $customer = Auth::guard('web')->user();
         
-        $currentMonth = Carbon::now()->format('m');
-
         $cust_account = CustomerBankDetails::select('acct_no')->where('cust_id', $customer->id)->pluck('acct_no')->first();
         
         $cust_count = Customer::where('cust_status', 1)->count();
@@ -767,11 +765,24 @@ class CustomerController extends Controller
         
         $cust_balance = Customer::select('acct_balance')->sum('acct_balance');
 
-        $transaction_count = CustomerTransactionHistory::where('cust_id', $customer->username)->where('status', 1)->whereMonth('created_at', $currentMonth)->count();
+        $transaction_count = CustomerTransactionHistory::where('cust_id', $customer->username)
+            ->where('status', 1)
+            ->whereMonth('created_at', date('m'))  
+            ->whereYear('created_at', date('Y')) 
+            ->count();
         
-        $amount_spent = CustomerTransactionHistory::where('cust_id', $customer->username)->where('transaction_type', 'Data')->where('status', 1)->whereMonth('created_at', $currentMonth)->sum('transaction_paid');
+        $amount_spent = CustomerTransactionHistory::where('cust_id', $customer->username)
+            ->where('transaction_type', 'Data')
+            ->where('status', 1)
+            ->whereMonth('created_at', date('m'))  
+            ->whereYear('created_at', date('Y'))
+            ->sum('transaction_paid');
         
-        $profit_made = CustomerTransactionHistory::where('status', 1)->where('transaction_type', 'Data')->whereMonth('created_at', $currentMonth)->sum('profit');
+        $profit_made = CustomerTransactionHistory::where('status', 1)
+            ->where('transaction_type', 'Data')
+            ->whereMonth('created_at', date('m'))  
+            ->whereYear('created_at', date('Y'))
+            ->sum('profit');
 
         require base_path('vendor/autoload.php');
 
