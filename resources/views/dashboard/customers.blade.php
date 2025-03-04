@@ -10,12 +10,12 @@
         Customers 
     </div>
 
-    <div class="bg-white rounded-xl mb-4 my-4 p-6 lg:mx-1 mx-3 lg:text-sm">
-        <div class="my-4 lg:flex justify-between items-center py-2">
-            <div class="my-4 font-bold">
-                Customer's List
+    <div class="bg-white rounded-xl mb-24 lg:mb-2 mt-12 lg:mt-0 p-6 lg:mx-1 mx-3 lg:text-sm">
+        <div class="my-2 lg:flex justify-between items-center py-2">
+            <div class="my-1 font-bold">
+                Customers 
             </div>
-            <div class="my-4">
+            <div class="my-1">
                 <input id="searchInput" style="width:250px;" class="input_box" type="text" placeholder="Search Customer" name="search_customer">
             </div>
         </div>
@@ -53,13 +53,13 @@
             @else
                 <tr>
                     <td colspan="7" class="text-center py-3">
-                        <div class="lg:mx-1 mx-3 yus-text-red text-sm px-2 lg:text-sm text-xs">
+                        <div class="lg:mx-1 mx-3 yus-text-red px-2 lg:text-sm text-xs">
                             No Customer Found
                         </div>
                     </td>
                 </tr>
             @endif
-            <div class="lg:mx-1 mx-3 yus-text-red text-sm px-2 lg:text-sm text-xs text-center py-2" id="notFoundMessage" style="display: none;">No Customer Found</div>
+            <div class="lg:mx-1 mx-3 yus-text-red px-2 lg:text-sm text-xs text-center py-2" id="notFoundMessage" style="display: none;">No Customer Found</div>
         </div>
     </div>
     
